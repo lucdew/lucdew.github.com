@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Luc Dewavrin's website]]></title>
+  <link href="http://lucdew.github.com/atom.xml" rel="self"/>
+  <link href="http://lucdew.github.com/"/>
+  <updated>2012-01-01T10:43:01-05:00</updated>
+  <id>http://lucdew.github.com/</id>
+  <author>
+    <name><![CDATA[Luc Dewavrin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Last Post]]></title>
+    <link href="http://lucdew.github.com/blog/2009/09/16/last-post/"/>
+    <updated>2009-09-16T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2009/09/16/last-post</id>
+    <content type="html"><![CDATA[<p>I decided to no longer post on my blog due to a serious lack of motivation, time and inspiring topics ;-). Of course, comments will now be closed.As a side note here are the titles of drafts that never turned into posts:-  Difficulty of choosing a Java web framework</p>
+
+<ul>
+<li> Seam managed persistence context and Spring</li>
+
+<li> Bye Bye computer book shelf</li>
+
+<li> Drools flow or jBPM4 ?</li>
+
+<li> Ejb3 on JBoss with Maven</li>
+
+<li> Creating a Spring based library (with its own context)</li>
+
+<li> Au revoir Windows vista</li>
+</ul>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[OSGI survey]]></title>
+    <link href="http://lucdew.github.com/blog/2009/05/05/osgi-survey/"/>
+    <updated>2009-05-05T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2009/05/05/osgi-survey</id>
+    <content type="html"><![CDATA[<p>The results:</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mimic facelet layouts in grails]]></title>
+    <link href="http://lucdew.github.com/blog/2009/04/27/mimic-facelet-layouts-in-grails/"/>
+    <updated>2009-04-27T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2009/04/27/mimic-facelet-layouts-in-grails</id>
+    <content type="html"><![CDATA[<pre class='markdown-html-error' style='border: solid 3px red; background-color: pink'>REXML could not parse this XML/HTML: 
+&lt;div&gt;
+I wanted to mimic facelets &lt;ui:insert /&gt; and &lt;ui:define /&gt; tags in grails.I find facelets to be quite powerful because it allows to define a fragment in your template that can be redefined by the view, otherwise a default fragment is displayed.It can be useful for instance for a menu where you want all views to use a default menu and some use another menu. 
+
+In facelets, you would create a template file and add a &lt;ui:insert /&gt; statement for the menu, like this:
+&lt;pre lang=&quot;xml&quot;&gt;&lt;ui:insert name=&quot;menu&quot;&gt; &lt;ui:include src=&quot;../frags/menu.xhtml&quot; /&gt;&lt;/ui:insert&gt;&lt;/pre&gt;Here the &lt;span style=&quot;font-weight: bold&quot; class=&quot;Apple-style-span&quot;&gt;&amp;lt;ui:insert/&amp;gt;&lt;/span&gt; statement by default includes with the help of the &lt;span style=&quot;font-weight: bold&quot; class=&quot;Apple-style-span&quot;&gt;&amp;lt;ui:include/&amp;gt;&lt;/span&gt;element a menu fragment (a partial page).&lt;br /&gt;In your view you could if wanted redefine the menu with the &lt;span style=&quot;font-weight: bold&quot; class=&quot;Apple-style-span&quot;&gt;&amp;lt;ui:define/&amp;gt;&lt;/span&gt; element, like this:&lt;pre lang=&quot;xml&quot;&gt;&lt;ui:composition template=&quot;layout/template.xhtml&quot;&gt;&lt;ui:define name=&quot;menu&quot; /&gt;&lt;/ui:composition&gt;&lt;/pre&gt;&lt;div&gt; Override default menu here &lt;/div&gt;
+Grails template system is handled by sitemesh. To achieve the same goal, you can in your template file (layout/main.gsp for instance), add the following element for the menu :
+&lt;pre lang=&quot;xml&quot;&gt;&lt;g:pageproperty name=&quot;page.menu&quot; default=&quot;${render(template:&apos;/frags/menu&apos;)}&quot; /&gt;&lt;/pre&gt;It achieves the same purpose, actually instead of defining a page section like in facelets, it displays the calling page&apos;s &lt;b&gt;&amp;lt;content&amp;gt;&lt;/b&gt; element named menu if present (control is inverted but the result is the same).Otherwise,  if the &amp;lt;content&amp;gt; element is not found,  the menu fragment is rendered.The fragment page should be in our example created in the frags directory under the name _menu.gsp.In your view, you can therefore define the menu section of your template by declaring a content element. &lt;pre lang=&quot;xml&quot;&gt;&lt;html&gt;   &lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;&lt;meta name=&quot;layout&quot; content=&quot;main&quot; /&gt; &lt;title&gt;Show Book&lt;/title&gt;  &lt;/head&gt;  &lt;body&gt;&lt;content tag=&quot;menu&quot; /&gt;&lt;div&gt;Override default menu here&lt;/div&gt;&lt;/content...  &lt;/body&gt;</pre>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Acquisition de Sun par Oracle]]></title>
+    <link href="http://lucdew.github.com/blog/2009/04/20/acquisition-de-sun-par-oracle/"/>
+    <updated>2009-04-20T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2009/04/20/acquisition-de-sun-par-oracle</id>
+    <content type="html"><![CDATA[<span>Pas sûr que Java soit gagnant dans l&#8217;histoire. Les incertitudes sur le devenir des produits Java n&#8217;est pas fait pour inciter les décideurs à opter pour cette technologie. Quelles sont les futures cibles : SpringSource, Redhat ? Sachant que SpringSource a été largement financé par des VC, à mon avis c&#8217;est un bon candidat. Bref, je me mets à la place d&#8217;un DSI aujourd&#8217;hui; si je ne veux pas prendre de risques j&#8217;opte pour .Net et les produits Microsoft : ligne de produits complète, cohérente et intégrée qui ne va pas disparaître d&#8217;ici 6 mois (j&#8217;exagère un peu&#8230;).</span>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Seam usage in production]]></title>
+    <link href="http://lucdew.github.com/blog/2009/03/30/seam-usage-in-production/"/>
+    <updated>2009-03-30T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2009/03/30/seam-usage-in-production</id>
+    <content type="html"><![CDATA[<p>There &#8216;s an interesting <a href='http://www.seamframework.org/Community/SeamInProfessionalUse'>thread</a> on the Seam forum about Seam in &#8220;profesional use&#8221;. Performance and steep learning curve are often mentioned as drawbacks.</p>
+
+<p>Seam heavily relies on proxy based components created by javassist. And javassist is known to be unperformant <a href='https://jira.jboss.org/jira/browse/JBSEAM-1977'>compared to cglib</a>. This library might have been chosen due to politic reason at JBoss. Seam Managed Persistence Context (SMPC) is also seen as a culprit but i guess that like many other frameworks you have to understand what&#8217;s underneath the carpet, lazy loading in some use cases can really hit performance.</p>
+
+<p>Scalability is not mentioned but i guess that since Seam is stateful it also can be an issue for large websites.</p>
+
+<p>For the learning curve, it might be true if you don&#8217;t come from the JavaEE world or have never developed JSF applications. Seam still requires good knowledge of JSF 1.X and how it corrects it in many ways. The request lifecycle is also complex albeit powerful.Also other &#8220;lightweight&#8221; JSF based frameworks are quoted like <a href='https://makefaces.dev.java.net/'>makefaces</a>.</p>
+
+<p>Seam for me is both a IOC container specialized for web development and a web integration framework of Java EE (Ejb,Web beans), JBoss stack (jBPM, Drools, Richfaces, JSFUnit) and commonly used libraries (quartz,jfreechart, itext, javamail,etc.) It also addresses many commonly asked features (conversations, mail sending, page caching,etc.) I am not sure for the future of Seam. Seam 3 might be a complete rewrite due to support of JSF 2 and JSR-299 aka <em>Java Contexts and Dependency Injection</em>, but it is a comprehensive and efficient web framework with a decent IDE (JBoss tools).</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Economic downturn and impact on javabloggers]]></title>
+    <link href="http://lucdew.github.com/blog/2009/02/17/economic-downturn-and-impact-on-javabloggers/"/>
+    <updated>2009-02-17T00:00:00-05:00</updated>
+    <id>http://lucdew.github.com/blog/2009/02/17/economic-downturn-and-impact-on-javabloggers</id>
+    <content type="html"><![CDATA[<p>I wanted to know if the economic crisis had an impact on blogging. I was curious because it seemed for me that the blogs that i usually follow had less activity  . With the help of a groovy script and gchart, here&#8217;s the last 2 years monthly blog posts count (don&#8217;t know why there&#8217;s a high peak for July 07). It seems that, so far, java bloggers still post.<img alt='' src='http://chart.apis.google.com/chart?cht=lc&amp;chs=600x500&amp;chtt=Javablogs+monthly+posts+count%20+%7C+since+01-01-2007+to+01-02-2009&amp;chxt=x,y&amp;chxr=1,0,15000&amp;chds=0,15000&amp;chd=t:4224,4133,4758,4474,5561,4933,14719,5155,4515,5301,5047,4862,5341,3975,5278,3826,5527,4271,4471,4305,4548,4480,4347,4993,4520&amp;chxl=0:%7C1-07%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-08%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-09' />For the quality of the blog posts that&#8217;s another story but my blog is not a good example ;-)</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JBoss resources]]></title>
+    <link href="http://lucdew.github.com/blog/2009/02/12/jboss-resources/"/>
+    <updated>2009-02-12T00:00:00-05:00</updated>
+    <id>http://lucdew.github.com/blog/2009/02/12/jboss-resources</id>
+    <content type="html"><![CDATA[<p>I recently discovered 2 good web sites that provide good JBoss knowledge :- <a href='http://www.mastertheboss.com'>Master the boss</a> : especially with articles with jBPM/JBoss ESB integration, jBPM best practices and JBoss AS tuning (a little bit outdated by the way, but still a good resource).- <a href='http://enterprisebpm.blogspot.com/'>Enterprise BPM blog</a> : blog by a Redhat engineer involved in jBPM and WS-BPEL jBPM implementation. It has also links to other jBPM related sites.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Some Maven tips]]></title>
+    <link href="http://lucdew.github.com/blog/2009/02/07/some-maven-tips/"/>
+    <updated>2009-02-07T00:00:00-05:00</updated>
+    <id>http://lucdew.github.com/blog/2009/02/07/some-maven-tips</id>
+    <content type="html"><![CDATA[<p>First post of the year, here are some Maven tips you might find useful (or obvious for experienced users) :- <strong>How to version commercial libraries in your SCM and use them as dependency ?</strong>.In case you don&#8217;t have your own central repository and you&#8217;d like to version your libraries in your SCM server, you can declare in your pom a repository like this :<pre lang='xml'>    <repository>      <id>sipphonyrepo</id>      <url>file:///${basedir}/../repository</url>    </repository></pre>The &#8216;repository&#8217; directory should be versioned in your scm server but it also means that it should be checked out with your project. Also like any other repository, the dependencies will be copied in your local repository.</p>
+
+<ul>
+<li><strong>How to just copy files</strong> ?It might be useful on a development machine to copy files while installing an artifact, for instance you might want to copy a JBoss datasource file to a JBoss profile to make sure it&#8217;s deployed. For this you can use the Maven resource plugins. For instance the following plugin statement will copy the datasource file to your JBoss server&#8217;s default profile deployment directory if JBOSS_HOME environment library is defined (on the development machine) :<pre lang='xml'><profile> <id>jboss.deploy</id> <activation><property>   <name>env.JBOSS_HOME</name></property> </activation> <build><plugins><plugin><artifactid>maven-resources-plugin</artifactid><version>2.3</version><executions><execution><id>copy-ds</id><goals><goal>copy-resources</goal></goals><phase>install</phase><configuration><outputdirectory>${env.JBOSS_HOME}/server/default/deploy</outputdirectory><resources><resource><directory>${basedir}</directory><includes>  <include>mysql-ds.xml</include></includes></resource></resources></configuration></execution></executions></plugin></plugins></build></profile></pre></li>
+
+<li><strong>How to perform complex build build logic ?</strong>One solution would be to use profiles for that like in the above example. But it can quickly become cumbersome and limited. So a good option is to use Ant Maven plugin with <a href='http://ant-contrib.sourceforge.net/'>ant-contribs</a> dependency for control statements and loops or even better the <a href='http://groovy.codehaus.org/GMaven'>groovy GMaven plugin</a> (avoiding XML verbosity).Profiles have still the benefit of clearly identifying an intent in your build. The following command will list all profiles:<pre>mvn help:all-profiles</pre>If build logic can be extracted and used in different contexts, it&#8217;s time to create a plugin. It&#8217;s quite simple.</li>
+
+<li><strong>How to create an artifact of a zip or tar ?</strong>One obvious solution is to use maven assembly plugin but if you need to add some custom logic during packaging, you could just create the zip or tar file with Ant maven plugin or groovy GMaven plugin and gant during the package phase. Then attach the file to your project with Maven <a href='http://mojo.codehaus.org/build-helper-maven-plugin/attach-artifact-mojo.html'>build helper plugin</a> and its <strong>attach-artifact</strong> goal to install it in your repository during the install phase. Once installed in your local repository, the zip or tar file can be become a dependency, just use the proper type in the dependency declaration.<pre lang='xml'><type>zip</type></pre></li>
+
+<li><strong>How to create a full delivery layout with multiple archetype ?</strong>My advice for creating a comprehensive delivery directory structure would be to use a dedicated module, take advantage of ant,assembly and resource plugins for that. Struts2 has such a module : <a href='http://svn.apache.org/repos/asf/struts/struts2/trunk/assembly/pom.xml'>see the assembly module&#8217;s pom</a></li>
+</ul>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Jaxb bug 527]]></title>
+    <link href="http://lucdew.github.com/blog/2008/10/22/jaxb-bug-527/"/>
+    <updated>2008-10-22T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2008/10/22/jaxb-bug-527</id>
+    <content type="html"><![CDATA[<p>Please,  if you think you are concerned  vote for the <a href='https://jaxb.dev.java.net/issues/show_bug.cgi?id=527'>bug</a> i submitted</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SpringSource assouplit sa politique de maintenance]]></title>
+    <link href="http://lucdew.github.com/blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance/"/>
+    <updated>2008-10-08T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance</id>
+    <content type="html"><![CDATA[<p>Bon SpringSource a décidé de changer de nouveau la politique de maintenance  de Spring après le tollé suscité parmi ses utilisateurs par la <a href='http://lucdew.github.com/?p=248'>récente annonce</a>. Plus de limite de 3 mois pour les versions communautaires. Une version majeure sera maintenue pour la communauté jusqu&#8217;à la sortie en Release Candidate de la version suivante. +d&#8217;infos sur le blog <a href='http://blog.springsource.com/2008/10/07/a-question-of-balance-tuning-the-maintenance-policy/'>SpringSource</a>.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring maintenant payant]]></title>
+    <link href="http://lucdew.github.com/blog/2008/09/21/changement-de-licence-spring/"/>
+    <updated>2008-09-21T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2008/09/21/changement-de-licence-spring</id>
+    <content type="html"><![CDATA[<p>Oui la nouvelle du week-end ou plutot de fin de semaine sur le <a href='http://newblog.springsource.com/2008/05/27/open-source-open-strategy-the-springsource-manifesto/'>changement de licence de Spring</a> <strong>me reste en travers de la gorge</strong>, même si j&#8217;en comprends les raisons.</p>
+
+<p>Mais d&#8217;un coup je me sens coupable d&#8217;avoir poussé depuis 2004 à l&#8217;utilisation de Spring sur plusieurs projets et d&#8217;en avoir été le défenseur auprès de certains collègues réticents sur les principes d&#8217;injection de dépendances, de conteneur léger et même d&#8217;AOP. Sur mes 2 derniers projets, j&#8217;ai même introduit Spring Security (anciennement ACEGI) et utilisé Spring MVC pour une petite application interne chez mon employeur précédent. Et oui, le changement de licence s&#8217;applique aussi à tous ces projets.Cela me fait maintenant me re-questionner sur l&#8217;utilisation de ce framework.</p>
+
+<p>D&#8217;abord pourquoi Spring ? Logiquement après avoir lu les livres de Rod Johnson &#8220;J2EE design and development&#8221; et &#8220;J2EE Development without EJB&#8221; son utilisation semblait être une vrai alternatives aux Ejb 2.x pour les raisons suivantes :- des objets et services métiers n&#8217;implémentant aucune interface technique (juste des POJO).</p>
+
+<ul>
+<li>l&#8217;injection de dépendances favorisant le couplage faible entre les objets.</li>
+
+<li>les tests unitaires sans déployer dans le conteneur EJB accélérant ainsi les phases de test.</li>
+
+<li>la rapidité de démarrage du conteneur Spring pemettant de l&#8217;utiliser en dehors d&#8217;un serveur application. Mais Spring est aussi utilisé maintenant pour toutes ses fonctionnalités qui facilitent le développement d&#8217;application JavaEE :- son intercepteurs transactionnels et son annotation @Transactional</li>
+
+<li>l&#8217;accès aux services des serveurs d&#8217;application par simple déclaration (j2ee:jndi-lookup)</li>
+
+<li>la création de proxy sur des Ejb (2.1, 3.0), Web-Services (JAX-RPC et JAXWS) . En fait, j&#8217;ai en fait toujours été très satisfait de Spring Core et impressionné par sa stabilité et son excellente documentation tout cela en opensource et gratuit. Les applications développées avec étaient même plus portables que les traditionnelles applications J2EE. Mais la lune de miel a une fin et je pense maintenant que je vais devoir m&#8217;intéresser aux alternatives, car je vois mal certains clients payer pour une librairie (cela changera peut-être pour avec Spring dm Server).</li>
+</ul>
+
+<p><strong>Les alternatives</strong>Pour moi la + évidente :- <strong>JavaEE 5 et les EJB 3</strong> . Et oui avec des conteneurs d&#8217;EJB en mode embedded pouvant être utilisés pour les tests et démarrant en quelques lignes de codes ( voir par exemple <a href='http://openejb.apache.org'>OpenEJB</a>de la fondation Apache ou encore JBoss embedded ). De + cette solution a l&#8217;immense mérite d&#8217;être standard.Maintenant techniquement, le mécanisme d&#8217;interception d&#8217;EJB 3 n&#8217;est pas aussi riche que celui proposé par Spring et son support d&#8217;AspectJ. Le mécanisme ne permet d&#8217;injecter uniquement des Ejbs ou des ressources JNDI. Mais au moins les tests sans déploiement sont possibles, le code simplifié et épuré. De +, Ejb 3.1 apportent aussi son lot de nouveautés comme l&#8217;annotation @Singleton ou la non-obligation de créer une interface métier. - <strong>Guice</strong> : peut-être un peu jeune et n&#8217;est qu&#8217;un &#8220;IOC container&#8221; mais pourquoi pas pour une utilisation pour des applications standalone.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Some common JSF pitfalls]]></title>
+    <link href="http://lucdew.github.com/blog/2008/09/01/some-common-jsf-pitfalls/"/>
+    <updated>2008-09-01T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2008/09/01/some-common-jsf-pitfalls</id>
+    <content type="html"><![CDATA[<p>Well at least here&#8217; s a non exhaustive list of common jsf pitfalls, i felt into (some are variants of others) :-  Using a converter in  a <strong><em>SelectOneMenu</em></strong>or <strong><em>SelectManyList </em></strong>components, be careful of type being applied. See <a href='http://saloon.javaranch.com/cgi-bin/ubb/ultimatebb.cgi%3Fubb%3Dget_topic%26f%3D82%26t%3D003594+converter+getAsObject+never+called&amp;hl=fr&amp;ct=clnk&amp;cd=1&amp;gl=fr'>http://saloon.javaranch.com/cgi-bin/ubb/ultimatebb.cgi?ubb=get_topic&#38;f=82&#38;t=003594.</a> Using an array instead of typed collection for the component input values ( still not sure why, have investigated too much on it, so i won&#8217;t extend on it)!</p>
+
+<ul>
+<li> Declare a resource bundle in the page ( most of the time bundles are declared in a template page) with the <strong><em>loadbundle</em></strong>element instead of declaring it the faces-config.xml file . If done so, <em><strong>requiredMessage</strong></em>or <em><strong>converterMessage</strong></em>attibutes that can be applied to many UIInput components won&#8217;t work (i.e the message won&#8217;t be found).</li>
+
+<li>With a_ <strong>commandLink</strong><em>** <strong>inside dataTables with a bean of request scope actions are not executed. At least it happened to me with JSF RI 1.2_07 and <span class='Apple-style-span' style='text-decoration: line-through'>is due to the fact that the id of the dataTable component is changed between the component tree creation (restore view phase) and the render response phase </span><span style='color: red'>( Update 09/21/2008 : See more explanations on this in the comment section by Dan Allen himself, author of &#8220;Seam in Action&#8221; )</span>. When submitted on a post back request, the actions event are not queues (passed as hidden fields). It&#8217;s well detailled here <a href='http://typo.ars-subtilior.com/articles/2007/02/07/jsf-datatable-and-commandlink'>http://typo.ars-subtilior.com/articles/2007/02/07/jsf-datatable-and-commandlink.</a>As a workaround, i used the tomahawk</strong>savestate <strong>component for the elements of the datatable. This component stores the state of objects passed as value expression in the component tree (having a scope that spans between the inital request restore view and post back render response phase) . Seam has a page scope for that.</strong></em></li>
+
+<li>Validation errors when using a converter in selectOne* components and not overriding the equals() method for the type of object in the list. More explanation here : <a href='http://www.crazysquirrel.com/computing/java/jsf/converter-validation-error.jspx'>http://www.crazysquirrel.com/computing/java/jsf/converter-validation-error.jspx</a></li>
+
+<li> Saving state on client side with hidden fields and having conversion or validation issues with a backing bean of request scope: state is lost. For instance, you have an <em><strong>inputHidden</strong></em>component in your form and for a reason or another a form&#8217;s field has conversion or validation issues. The backing bean of request scope is not updated for the postback request. The bean used to display the response is new and the <strong>inputHidden</strong>&#8217;s field value is reset. Once again this shows a lack of page context for state that needs to be kept between the initial request and the postback request.</li>
+
+<li>Programmatic submission of a web form in javascript through form&#8217;s <em>submit</em> method won&#8217;t work because the actionlistener is registred on a <strong>commandButton</strong> and when the form is submitted, the submit button parameter is not passed in the request. The button&#8217;s action event is not put in the event queue. A workaround is to programmatically click on the form&#8217;s command button.</li>
+</ul>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Switched to french canadian keyboard]]></title>
+    <link href="http://lucdew.github.com/blog/2008/08/27/switched-to-french-canadian-keyboard/"/>
+    <updated>2008-08-27T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2008/08/27/switched-to-french-canadian-keyboard</id>
+    <content type="html"><![CDATA[<p>Very interesting news,after a trip to Canada i switched my keyboard layout from french azerty based layout to french canadian. Since it&#8217;s a qwerty based layout it might be useful, if one day i have to work abroad. Also it&#8217;s more efficient for programming and english writings.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring entityManagerFactory in jta and non-jta modes]]></title>
+    <link href="http://lucdew.github.com/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes/"/>
+    <updated>2008-06-23T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes</id>
+    <content type="html"><![CDATA[<p>This blog post is about using JPA with Spring in 2 contexts :- production with a JTA transaction manager - testing with transactions handled by jpa transaction manager. It has been inspired by <a href='http://erich.soomsam.net/2007/04/24/spring-jpa-and-jta-with-hibernate-and-jotm/'>Erich Soomsam blog post</a>You can achieve such configuration with a PersistenceUnitPostProcessor having a single persistence.xml file and 2 Spring context files (1 for each environment).Since you are likely to have at least 2 different Spring dataSource definitions : 1 for production that performs a JNDI lookup to find a bound datasource and 1 for development that uses a local and Spring declared datasource backed by a JDBC connection pool (C3p0 or DBCP), place the entityManager declaration in the same file as the datasource declaration. Let&#8217;s say that the default persistence.xml use the non-jta datasource: <pre lang='xml'> <persistence xsi:schemalocation='http://java.sun.com/xml/ns/persistence    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd' version='1.0' xmlns='http://java.sun.com/xml/ns/persistence' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'> <persistence-unit name='seamphony' transaction-type='RESOURCE_LOCAL'><properties>     <!-- Scan for annotated classes and Hibernate mapping XML files --><property name='hibernate.archive.autodetection' value='class, hbm' /><property name='hibernate.dialect' value='org.hibernate.dialect.MySQLDialect' /> </properties>    </persistence-unit></persistence></pre>Here&#8217;s how you can use Spring to post process the persistence unit and configure it for production (here with MySQL datasource and JBoss Transaction Manager):<pre lang='xml'><bean class='org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean' id='entityManagerFactory'><property name='dataSource' ref='dataSource' /><property name='jpaVendorAdapter'><bean class='org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter'><property name='database' value='MYSQL' /><property name='showSql' value='true' /><property name='databasePlatform' value='org.hibernate.dialect.MySQLDialect' /></bean></property><property name='jpaPropertyMap' /></bean><map><entry key='hibernate.transaction.manager_lookup_class' value='org.hibernate.transaction.JBossTransactionManagerLookup'><entry key='hibernate.transaction.flush_before_completion' value='true' /><entry key='hibernate.transaction.auto_close_session' value='true' /><entry key='hibernate.current_session_context_class' value='jta' /><entry key='hibernate.connection.release_mode' value='auto' /></entry></map><property name='persistenceUnitPostProcessors'><list><bean class='JtaPersistenceUnitPostProcessor'><property name='jtaMode' value='true' /><property name='jtaDataSource' ref='dataSource' /></bean></list></property><!-- Datasource Lookup--><bean class='org.springframework.jndi.JndiObjectFactoryBean' id='dataSource'><property name='resourceRef'>    <value>false</value></property><property name='jndiName'><value>java:/MyDS</value></property></bean><!-- Transaction Manager--><bean class='org.springframework.transaction.jta.JtaTransactionManager' id='transactionManager'><property name='transactionManagerName' value='java:/TransactionManager' /><property name='autodetectUserTransaction' value='false' /></bean></pre>Here&#8217;s the class that reads the jta mode property and configure the transaction type accordingly:<pre lang='java'>import javax.persistence.spi.PersistenceUnitTransactionType;import javax.sql.DataSource;import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;public class JtaPersistenceUnitPostProcessor implementsPersistenceUnitPostProcessor {private boolean jtaMode = false;private DataSource jtaDataSource;private PersistenceUnitTransactionType transacType = PersistenceUnitTransactionType.RESOURCE_LOCAL;public void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo mutablePersistenceUnitInfo) {  if (jtaMode) {    transacType = PersistenceUnitTransactionType.JTA;    mutablePersistenceUnitInfo.setJtaDataSource(this.getJtaDataSource());  }  mutablePersistenceUnitInfo.setTransactionType(transacType);}public boolean isJtaMode() {   return jtaMode;}public void setJtaMode(boolean jtaMode) {   this.jtaMode = jtaMode;}public DataSource getJtaDataSource() {   return jtaDataSource;}public void setJtaDataSource(DataSource jtaDataSource) {   this.jtaDataSource = jtaDataSource;}}</pre>Spring really helps tuning your persistence unit for different environments. It could be achieved by a custom build task that could alter the persistence.xml file but since this example assumes that Spring is already used, it can be avoided.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Stat your commits]]></title>
+    <link href="http://lucdew.github.com/blog/2008/06/02/stat-your-commits/"/>
+    <updated>2008-06-02T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2008/06/02/stat-your-commits</id>
+    <content type="html"><![CDATA[<p>I recently discover the <a href='http://stat-scm.sourceforge.net/'>StatSCM</a> maven plugin and it made our team day . It gives useful information about your Subversion activity (it supports other SCM systems) giving precise developers activity information or file statistics. It also generates some nice charts. I found it very useful to monitor what the team members commit: for instance we discovered that a trainee was the developer of the month (ranked by LOC commited) because he commited some very large csv test files.First to enable it, configure the dependency and declare the report in the reports section of your maven parent pom file:<pre lang='xml'><pom><build><plugins><plugin>  <groupid>net.sf</groupid>  <artifactid>stat-scm</artifactid><dependencies><dependency><groupid>net.sf</groupid><artifactid>stat-svn</artifactid><version>0.4.0-StatSCM</version></dependency><dependency><groupid>org.apache.maven.reporting</groupid><artifactid>maven-reporting-impl</artifactid><version>2.0.4</version></dependency></dependencies></plugin></plugins></build><reporting><plugins><plugin><groupid>net.sf</groupid><artifactid>stat-scm</artifactid><configuration><excludes><exclude>**/*.csv</exclude></excludes></configuration></plugin></plugins></reporting></pom></pre>And here some charts produced, like the number of LOC commited by each developer:<a href='http://www.dewavrin.info/resources/loc.png'><img alt='Number of lines of code' src='http://www.dewavrin.info/resources/loc.png' /></a>The day commit activity:<a href='http://www.dewavrin.info/resources/commitsactivity.png'><img alt='Commits activity' src='http://www.dewavrin.info/resources/commitsactivity.png' /></a>Or the ration between files addition/modification:<a href='http://www.dewavrin.info/resources/activity.png'><img alt='' src='http://www.dewavrin.info/resources/activity.png' /></a></p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HP about to buy EDS]]></title>
+    <link href="http://lucdew.github.com/blog/2008/05/12/hp-about-to-buy-eds/"/>
+    <updated>2008-05-12T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2008/05/12/hp-about-to-buy-eds</id>
+    <content type="html"><![CDATA[<p>Concentration in IT goes on ( is it an effect of a &#8220;SAAS strategy&#8221; ?):<a href='http://news.yahoo.com/s/nm/20080512/bs_nm/eds_hewlettpackard_dc_1'>http://news.yahoo.com/s/nm/20080512/bs_nm/eds_hewlettpackard_dc_1</a></p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Opensource Java BPM compared]]></title>
+    <link href="http://lucdew.github.com/blog/2008/01/17/opensource-java-bpm-compared/"/>
+    <updated>2008-01-17T00:00:00-05:00</updated>
+    <id>http://lucdew.github.com/blog/2008/01/17/opensource-java-bpm-compared</id>
+    <content type="html"><![CDATA[<p>(Seen on jBPM mailing-list): a quite interesting study between the non-exhaustive Java BPM engines (jBPM, enhydra shark, openwfe) has been published. Follow this <a href='http://www.workflowpatterns.com/documentation/documents/BPM-07-12.pdf'>link</a>.Updated 2008/08 : The report has been updated (see <a href='http://www.infoq.com/news/2008/08/oswf'>http://www.infoq.com/news/2008/08/oswf</a>)</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IT consolidation]]></title>
+    <link href="http://lucdew.github.com/blog/2008/01/16/it-consolidation/"/>
+    <updated>2008-01-16T00:00:00-05:00</updated>
+    <id>http://lucdew.github.com/blog/2008/01/16/it-consolidation</id>
+    <content type="html"><![CDATA[<p>Todays news:<strong>Oracle buys BEA.</strong><strong>Mysql AB acquired by Sun.</strong>Well what&#8217;s next? Redhat acquired by Sun (or even Microsoft), Adobe acquired by Oracle, etc ?Industralization of the IT sector seems to get some steam, surely a sign of maturity. I am not sure if it will have an impact on innovation or this trend is the result of a loss of innovation. Big actors want to provide a complete enterprise stack from hardware to software package solutions. Will we only have to deal with SAP, Oracle, IBM, Sun and Microsoft tomorrow ?Google strategy seems to differentiate and focus on online services.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[A picture is worth a thousand words (my 2008 no interest techs list)]]></title>
+    <link href="http://lucdew.github.com/blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list/"/>
+    <updated>2008-01-03T00:00:00-05:00</updated>
+    <id>http://lucdew.github.com/blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list</id>
+    <content type="html"><![CDATA[<p>This comic sums up my opinion on Scala pretty well (very funny):<a href='http://stuffthathappens.com/blog/2008/01/02/scala-will-do/'>http://stuffthathappens.com/blog/2008/01/02/scala-will-do/</a>I jumped on Ruby and Rails bandwagon spending some man-days (;-)) on it but at least Rails has been a reference in term of web productivity and introduced or leveraged nice concepts (naming conventions over configuration, DSL, REST, TDD etc.) . Recently, many Java web frameworks compared themselves to Rails and how they were much better (Seam,Grails &#38; Co). Rails influenced the IT community (Java, .Net and Python included).=&#62; All in all, i have excuses to have followed the crowd&#8230; But not this time, Scala (pretty unreadable), JavaFx (not until i see <a href='http://weblogs.java.net/blog/chet/archive/2007/05/consumer_jre_le.html'>the consumer jre</a> in action and applets as fast-loaded as flash apps without dumb dialog boxes) are definitely on my 2008 technos of no-interest !I&#8217;ll hopefully focus this year on the new Cobol ;-) core (or even .Net/C#) .</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Would you blog about this song ?]]></title>
+    <link href="http://lucdew.github.com/blog/2007/12/30/would-you-blog-about-my-song/"/>
+    <updated>2007-12-30T00:00:00-05:00</updated>
+    <id>http://lucdew.github.com/blog/2007/12/30/would-you-blog-about-my-song</id>
+    <content type="html"><![CDATA[<p>Of course, when it&#8217;s so funny (burst the web 2/3.0 bubble):<div class='external-media'> <object data='http://www.youtube.com/v/I6IQ_FOCE6I&amp;rel=1' height='280' type='application/x-shockwave-flash' width='340'><param name='movie' value='http://www.youtube.com/v/I6IQ_FOCE6I&amp;rel=1' /><param name='wmode' value='transparent' /></object></div></p>]]></content>
+  </entry>
+  
+</feed>

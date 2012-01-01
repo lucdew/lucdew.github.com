@@ -1,0 +1,593 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Luc Dewavrin's website</title>
+  <meta name="author" content="Luc Dewavrin">
+
+  
+  <meta name="description" content="Oui la nouvelle du week-end ou plutot de fin de semaine sur le changement de licence de Spring me reste en travers de la gorge, même si j&#8217;en &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lucdew.github.com/blog/page/2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1239956-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lucdew.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/09/21/changement-de-licence-spring/">Spring Maintenant Payant</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-21T00:00:00-04:00" pubdate data-updated="true">Sep 21<span>st</span>, 2008</time>
+        
+         | <a href="/blog/2008/09/21/changement-de-licence-spring/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Oui la nouvelle du week-end ou plutot de fin de semaine sur le <a href='http://newblog.springsource.com/2008/05/27/open-source-open-strategy-the-springsource-manifesto/'>changement de licence de Spring</a> <strong>me reste en travers de la gorge</strong>, même si j&#8217;en comprends les raisons.</p>
+
+<p>Mais d&#8217;un coup je me sens coupable d&#8217;avoir poussé depuis 2004 à l&#8217;utilisation de Spring sur plusieurs projets et d&#8217;en avoir été le défenseur auprès de certains collègues réticents sur les principes d&#8217;injection de dépendances, de conteneur léger et même d&#8217;AOP. Sur mes 2 derniers projets, j&#8217;ai même introduit Spring Security (anciennement ACEGI) et utilisé Spring MVC pour une petite application interne chez mon employeur précédent. Et oui, le changement de licence s&#8217;applique aussi à tous ces projets.Cela me fait maintenant me re-questionner sur l&#8217;utilisation de ce framework.</p>
+
+<p>D&#8217;abord pourquoi Spring ? Logiquement après avoir lu les livres de Rod Johnson &#8220;J2EE design and development&#8221; et &#8220;J2EE Development without EJB&#8221; son utilisation semblait être une vrai alternatives aux Ejb 2.x pour les raisons suivantes :- des objets et services métiers n&#8217;implémentant aucune interface technique (juste des POJO).</p>
+
+<ul>
+<li>l&#8217;injection de dépendances favorisant le couplage faible entre les objets.</li>
+
+<li>les tests unitaires sans déployer dans le conteneur EJB accélérant ainsi les phases de test.</li>
+
+<li>la rapidité de démarrage du conteneur Spring pemettant de l&#8217;utiliser en dehors d&#8217;un serveur application. Mais Spring est aussi utilisé maintenant pour toutes ses fonctionnalités qui facilitent le développement d&#8217;application JavaEE :- son intercepteurs transactionnels et son annotation @Transactional</li>
+
+<li>l&#8217;accès aux services des serveurs d&#8217;application par simple déclaration (j2ee:jndi-lookup)</li>
+
+<li>la création de proxy sur des Ejb (2.1, 3.0), Web-Services (JAX-RPC et JAXWS) . En fait, j&#8217;ai en fait toujours été très satisfait de Spring Core et impressionné par sa stabilité et son excellente documentation tout cela en opensource et gratuit. Les applications développées avec étaient même plus portables que les traditionnelles applications J2EE. Mais la lune de miel a une fin et je pense maintenant que je vais devoir m&#8217;intéresser aux alternatives, car je vois mal certains clients payer pour une librairie (cela changera peut-être pour avec Spring dm Server).</li>
+</ul>
+
+<p><strong>Les alternatives</strong>Pour moi la + évidente :- <strong>JavaEE 5 et les EJB 3</strong> . Et oui avec des conteneurs d&#8217;EJB en mode embedded pouvant être utilisés pour les tests et démarrant en quelques lignes de codes ( voir par exemple <a href='http://openejb.apache.org'>OpenEJB</a>de la fondation Apache ou encore JBoss embedded ). De + cette solution a l&#8217;immense mérite d&#8217;être standard.Maintenant techniquement, le mécanisme d&#8217;interception d&#8217;EJB 3 n&#8217;est pas aussi riche que celui proposé par Spring et son support d&#8217;AspectJ. Le mécanisme ne permet d&#8217;injecter uniquement des Ejbs ou des ressources JNDI. Mais au moins les tests sans déploiement sont possibles, le code simplifié et épuré. De +, Ejb 3.1 apportent aussi son lot de nouveautés comme l&#8217;annotation @Singleton ou la non-obligation de créer une interface métier. - <strong>Guice</strong> : peut-être un peu jeune et n&#8217;est qu&#8217;un &#8220;IOC container&#8221; mais pourquoi pas pour une utilisation pour des applications standalone.</p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/09/01/some-common-jsf-pitfalls/">Some Common JSF Pitfalls</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-09-01T00:00:00-04:00" pubdate data-updated="true">Sep 1<span>st</span>, 2008</time>
+        
+         | <a href="/blog/2008/09/01/some-common-jsf-pitfalls/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Well at least here&#8217; s a non exhaustive list of common jsf pitfalls, i felt into (some are variants of others) :-  Using a converter in  a <strong><em>SelectOneMenu</em></strong>or <strong><em>SelectManyList </em></strong>components, be careful of type being applied. See <a href='http://saloon.javaranch.com/cgi-bin/ubb/ultimatebb.cgi%3Fubb%3Dget_topic%26f%3D82%26t%3D003594+converter+getAsObject+never+called&amp;hl=fr&amp;ct=clnk&amp;cd=1&amp;gl=fr'>http://saloon.javaranch.com/cgi-bin/ubb/ultimatebb.cgi?ubb=get_topic&#38;f=82&#38;t=003594.</a> Using an array instead of typed collection for the component input values ( still not sure why, have investigated too much on it, so i won&#8217;t extend on it)!</p>
+
+<ul>
+<li> Declare a resource bundle in the page ( most of the time bundles are declared in a template page) with the <strong><em>loadbundle</em></strong>element instead of declaring it the faces-config.xml file . If done so, <em><strong>requiredMessage</strong></em>or <em><strong>converterMessage</strong></em>attibutes that can be applied to many UIInput components won&#8217;t work (i.e the message won&#8217;t be found).</li>
+
+<li>With a_ <strong>commandLink</strong><em>** <strong>inside dataTables with a bean of request scope actions are not executed. At least it happened to me with JSF RI 1.2_07 and <span class='Apple-style-span' style='text-decoration: line-through'>is due to the fact that the id of the dataTable component is changed between the component tree creation (restore view phase) and the render response phase </span><span style='color: red'>( Update 09/21/2008 : See more explanations on this in the comment section by Dan Allen himself, author of &#8220;Seam in Action&#8221; )</span>. When submitted on a post back request, the actions event are not queues (passed as hidden fields). It&#8217;s well detailled here <a href='http://typo.ars-subtilior.com/articles/2007/02/07/jsf-datatable-and-commandlink'>http://typo.ars-subtilior.com/articles/2007/02/07/jsf-datatable-and-commandlink.</a>As a workaround, i used the tomahawk</strong>savestate <strong>component for the elements of the datatable. This component stores the state of objects passed as value expression in the component tree (having a scope that spans between the inital request restore view and post back render response phase) . Seam has a page scope for that.</strong></em></li>
+
+<li>Validation errors when using a converter in selectOne* components and not overriding the equals() method for the type of object in the list. More explanation here : <a href='http://www.crazysquirrel.com/computing/java/jsf/converter-validation-error.jspx'>http://www.crazysquirrel.com/computing/java/jsf/converter-validation-error.jspx</a></li>
+
+<li> Saving state on client side with hidden fields and having conversion or validation issues with a backing bean of request scope: state is lost. For instance, you have an <em><strong>inputHidden</strong></em>component in your form and for a reason or another a form&#8217;s field has conversion or validation issues. The backing bean of request scope is not updated for the postback request. The bean used to display the response is new and the <strong>inputHidden</strong>&#8217;s field value is reset. Once again this shows a lack of page context for state that needs to be kept between the initial request and the postback request.</li>
+
+<li>Programmatic submission of a web form in javascript through form&#8217;s <em>submit</em> method won&#8217;t work because the actionlistener is registred on a <strong>commandButton</strong> and when the form is submitted, the submit button parameter is not passed in the request. The button&#8217;s action event is not put in the event queue. A workaround is to programmatically click on the form&#8217;s command button.</li>
+</ul></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/08/27/switched-to-french-canadian-keyboard/">Switched to French Canadian Keyboard</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-27T00:00:00-04:00" pubdate data-updated="true">Aug 27<span>th</span>, 2008</time>
+        
+         | <a href="/blog/2008/08/27/switched-to-french-canadian-keyboard/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Very interesting news,after a trip to Canada i switched my keyboard layout from french azerty based layout to french canadian. Since it&#8217;s a qwerty based layout it might be useful, if one day i have to work abroad. Also it&#8217;s more efficient for programming and english writings.</p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes/">Spring entityManagerFactory in Jta and Non-jta Modes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-23T00:00:00-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
+        
+         | <a href="/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This blog post is about using JPA with Spring in 2 contexts :- production with a JTA transaction manager - testing with transactions handled by jpa transaction manager. It has been inspired by <a href='http://erich.soomsam.net/2007/04/24/spring-jpa-and-jta-with-hibernate-and-jotm/'>Erich Soomsam blog post</a>You can achieve such configuration with a PersistenceUnitPostProcessor having a single persistence.xml file and 2 Spring context files (1 for each environment).Since you are likely to have at least 2 different Spring dataSource definitions : 1 for production that performs a JNDI lookup to find a bound datasource and 1 for development that uses a local and Spring declared datasource backed by a JDBC connection pool (C3p0 or DBCP), place the entityManager declaration in the same file as the datasource declaration. Let&#8217;s say that the default persistence.xml use the non-jta datasource: <pre lang='xml'> <persistence xsi:schemalocation='http://java.sun.com/xml/ns/persistence    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd' version='1.0' xmlns='http://java.sun.com/xml/ns/persistence' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'> <persistence-unit name='seamphony' transaction-type='RESOURCE_LOCAL'><properties>     <!-- Scan for annotated classes and Hibernate mapping XML files --><property name='hibernate.archive.autodetection' value='class, hbm' /><property name='hibernate.dialect' value='org.hibernate.dialect.MySQLDialect' /> </properties>    </persistence-unit></persistence></pre>Here&#8217;s how you can use Spring to post process the persistence unit and configure it for production (here with MySQL datasource and JBoss Transaction Manager):<pre lang='xml'><bean class='org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean' id='entityManagerFactory'><property name='dataSource' ref='dataSource' /><property name='jpaVendorAdapter'><bean class='org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter'><property name='database' value='MYSQL' /><property name='showSql' value='true' /><property name='databasePlatform' value='org.hibernate.dialect.MySQLDialect' /></bean></property><property name='jpaPropertyMap' /></bean><map><entry key='hibernate.transaction.manager_lookup_class' value='org.hibernate.transaction.JBossTransactionManagerLookup'><entry key='hibernate.transaction.flush_before_completion' value='true' /><entry key='hibernate.transaction.auto_close_session' value='true' /><entry key='hibernate.current_session_context_class' value='jta' /><entry key='hibernate.connection.release_mode' value='auto' /></entry></map><property name='persistenceUnitPostProcessors'><list><bean class='JtaPersistenceUnitPostProcessor'><property name='jtaMode' value='true' /><property name='jtaDataSource' ref='dataSource' /></bean></list></property><!-- Datasource Lookup--><bean class='org.springframework.jndi.JndiObjectFactoryBean' id='dataSource'><property name='resourceRef'>    <value>false</value></property><property name='jndiName'><value>java:/MyDS</value></property></bean><!-- Transaction Manager--><bean class='org.springframework.transaction.jta.JtaTransactionManager' id='transactionManager'><property name='transactionManagerName' value='java:/TransactionManager' /><property name='autodetectUserTransaction' value='false' /></bean></pre>Here&#8217;s the class that reads the jta mode property and configure the transaction type accordingly:<pre lang='java'>import javax.persistence.spi.PersistenceUnitTransactionType;import javax.sql.DataSource;import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;public class JtaPersistenceUnitPostProcessor implementsPersistenceUnitPostProcessor {private boolean jtaMode = false;private DataSource jtaDataSource;private PersistenceUnitTransactionType transacType = PersistenceUnitTransactionType.RESOURCE_LOCAL;public void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo mutablePersistenceUnitInfo) {  if (jtaMode) {    transacType = PersistenceUnitTransactionType.JTA;    mutablePersistenceUnitInfo.setJtaDataSource(this.getJtaDataSource());  }  mutablePersistenceUnitInfo.setTransactionType(transacType);}public boolean isJtaMode() {   return jtaMode;}public void setJtaMode(boolean jtaMode) {   this.jtaMode = jtaMode;}public DataSource getJtaDataSource() {   return jtaDataSource;}public void setJtaDataSource(DataSource jtaDataSource) {   this.jtaDataSource = jtaDataSource;}}</pre>Spring really helps tuning your persistence unit for different environments. It could be achieved by a custom build task that could alter the persistence.xml file but since this example assumes that Spring is already used, it can be avoided.</p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/06/02/stat-your-commits/">Stat Your Commits</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-02T00:00:00-04:00" pubdate data-updated="true">Jun 2<span>nd</span>, 2008</time>
+        
+         | <a href="/blog/2008/06/02/stat-your-commits/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I recently discover the <a href='http://stat-scm.sourceforge.net/'>StatSCM</a> maven plugin and it made our team day . It gives useful information about your Subversion activity (it supports other SCM systems) giving precise developers activity information or file statistics. It also generates some nice charts. I found it very useful to monitor what the team members commit: for instance we discovered that a trainee was the developer of the month (ranked by LOC commited) because he commited some very large csv test files.First to enable it, configure the dependency and declare the report in the reports section of your maven parent pom file:<pre lang='xml'><pom><build><plugins><plugin>  <groupid>net.sf</groupid>  <artifactid>stat-scm</artifactid><dependencies><dependency><groupid>net.sf</groupid><artifactid>stat-svn</artifactid><version>0.4.0-StatSCM</version></dependency><dependency><groupid>org.apache.maven.reporting</groupid><artifactid>maven-reporting-impl</artifactid><version>2.0.4</version></dependency></dependencies></plugin></plugins></build><reporting><plugins><plugin><groupid>net.sf</groupid><artifactid>stat-scm</artifactid><configuration><excludes><exclude>**/*.csv</exclude></excludes></configuration></plugin></plugins></reporting></pom></pre>And here some charts produced, like the number of LOC commited by each developer:<a href='http://www.dewavrin.info/resources/loc.png'><img alt='Number of lines of code' src='http://www.dewavrin.info/resources/loc.png' /></a>The day commit activity:<a href='http://www.dewavrin.info/resources/commitsactivity.png'><img alt='Commits activity' src='http://www.dewavrin.info/resources/commitsactivity.png' /></a>Or the ration between files addition/modification:<a href='http://www.dewavrin.info/resources/activity.png'><img alt='' src='http://www.dewavrin.info/resources/activity.png' /></a></p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/05/12/hp-about-to-buy-eds/">HP About to Buy EDS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-05-12T00:00:00-04:00" pubdate data-updated="true">May 12<span>th</span>, 2008</time>
+        
+         | <a href="/blog/2008/05/12/hp-about-to-buy-eds/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Concentration in IT goes on ( is it an effect of a &#8220;SAAS strategy&#8221; ?):<a href='http://news.yahoo.com/s/nm/20080512/bs_nm/eds_hewlettpackard_dc_1'>http://news.yahoo.com/s/nm/20080512/bs_nm/eds_hewlettpackard_dc_1</a></p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/01/17/opensource-java-bpm-compared/">Opensource Java BPM Compared</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-01-17T00:00:00-05:00" pubdate data-updated="true">Jan 17<span>th</span>, 2008</time>
+        
+         | <a href="/blog/2008/01/17/opensource-java-bpm-compared/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>(Seen on jBPM mailing-list): a quite interesting study between the non-exhaustive Java BPM engines (jBPM, enhydra shark, openwfe) has been published. Follow this <a href='http://www.workflowpatterns.com/documentation/documents/BPM-07-12.pdf'>link</a>.Updated 2008/08 : The report has been updated (see <a href='http://www.infoq.com/news/2008/08/oswf'>http://www.infoq.com/news/2008/08/oswf</a>)</p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/01/16/it-consolidation/">IT Consolidation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-01-16T00:00:00-05:00" pubdate data-updated="true">Jan 16<span>th</span>, 2008</time>
+        
+         | <a href="/blog/2008/01/16/it-consolidation/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Todays news:<strong>Oracle buys BEA.</strong><strong>Mysql AB acquired by Sun.</strong>Well what&#8217;s next? Redhat acquired by Sun (or even Microsoft), Adobe acquired by Oracle, etc ?Industralization of the IT sector seems to get some steam, surely a sign of maturity. I am not sure if it will have an impact on innovation or this trend is the result of a loss of innovation. Big actors want to provide a complete enterprise stack from hardware to software package solutions. Will we only have to deal with SAP, Oracle, IBM, Sun and Microsoft tomorrow ?Google strategy seems to differentiate and focus on online services.</p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list/">A Picture Is Worth a Thousand Words (My 2008 No Interest Techs List)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-01-03T00:00:00-05:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2008</time>
+        
+         | <a href="/blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This comic sums up my opinion on Scala pretty well (very funny):<a href='http://stuffthathappens.com/blog/2008/01/02/scala-will-do/'>http://stuffthathappens.com/blog/2008/01/02/scala-will-do/</a>I jumped on Ruby and Rails bandwagon spending some man-days (;-)) on it but at least Rails has been a reference in term of web productivity and introduced or leveraged nice concepts (naming conventions over configuration, DSL, REST, TDD etc.) . Recently, many Java web frameworks compared themselves to Rails and how they were much better (Seam,Grails &#38; Co). Rails influenced the IT community (Java, .Net and Python included).=&#62; All in all, i have excuses to have followed the crowd&#8230; But not this time, Scala (pretty unreadable), JavaFx (not until i see <a href='http://weblogs.java.net/blog/chet/archive/2007/05/consumer_jre_le.html'>the consumer jre</a> in action and applets as fast-loaded as flash apps without dumb dialog boxes) are definitely on my 2008 technos of no-interest !I&#8217;ll hopefully focus this year on the new Cobol ;-) core (or even .Net/C#) .</p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2007/12/30/would-you-blog-about-my-song/">Would You Blog About This Song ?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-12-30T00:00:00-05:00" pubdate data-updated="true">Dec 30<span>th</span>, 2007</time>
+        
+         | <a href="/blog/2007/12/30/would-you-blog-about-my-song/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Of course, when it&#8217;s so funny (burst the web 2/3.0 bubble):<div class='external-media'> <object data='http://www.youtube.com/v/I6IQ_FOCE6I&amp;rel=1' height='280' type='application/x-shockwave-flash' width='340'><param name='movie' value='http://www.youtube.com/v/I6IQ_FOCE6I&amp;rel=1' /><param name='wmode' value='transparent' /></object></div></p></div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2009/09/16/last-post/">Last Post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/05/05/osgi-survey/">OSGI survey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/27/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/20/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/03/30/seam-usage-in-production/">Seam usage in production</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("lucdew", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/lucdew" class="twitter-follow-button" data-show-count="false">Follow @lucdew</a>
+  
+</section>
+
+
+
+
+<section>
+  <h1>Visitors</h1>
+  <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+</p>
+</section>
+
+  
+<div id="tag-cloud">
+  {&#8220;safe&#8221;=>false, &#8220;auto&#8221;=>false, &#8220;server&#8221;=>false, &#8220;server_port&#8221;=>4000, &#8220;source&#8221;=>&#8221;source&#8221;, &#8220;destination&#8221;=>&#8221;public&#8221;, &#8220;plugins&#8221;=>&#8221;plugins&#8221;, &#8220;future&#8221;=>true, &#8220;lsi&#8221;=>false, &#8220;pygments&#8221;=>false, &#8220;markdown&#8221;=>&#8221;maruku&#8221;, &#8220;permalink&#8221;=>&#8221;/blog/:year/:month/:day/:title/&#8221;, &#8220;markdown_ext&#8221;=>&#8221;markdown,mkd,mkdn,md&#8221;, &#8220;textile_ext&#8221;=>&#8221;textile&#8221;, &#8220;maruku&#8221;=>{&#8220;use_tex&#8221;=>false, &#8220;use_divs&#8221;=>false, &#8220;png_engine&#8221;=>&#8221;blahtex&#8221;, &#8220;png_dir&#8221;=>&#8221;images/latex&#8221;, &#8220;png_url&#8221;=>&#8221;/images/latex&#8221;}, &#8220;rdiscount&#8221;=>{&#8220;extensions&#8221;=>[]}, &#8220;redcarpet&#8221;=>{&#8220;extensions&#8221;=>[]}, &#8220;kramdown&#8221;=>{&#8220;auto_ids&#8221;=>true, &#8220;footnote_nr&#8221;=>1, &#8220;entity_output&#8221;=>&#8221;as_char&#8221;, &#8220;toc_levels&#8221;=>&#8221;1..6&#8221;, &#8220;use_coderay&#8221;=>false, &#8220;coderay&#8221;=>{&#8220;coderay_wrap&#8221;=>&#8221;div&#8221;, &#8220;coderay_line_numbers&#8221;=>&#8221;inline&#8221;, &#8220;coderay_line_number_start&#8221;=>1, &#8220;coderay_tab_width&#8221;=>4, &#8220;coderay_bold_every&#8221;=>10, &#8220;coderay_css&#8221;=>&#8221;style&#8221;}}, &#8220;url&#8221;=>&#8221;http://lucdew.github.com&#8221;, &#8220;title&#8221;=>&#8221;Luc Dewavrin&#8217;s website&#8221;, &#8220;subtitle&#8221;=>nil, &#8220;author&#8221;=>&#8221;Luc Dewavrin&#8221;, &#8220;simple_search&#8221;=>&#8221;http://google.com/search&#8221;, &#8220;description&#8221;=>nil, &#8220;date_format&#8221;=>&#8221;ordinal&#8221;, &#8220;subscribe_rss&#8221;=>&#8221;/atom.xml&#8221;, &#8220;subscribe_email&#8221;=>nil, &#8220;email&#8221;=>nil, &#8220;root&#8221;=>&#8221;/&#8221;, &#8220;code_dir&#8221;=>&#8221;downloads/code&#8221;, &#8220;category_dir&#8221;=>&#8221;blog/categories&#8221;, &#8220;paginate&#8221;=>10, &#8220;pagination_dir&#8221;=>&#8221;blog&#8221;, &#8220;recent_posts&#8221;=>5, &#8220;excerpt_link&#8221;=>&#8221;Read on &rarr;&#8221;, &#8220;titlecase&#8221;=>true, &#8220;default_asides&#8221;=>[&#8220;asides/recent_posts.html&#8221;, &#8220;asides/github.html&#8221;, &#8220;asides/twitter.html&#8221;, &#8220;asides/delicious.html&#8221;, &#8220;asides/pinboard.html&#8221;, &#8220;asides/googleplus.html&#8221;, &#8220;custom/asides/clustrmap.html&#8221;], &#8220;github_user&#8221;=>nil, &#8220;github_repo_count&#8221;=>0, &#8220;github_show_profile_link&#8221;=>true, &#8220;github_skip_forks&#8221;=>true, &#8220;twitter_user&#8221;=>&#8221;lucdew&#8221;, &#8220;twitter_tweet_count&#8221;=>4, &#8220;twitter_show_replies&#8221;=>false, &#8220;twitter_follow_button&#8221;=>true, &#8220;twitter_show_follower_count&#8221;=>false, &#8220;twitter_tweet_button&#8221;=>true, &#8220;google_plus_one&#8221;=>false, &#8220;google_plus_one_size&#8221;=>&#8221;medium&#8221;, &#8220;googleplus_user&#8221;=>nil, &#8220;googleplus_hidden&#8221;=>false, &#8220;pinboard_user&#8221;=>nil, &#8220;pinboard_count&#8221;=>3, &#8220;delicious_user&#8221;=>nil, &#8220;delicious_count&#8221;=>3, &#8220;disqus_short_name&#8221;=>&#8221;lucdewavrinsblog&#8221;, &#8220;disqus_show_comment_count&#8221;=>true, &#8220;google_analytics_tracking_id&#8221;=>&#8221;UA-1239956-1&#8221;, &#8220;facebook_like&#8221;=>false, &#8220;tag_page_layout&#8221;=>&#8221;tag_page&#8221;, &#8220;tag_page_dir&#8221;=>&#8221;tag&#8221;, &#8220;time&#8221;=>2012-01-01 10:43:01 -0500, &#8220;posts&#8221;=>[<Post: /blog/2009/09/16/last-post>, <Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/04/20/acquisition-de-sun-par-oracle>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/12/jboss-resources>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/10/22/jaxb-bug-527>, <Post: /blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/08/27/switched-to-french-canadian-keyboard>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2008/01/16/it-consolidation>, <Post: /blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list>, <Post: /blog/2007/12/30/would-you-blog-about-my-song>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/12/24/my-top-10-blogs>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/11/05/seam-20-released>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>, <Post: /blog/2006/12/18/gwt-client-with-rails-backend-integration-tip-2>, <Post: /blog/2006/11/27/maven-quick-tip-adding-a-local-dependency>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/05/25/use-your-voip-softphone-work-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>, <Post: /blog/2006/04/06/leverage-ant-xml-nature-2>, <Post: /blog/2006/04/06/java-on-freebsd-2>, <Post: /blog/2006/02/28/memory-leaks-2>, <Post: /blog/2006/02/20/axis-through-apache-httpd-quick-tips-2>, <Post: /blog/2006/02/17/is-ruby-ready-for-enterprise-2>, <Post: /blog/2006/01/17/2005-review>, <Post: /blog/2005/12/24/article-on-spring-and-aop-2>, <Post: /blog/2005/10/25/persistent-quartz-jobs-with-spring-2>, <Post: /blog/2005/09/17/programmatic-authentication-in-tomcat>, <Post: /blog/2005/09/17/memory-leaks-hunting-articles-2>, <Post: /blog/2005/08/02/tomcat-active-directory-realm-2>, <Post: /blog/2005/07/25/weblogic-server-90-released-2>, <Post: /blog/2005/06/28/feelings-after-1st-swing-app-development-2>, <Post: /blog/2005/06/20/paris-air-show-2005-2>, <Post: /blog/2005/05/10/enable-logging-for-jdbcs-thin-driver-in-weblogic>, <Post: /blog/2005/05/07/hacked-or-not>, <Post: /blog/2005/05/04/weblogic-ssl-with-openssl>, <Post: /blog/2005/04/11/weblogic-prepared-statement-caching-2>, <Post: /blog/2005/04/01/weblogic-impossible-to-load-other-jmx-classes>, <Post: /blog/2005/03/30/interesting-article-about-weblogic-entity-ejb-clustering>, <Post: /blog/2005/03/23/websphered>, <Post: /blog/2005/03/10/passing-through-corporate-firewall-part2-2>, <Post: /blog/2005/03/06/proxying-weblogic-snmp-agent>, <Post: /blog/2005/02/22/weblogic-and-active-directory-authentication>, <Post: /blog/2004/12/24/presentation-slides-of-weblogic-server-90-2>, <Post: /blog/2004/12/16/jrockit-rocks-on-ia64>, <Post: /blog/2004/12/15/wls-90-beta-is-out-2>, <Post: /blog/2004/10/29/passing-through-corporate-firewall>, <Post: /blog/2004/10/29/broadcasting-music-with-itunes-on-your-corporate-network>, <Post: /blog/2004/09/28/weblogic-server-9>, <Post: /blog/2004/08/30/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell>, <Post: /blog/2004/08/19/weblogic-ant-tasks-2>, <Post: /blog/2004/08/19/boost-eclipse-performance-under-windows>, <Post: /blog/2004/07/18/weblogic-81-sp3-is-out-2>, <Post: /blog/2004/07/18/french-national-day-photos>, <Post: /blog/2004/07/17/weblog-opened-2>, <Post: /blog/2004/07/17/openssl-and-weblogic-howto-2>, <Post: /blog/2004/04/14/luc-dewvrin>], &#8220;pages&#8221;=>[#<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">], &#8220;html_pages&#8221;=>[#<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">], &#8220;categories&#8221;=>{&#8220;general&#8221;=>[<Post: /blog/2009/09/16/last-post>, <Post: /blog/2009/04/20/acquisition-de-sun-par-oracle>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2007/12/24/my-top-10-blogs>, <Post: /blog/2006/05/25/use-your-voip-softphone-work-2>, <Post: /blog/2006/04/06/leverage-ant-xml-nature-2>, <Post: /blog/2006/02/17/is-ruby-ready-for-enterprise-2>, <Post: /blog/2005/06/20/paris-air-show-2005-2>, <Post: /blog/2005/05/07/hacked-or-not>, <Post: /blog/2005/03/10/passing-through-corporate-firewall-part2-2>, <Post: /blog/2004/10/29/broadcasting-music-with-itunes-on-your-corporate-network>, <Post: /blog/2004/09/28/weblogic-server-9>, <Post: /blog/2004/07/18/french-national-day-photos>, <Post: /blog/2004/07/17/weblog-opened-2>, <Post: /blog/2004/04/14/luc-dewvrin>], &#8220;weblogic&#8221;=>[<Post: /blog/2005/09/17/memory-leaks-hunting-articles-2>, <Post: /blog/2005/07/25/weblogic-server-90-released-2>, <Post: /blog/2005/05/10/enable-logging-for-jdbcs-thin-driver-in-weblogic>, <Post: /blog/2005/04/11/weblogic-prepared-statement-caching-2>, <Post: /blog/2005/04/01/weblogic-impossible-to-load-other-jmx-classes>, <Post: /blog/2005/03/30/interesting-article-about-weblogic-entity-ejb-clustering>, <Post: /blog/2005/03/06/proxying-weblogic-snmp-agent>, <Post: /blog/2005/02/22/weblogic-and-active-directory-authentication>, <Post: /blog/2004/12/24/presentation-slides-of-weblogic-server-90-2>, <Post: /blog/2004/12/16/jrockit-rocks-on-ia64>, <Post: /blog/2004/12/15/wls-90-beta-is-out-2>, <Post: /blog/2004/08/30/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell>, <Post: /blog/2004/08/19/weblogic-ant-tasks-2>, <Post: /blog/2004/07/18/weblogic-81-sp3-is-out-2>, <Post: /blog/2004/07/17/openssl-and-weblogic-howto-2>], &#8220;java&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/12/jboss-resources>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/10/22/jaxb-bug-527>, <Post: /blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/11/05/seam-20-released>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>, <Post: /blog/2006/12/18/gwt-client-with-rails-backend-integration-tip-2>, <Post: /blog/2006/11/27/maven-quick-tip-adding-a-local-dependency>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>, <Post: /blog/2006/04/06/java-on-freebsd-2>, <Post: /blog/2006/02/28/memory-leaks-2>, <Post: /blog/2006/02/20/axis-through-apache-httpd-quick-tips-2>, <Post: /blog/2006/01/17/2005-review>, <Post: /blog/2005/12/24/article-on-spring-and-aop-2>, <Post: /blog/2005/10/25/persistent-quartz-jobs-with-spring-2>, <Post: /blog/2005/09/17/programmatic-authentication-in-tomcat>, <Post: /blog/2005/08/02/tomcat-active-directory-realm-2>, <Post: /blog/2005/06/28/feelings-after-1st-swing-app-development-2>, <Post: /blog/2005/03/23/websphered>, <Post: /blog/2004/10/29/passing-through-corporate-firewall>, <Post: /blog/2004/08/19/boost-eclipse-performance-under-windows>], &#8220;uncategorized&#8221;=>[<Post: /blog/2007/12/30/would-you-blog-about-my-song>, <Post: /blog/2005/05/04/weblogic-ssl-with-openssl>], &#8220;tech&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/08/27/switched-to-french-canadian-keyboard>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2008/01/16/it-consolidation>, <Post: /blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>]}, &#8220;tags&#8221;=>{&#8220;ant&#8221;=>[<Post: /blog/2006/04/06/leverage-ant-xml-nature-2>], &#8220;aop&#8221;=>[<Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;aspectj&#8221;=>[<Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;spring&#8221;=>[<Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;maven&#8221;=>[<Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>], &#8220;asterisk&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;voip&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;vpn&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;jms&#8221;=>[<Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>], &#8220;lingo&#8221;=>[<Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>], &#8220;jibx&#8221;=>[<Post: /blog/2007/02/05/xfire-with-jbix>], &#8220;xfire&#8221;=>[<Post: /blog/2007/02/05/xfire-with-jbix>], &#8220;seam&#8221;=>[<Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2007/11/05/seam-20-released>], &#8220;jBPM&#8221;=>[<Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2007/11/16/a-jbpm-review>], &#8220;blog&#8221;=>[<Post: /blog/2007/12/24/my-top-10-blogs>], &#8220;htmlunit&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;java&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;xpath&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;web2.0-ria&#8221;=>[<Post: /blog/2007/12/30/would-you-blog-about-my-song>], &#8220;subversion&#8221;=>[<Post: /blog/2008/06/02/stat-your-commits>], &#8220;jpa&#8221;=>[<Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>], &#8220;jsf&#8221;=>[<Post: /blog/2008/09/01/some-common-jsf-pitfalls>], &#8220;jaxb&#8221;=>[<Post: /blog/2008/10/22/jaxb-bug-527>], &#8220;grails&#8221;=>[<Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>], &#8220;osgi&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>]}}
+</div>
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Luc Dewavrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lucdewavrinsblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

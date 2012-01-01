@@ -1,0 +1,620 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Luc Dewavrin's website</title>
+  <meta name="author" content="Luc Dewavrin">
+
+  
+  <meta name="description" content="">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lucdew.github.com/blog/page/7">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1239956-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lucdew.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2004/12/24/presentation-slides-of-weblogic-server-90-2/">Presentation Slides of Weblogic Server 9.0</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-12-24T00:00:00-05:00" pubdate data-updated="true">Dec 24<span>th</span>, 2004</time>
+        
+         | <a href="/blog/2004/12/24/presentation-slides-of-weblogic-server-90-2/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><br /></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2004/12/16/jrockit-rocks-on-ia64/">JRockit Rocks on IA64</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-12-16T00:00:00-05:00" pubdate data-updated="true">Dec 16<span>th</span>, 2004</time>
+        
+         | <a href="/blog/2004/12/16/jrockit-rocks-on-ia64/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I did some benchmark on a web application which runs on <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a>8.1 sp2. <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> was installed on a 4 IA64 CPU Linux server .<br /> The benchmark between the Sun JVM 1.4.1 for IA64 and the BEA JRockit providedwith <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> showed that the <b>application ran 10x times fasteron JRockit</b>. The ratio was even higher with more than 50 virtual users.<br /> I couldn&#39;t even believe it. I thought I had done mistakes trying to tunethe Sun JVM with the -XX options but no the results were the samewithout the -XX options. I haven&#39;t figured outwhy the Sun JVM ran so slowly&#8230; But if you need to run <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a>server on IA64 give JRockit a try, it&#39;s really worth it. <br />To be honest, the Sun JVM 1.4.1 for Itanium 64seems to be a beta one (java -version gives build 1.4.1-b21) and the JRockit JVM is the only one supported on IA64 by BEA. So the comparision was obviously biased. By the way,i&#39;ll do some tests with <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> 8.1 sp4 with a JVM 1.4.2</p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2004/12/15/wls-90-beta-is-out-2/">WLS 9.0 Beta Is Out</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-12-15T00:00:00-05:00" pubdate data-updated="true">Dec 15<span>th</span>, 2004</time>
+        
+         | <a href="/blog/2004/12/15/wls-90-beta-is-out-2/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><br /></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2004/10/29/passing-through-corporate-firewall/">Passing Through Corporate Firewall</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-10-29T00:00:00-04:00" pubdate data-updated="true">Oct 29<span>th</span>, 2004</time>
+        
+         | <a href="/blog/2004/10/29/passing-through-corporate-firewall/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Well, at least from inside your corporate network ;-)to surf, chat and more anonymously.After reading this <a href='http://blogs.cadince.com/blojsom/blog/dan/?month=8&amp;year=2004'>blog article</a>thanks man) and its comments, I tried it and I have to say thatI have been happily surprised how easy it was. I didn&#8217;t know the existence of proxytunnel and that&#8217;s the key in it (for the theory about establishing a Ssh connectionthrough a SSL proxy see <a href='http://proxytunnel.sourceforge.net/papers/muppet-200204.html'>here</a>).Proxytunnel allows you to establish a SSH connectionvia a corporate proxy (all proxies that supports the CONNECT command)Here a schema of the solution I adopted<pre lang='text'>                                                          |Internet                                                          | -----------    SSL     -------------   SSL  ---------   SSL    443--------------| Windows WS| --------| Company Proxy |-----| Firewall|--------| Home SSh Server ||     |         |  "CONNECT TO" |     |         |   |    |                 |-----------           ---------------        ---------    |     -----------------                                                          |</pre>The other major point in this solution is the usage of a Socks5 serverthat will allow you to connect to any machine of your internal networkwith any Socks5 compliant software. A socks5 proxy is a proxy on layer4 of OSI modelFor example, I have been able toestablish a VNC connection to a Windows XP machine on my home network with &#8220;Smart CodeVNC manager&#8221; that has Socks5 capabilites.Here are the steps I followed.1) First check the prequesitesTools needed on client side (we&#8217;ll make the assumption that it runs on Windows)- cygwin with ssh client- proxytunnel cygwin port ( http://proxytunnel.sourceforge.net)Tools needs on server side:- SSH daemon and that&#8217;s it.- Port 443 opened- Optional: xinetd or a NAT tool to do port redirection (I used OpenBSD packet filter to redirectconnections on port 443 on my Internet gateway to an internal Linux server in my home network).2) SSH server configurationThe only thing to do is to configure it to listen on port 443and authorize root loggin. Or you canuse xinetd to use port redirection or any NAT tool ( PF, Netfilter&#8230;)and leave the server run on port 22.3) Client SSH configurationIn a cygwin terminal, create a $HOME/.ssh/config file and add the following lines:<pre lang='text'>Host myserver   KeepAlive yes   ProxyCommand path_to_proxytunnel/proxytunnel.exe -g proxy_ip_address -G proxy_port -d ssh_server address -D ssh_server_port</pre>The ssh server port should be 443.4) Establish the ssh tunnel:In one command, you establish a SSH tunnel with SOCKS5 capabilities to your remote SSH server.# ssh -D 1080 -l root myserverupdate: use -N to avoid opening a Shell and -C for compressionActually, the -D enables dynamic port redirection and listens on local port 1080.Connections are tunneled through SSH and are on the other side of the tunnel made by the remote SSh server (which behaves as a Socks proxy). ssh can also understant SOCKS5 protocol therefore you know have a Socks5 server that listens on port 1080 locally. The SOCKS connections are tunneled and are remotely executed by your ssh server5) Configure your Workstation software to use the Socks5 server on port 1080 on localhost and enjoy.Note that you can use IP of your remote internal network, you created &#8220;a kind of VPN&#8221;for SOCKS5 compliant software. For example, let&#8217;s say that you have on your homenetwork a Web server that runs on the private address 192.168.1.2. You can now reachit by typing in firefox http://192.168.1.2.Also don&#8217;t forget to use a firewall on your workstation or your coworkers will gladly be able to connect to your Socks5 proxy.</p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2004/10/29/broadcasting-music-with-itunes-on-your-corporate-network/">Broadcasting Music With Itunes on Your Corporate Network</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-10-29T00:00:00-04:00" pubdate data-updated="true">Oct 29<span>th</span>, 2004</time>
+        
+         | <a href="/blog/2004/10/29/broadcasting-music-with-itunes-on-your-corporate-network/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><br />
+<p>1) On your home machine configure mt-daapd daemon. The step mostly consists in chosing the directory where your mp3s are.</p>
+
+<p>2) Configure ssh on your corporate machine to use stunnel (See my previous <a href='http://www.jroller.com/page/ldewavrin/20040819'>post</a>)</p>
+
+<p>3)Configure the SSh daemon at home (See my previous <a href='http://www.jroller.com/page/ldewavrin/20040819'>post</a>)</p>
+
+<p>4) On your local machine, use RendezvousProxy toolhttp://ileech.sf.net/RendezvousProxy/ as a proxy for RendezVousprotocol. Itunes uses RendezVous protocol to automatically discover anyItunes server. It works with multicast packets (not investigated thatmuch on it).Configure RendezvousProxy to listen on port 3690 for instance and use daacp.tcp plugin.</p>
+
+<p>5) Establish the SSL tunnel:# ssh -N -C -L 3690:mp3remotehost:3689 user@homegatewayWhere -N option does not open a shell. -C is for compression.-L is for port forwarding. 3690 is the local port open your machine.mp3host and 3689 are the hostname andport of your mt-daapd server. user and homegateway are the user andhost of your home gateway with whom you will establish the SSHconnection.</p>
+
+<p>6) Start Itunes and your server should be listed in the left pane.Enjoy. I have tested it with my home internet connection which is a DSLconnection with 256 Mbits/s upload capabilities and it rocks. No needto tell your coworkers who use Itunes that you host a mp3 broadcastingserver because if they are in the same LAN, they all should see it&#8230;Ask you network administrator also to route IP multicast packets forthe RDV address to make your whole company enjoy your mp3 server ;-)</p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2004/09/28/weblogic-server-9/">Weblogic Server 9</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-09-28T00:00:00-04:00" pubdate data-updated="true">Sep 28<span>th</span>, 2004</time>
+        
+         | <a href="/blog/2004/09/28/weblogic-server-9/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Yesterday,I attented the online conference about <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server 9 &#8220;Operation Administration andmaintainance&#8221; . Well, here are some of the enhancements I noted:- The administration console won&#8217;t use an applet anymore but a Strutsbased application. It will allow to do multiple operations and validatethem at once. There will also have an &#8220;undo&#8221; command.-Update: I have forgotten to say that BEA confirmed that WLST jython based scripting language will now be part of the product. That&#8217;s one more reason to learn Jython- Hot redeployment of a Web application without service disruption.This feature is only available for Web application. For me it&#8217;s not amajor feature since a load balancer or Apache (with very little downtime) can do the job but it requires at least 2 instances of <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a>server.- <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> Diagnostic Framework: it will give the ability to do morefine grained instrumentation of application and <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> serverservices. This framework is AOP based.- J2EE 1.4 compliance.- performance boost (without more precision &#8230;)Well as you can notice the improvements are not revolutionnary and Ithink it shows that this product has really come to maturity (in termsof administration).By the way, the beta will be available in the beginning of November.Since the presentation was public I have uploaded a screenshot of the new console:<img alt='WLS9 console' src='http://www.jroller.com/resources/ldewavrin/console.jpg' /></p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2004/08/30/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/">Review of Weblogic Scripting Languages Wlst (Jython Based) vs Wlsh ( WLS Shell)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-08-30T00:00:00-04:00" pubdate data-updated="true">Aug 30<span>th</span>, 2004</time>
+        
+         | <a href="/blog/2004/08/30/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Both are tools to programmatically and easily configure <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> domains and servers. Why these tools? - to automate <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> servers and domain creation for large scale production environment. Configuring a <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> domain through the administration console is tedious and slow in a multiserver environment. - Repeat a complicated configuration from server to server.</p>
+
+<p>Well, you could use Java and JMX or do some reverse engineeringon some <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> class (like domain creation) but it would reallybe a waste of time, when tools exist to make domain administration easier.</p>
+
+<h1 id='wlst'>wlst</h1>
+
+<h2 id='pros'>Pros:</h2>
+
+<p>- Jython (Python Implementation in Java) based powerful Object Oriented scripting language. You can create your own classes like creating a Security classes to add a user,a group return all the users of a domain&#8230; - Offline capabilites to create and configure domains. - Has functions for <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> Workshop.</p>
+
+<h2 id='cons'>Cons:</h2>
+
+<p>- learning curve of Jython/Python for more advanced coding logic.( But I have to admit that Python is easy to learn). - type conversion between Java and python which can be annoying example: objs = jarray.array(<span>appname,None,None</span>,java.lang.Object). - Some MBeans are hidden. Example: can not invoke methods on the DeployerRuntime MBean like the invoke method. Maybe authors want users to use the dedicated deployment functions like deploy() undeploy() instead. - Can only use a property file to pass parameters to the script (but you could import the wlst jython module and process jython command line arguments the traditionnal way) # wlsh</p>
+
+<h2 id='pros'>Pros</h2>
+
+<ul>
+<li>
+<p>Easy to learn very much like Unix SHELL.</p>
+
+<ul>
+<li>
+<p>Aditionnal tools: provide a graphical MBean (and cli) explorer + a graphical monitoring tool.</p>
+</li>
+
+<li>
+<p>Can pass any kind of parameter to the script from the command line.</p>
+
+<h2 id='cons'>Cons:</h2>
+</li>
+
+<li>
+<p>Not officially supported by BEA. Some bugs exist &#8220;it returns null when trying to get some MBean&#8221;. But the author said a new version will be released for <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server 9.</p>
+</li>
+
+<li>
+<p>Limited scripting capabilities. Language is limited (with limited control structures) To conclude, both are not really mature tools and have some light bugs but they greatly help in <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> configuration tasks. I don&#8217;t know if Websphere or Oracle9iAS have this kind of tool but they represent a great advantage for <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a>. Especially for ISVs who want to help clients to configure a <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server to run their application Both tools can also convert an existing domain configuration (config.xml) to a script which is a very helpful feature. I think that for advanced <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> administration scripting wlst looks better (I chose to use it now). On the other side some features of wlsh like the MBean explorer, the graphical MBean attributes monitoring are really great. Porting wlst to Groovy scripting language ( Java based scripting language with a JSR) would also have been a great idea since it would avoid to learn another language (i.e python) but just the syntax of Groovy.</p>
+</li>
+</ul>
+</li>
+</ul></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2004/08/19/weblogic-ant-tasks-2/">Weblogic Ant Tasks</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-08-19T00:00:00-04:00" pubdate data-updated="true">Aug 19<span>th</span>, 2004</time>
+        
+         | <a href="/blog/2004/08/19/weblogic-ant-tasks-2/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><br /></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2004/08/19/boost-eclipse-performance-under-windows/">Boost Eclipse Performance Under Windows</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-08-19T00:00:00-04:00" pubdate data-updated="true">Aug 19<span>th</span>, 2004</time>
+        
+         | <a href="/blog/2004/08/19/boost-eclipse-performance-under-windows/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>There&#8217;s an excellent Eclipse plug-in to prevent Windows from swapping to disk the memoryallocated to the Eclipse&#8217;s JVM.</p>
+
+<p>The <a href='http://suif.stanford.edu/pub/keepresident/'>keepresident plug-in</a> really improved Eclipse overall performance.</p>
+
+<p>Sometimes Eclipse3 used to freeze for 10-20 seconds.Even after tweaking the JVM options (-XX:+UseParallelGC -Xms512m -Xmx512m -XX:MaxPermSize=96M on a 1Gbytes machine), it was still freezing randomly. I thought it was the GC on my mono-processor machine which was causing a &#8220;stop the world &#8221; for all other threads (i didn&#8217;t trace it with the -verbose:gc). But actually, it seems that Windows was involved and deeply deteriorated the performance of Garbage Collection by swapping to disk even when there was still free physical memory ( like when the Eclipse Window is minimized). Now Eclipse is really fast !</p>
+
+<p>Congratulations to the plug-in&#8217;s author</p></div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2004/07/18/weblogic-81-sp3-is-out-2/">Weblogic 8.1 Sp3 Is Out</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-07-18T00:00:00-04:00" pubdate data-updated="true">Jul 18<span>th</span>, 2004</time>
+        
+         | <a href="/blog/2004/07/18/weblogic-81-sp3-is-out-2/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>See the release note:<a href='http://e-docs.bea.com/wls/docs81/note/index.html'>http://e-docs.bea.com/wls/docs81/notes/index.html</a><br />I am just wondering when <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server/platform n°9 will be released:when J2SE 5.0 will be out or when the EJB3 spec will be adopted ?<br /><br />BTW, Oracle seems to be more and more aggressive in their J2EE offering with their JDdevIDE and ADF framework. They also bought a company called Collaxa which offers a BPEL implementation in Java and I bet it&#39;ll soon be integrated into Jdev and OC4J.</p></div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/8/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/6/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2009/09/16/last-post/">Last Post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/05/05/osgi-survey/">OSGI survey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/27/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/20/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/03/30/seam-usage-in-production/">Seam usage in production</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("lucdew", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/lucdew" class="twitter-follow-button" data-show-count="false">Follow @lucdew</a>
+  
+</section>
+
+
+
+
+<section>
+  <h1>Visitors</h1>
+  <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+</p>
+</section>
+
+  
+<div id="tag-cloud">
+  {&#8220;safe&#8221;=>false, &#8220;auto&#8221;=>false, &#8220;server&#8221;=>false, &#8220;server_port&#8221;=>4000, &#8220;source&#8221;=>&#8221;source&#8221;, &#8220;destination&#8221;=>&#8221;public&#8221;, &#8220;plugins&#8221;=>&#8221;plugins&#8221;, &#8220;future&#8221;=>true, &#8220;lsi&#8221;=>false, &#8220;pygments&#8221;=>false, &#8220;markdown&#8221;=>&#8221;maruku&#8221;, &#8220;permalink&#8221;=>&#8221;/blog/:year/:month/:day/:title/&#8221;, &#8220;markdown_ext&#8221;=>&#8221;markdown,mkd,mkdn,md&#8221;, &#8220;textile_ext&#8221;=>&#8221;textile&#8221;, &#8220;maruku&#8221;=>{&#8220;use_tex&#8221;=>false, &#8220;use_divs&#8221;=>false, &#8220;png_engine&#8221;=>&#8221;blahtex&#8221;, &#8220;png_dir&#8221;=>&#8221;images/latex&#8221;, &#8220;png_url&#8221;=>&#8221;/images/latex&#8221;}, &#8220;rdiscount&#8221;=>{&#8220;extensions&#8221;=>[]}, &#8220;redcarpet&#8221;=>{&#8220;extensions&#8221;=>[]}, &#8220;kramdown&#8221;=>{&#8220;auto_ids&#8221;=>true, &#8220;footnote_nr&#8221;=>1, &#8220;entity_output&#8221;=>&#8221;as_char&#8221;, &#8220;toc_levels&#8221;=>&#8221;1..6&#8221;, &#8220;use_coderay&#8221;=>false, &#8220;coderay&#8221;=>{&#8220;coderay_wrap&#8221;=>&#8221;div&#8221;, &#8220;coderay_line_numbers&#8221;=>&#8221;inline&#8221;, &#8220;coderay_line_number_start&#8221;=>1, &#8220;coderay_tab_width&#8221;=>4, &#8220;coderay_bold_every&#8221;=>10, &#8220;coderay_css&#8221;=>&#8221;style&#8221;}}, &#8220;url&#8221;=>&#8221;http://lucdew.github.com&#8221;, &#8220;title&#8221;=>&#8221;Luc Dewavrin&#8217;s website&#8221;, &#8220;subtitle&#8221;=>nil, &#8220;author&#8221;=>&#8221;Luc Dewavrin&#8221;, &#8220;simple_search&#8221;=>&#8221;http://google.com/search&#8221;, &#8220;description&#8221;=>nil, &#8220;date_format&#8221;=>&#8221;ordinal&#8221;, &#8220;subscribe_rss&#8221;=>&#8221;/atom.xml&#8221;, &#8220;subscribe_email&#8221;=>nil, &#8220;email&#8221;=>nil, &#8220;root&#8221;=>&#8221;/&#8221;, &#8220;code_dir&#8221;=>&#8221;downloads/code&#8221;, &#8220;category_dir&#8221;=>&#8221;blog/categories&#8221;, &#8220;paginate&#8221;=>10, &#8220;pagination_dir&#8221;=>&#8221;blog&#8221;, &#8220;recent_posts&#8221;=>5, &#8220;excerpt_link&#8221;=>&#8221;Read on &rarr;&#8221;, &#8220;titlecase&#8221;=>true, &#8220;default_asides&#8221;=>[&#8220;asides/recent_posts.html&#8221;, &#8220;asides/github.html&#8221;, &#8220;asides/twitter.html&#8221;, &#8220;asides/delicious.html&#8221;, &#8220;asides/pinboard.html&#8221;, &#8220;asides/googleplus.html&#8221;, &#8220;custom/asides/clustrmap.html&#8221;], &#8220;github_user&#8221;=>nil, &#8220;github_repo_count&#8221;=>0, &#8220;github_show_profile_link&#8221;=>true, &#8220;github_skip_forks&#8221;=>true, &#8220;twitter_user&#8221;=>&#8221;lucdew&#8221;, &#8220;twitter_tweet_count&#8221;=>4, &#8220;twitter_show_replies&#8221;=>false, &#8220;twitter_follow_button&#8221;=>true, &#8220;twitter_show_follower_count&#8221;=>false, &#8220;twitter_tweet_button&#8221;=>true, &#8220;google_plus_one&#8221;=>false, &#8220;google_plus_one_size&#8221;=>&#8221;medium&#8221;, &#8220;googleplus_user&#8221;=>nil, &#8220;googleplus_hidden&#8221;=>false, &#8220;pinboard_user&#8221;=>nil, &#8220;pinboard_count&#8221;=>3, &#8220;delicious_user&#8221;=>nil, &#8220;delicious_count&#8221;=>3, &#8220;disqus_short_name&#8221;=>&#8221;lucdewavrinsblog&#8221;, &#8220;disqus_show_comment_count&#8221;=>true, &#8220;google_analytics_tracking_id&#8221;=>&#8221;UA-1239956-1&#8221;, &#8220;facebook_like&#8221;=>false, &#8220;tag_page_layout&#8221;=>&#8221;tag_page&#8221;, &#8220;tag_page_dir&#8221;=>&#8221;tag&#8221;, &#8220;time&#8221;=>2012-01-01 10:43:01 -0500, &#8220;posts&#8221;=>[<Post: /blog/2009/09/16/last-post>, <Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/04/20/acquisition-de-sun-par-oracle>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/12/jboss-resources>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/10/22/jaxb-bug-527>, <Post: /blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/08/27/switched-to-french-canadian-keyboard>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2008/01/16/it-consolidation>, <Post: /blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list>, <Post: /blog/2007/12/30/would-you-blog-about-my-song>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/12/24/my-top-10-blogs>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/11/05/seam-20-released>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>, <Post: /blog/2006/12/18/gwt-client-with-rails-backend-integration-tip-2>, <Post: /blog/2006/11/27/maven-quick-tip-adding-a-local-dependency>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/05/25/use-your-voip-softphone-work-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>, <Post: /blog/2006/04/06/leverage-ant-xml-nature-2>, <Post: /blog/2006/04/06/java-on-freebsd-2>, <Post: /blog/2006/02/28/memory-leaks-2>, <Post: /blog/2006/02/20/axis-through-apache-httpd-quick-tips-2>, <Post: /blog/2006/02/17/is-ruby-ready-for-enterprise-2>, <Post: /blog/2006/01/17/2005-review>, <Post: /blog/2005/12/24/article-on-spring-and-aop-2>, <Post: /blog/2005/10/25/persistent-quartz-jobs-with-spring-2>, <Post: /blog/2005/09/17/programmatic-authentication-in-tomcat>, <Post: /blog/2005/09/17/memory-leaks-hunting-articles-2>, <Post: /blog/2005/08/02/tomcat-active-directory-realm-2>, <Post: /blog/2005/07/25/weblogic-server-90-released-2>, <Post: /blog/2005/06/28/feelings-after-1st-swing-app-development-2>, <Post: /blog/2005/06/20/paris-air-show-2005-2>, <Post: /blog/2005/05/10/enable-logging-for-jdbcs-thin-driver-in-weblogic>, <Post: /blog/2005/05/07/hacked-or-not>, <Post: /blog/2005/05/04/weblogic-ssl-with-openssl>, <Post: /blog/2005/04/11/weblogic-prepared-statement-caching-2>, <Post: /blog/2005/04/01/weblogic-impossible-to-load-other-jmx-classes>, <Post: /blog/2005/03/30/interesting-article-about-weblogic-entity-ejb-clustering>, <Post: /blog/2005/03/23/websphered>, <Post: /blog/2005/03/10/passing-through-corporate-firewall-part2-2>, <Post: /blog/2005/03/06/proxying-weblogic-snmp-agent>, <Post: /blog/2005/02/22/weblogic-and-active-directory-authentication>, <Post: /blog/2004/12/24/presentation-slides-of-weblogic-server-90-2>, <Post: /blog/2004/12/16/jrockit-rocks-on-ia64>, <Post: /blog/2004/12/15/wls-90-beta-is-out-2>, <Post: /blog/2004/10/29/passing-through-corporate-firewall>, <Post: /blog/2004/10/29/broadcasting-music-with-itunes-on-your-corporate-network>, <Post: /blog/2004/09/28/weblogic-server-9>, <Post: /blog/2004/08/30/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell>, <Post: /blog/2004/08/19/weblogic-ant-tasks-2>, <Post: /blog/2004/08/19/boost-eclipse-performance-under-windows>, <Post: /blog/2004/07/18/weblogic-81-sp3-is-out-2>, <Post: /blog/2004/07/18/french-national-day-photos>, <Post: /blog/2004/07/17/weblog-opened-2>, <Post: /blog/2004/07/17/openssl-and-weblogic-howto-2>, <Post: /blog/2004/04/14/luc-dewvrin>], &#8220;pages&#8221;=>[#<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">], &#8220;html_pages&#8221;=>[#<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">], &#8220;categories&#8221;=>{&#8220;general&#8221;=>[<Post: /blog/2009/09/16/last-post>, <Post: /blog/2009/04/20/acquisition-de-sun-par-oracle>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2007/12/24/my-top-10-blogs>, <Post: /blog/2006/05/25/use-your-voip-softphone-work-2>, <Post: /blog/2006/04/06/leverage-ant-xml-nature-2>, <Post: /blog/2006/02/17/is-ruby-ready-for-enterprise-2>, <Post: /blog/2005/06/20/paris-air-show-2005-2>, <Post: /blog/2005/05/07/hacked-or-not>, <Post: /blog/2005/03/10/passing-through-corporate-firewall-part2-2>, <Post: /blog/2004/10/29/broadcasting-music-with-itunes-on-your-corporate-network>, <Post: /blog/2004/09/28/weblogic-server-9>, <Post: /blog/2004/07/18/french-national-day-photos>, <Post: /blog/2004/07/17/weblog-opened-2>, <Post: /blog/2004/04/14/luc-dewvrin>], &#8220;weblogic&#8221;=>[<Post: /blog/2005/09/17/memory-leaks-hunting-articles-2>, <Post: /blog/2005/07/25/weblogic-server-90-released-2>, <Post: /blog/2005/05/10/enable-logging-for-jdbcs-thin-driver-in-weblogic>, <Post: /blog/2005/04/11/weblogic-prepared-statement-caching-2>, <Post: /blog/2005/04/01/weblogic-impossible-to-load-other-jmx-classes>, <Post: /blog/2005/03/30/interesting-article-about-weblogic-entity-ejb-clustering>, <Post: /blog/2005/03/06/proxying-weblogic-snmp-agent>, <Post: /blog/2005/02/22/weblogic-and-active-directory-authentication>, <Post: /blog/2004/12/24/presentation-slides-of-weblogic-server-90-2>, <Post: /blog/2004/12/16/jrockit-rocks-on-ia64>, <Post: /blog/2004/12/15/wls-90-beta-is-out-2>, <Post: /blog/2004/08/30/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell>, <Post: /blog/2004/08/19/weblogic-ant-tasks-2>, <Post: /blog/2004/07/18/weblogic-81-sp3-is-out-2>, <Post: /blog/2004/07/17/openssl-and-weblogic-howto-2>], &#8220;java&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/12/jboss-resources>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/10/22/jaxb-bug-527>, <Post: /blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/11/05/seam-20-released>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>, <Post: /blog/2006/12/18/gwt-client-with-rails-backend-integration-tip-2>, <Post: /blog/2006/11/27/maven-quick-tip-adding-a-local-dependency>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>, <Post: /blog/2006/04/06/java-on-freebsd-2>, <Post: /blog/2006/02/28/memory-leaks-2>, <Post: /blog/2006/02/20/axis-through-apache-httpd-quick-tips-2>, <Post: /blog/2006/01/17/2005-review>, <Post: /blog/2005/12/24/article-on-spring-and-aop-2>, <Post: /blog/2005/10/25/persistent-quartz-jobs-with-spring-2>, <Post: /blog/2005/09/17/programmatic-authentication-in-tomcat>, <Post: /blog/2005/08/02/tomcat-active-directory-realm-2>, <Post: /blog/2005/06/28/feelings-after-1st-swing-app-development-2>, <Post: /blog/2005/03/23/websphered>, <Post: /blog/2004/10/29/passing-through-corporate-firewall>, <Post: /blog/2004/08/19/boost-eclipse-performance-under-windows>], &#8220;uncategorized&#8221;=>[<Post: /blog/2007/12/30/would-you-blog-about-my-song>, <Post: /blog/2005/05/04/weblogic-ssl-with-openssl>], &#8220;tech&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/08/27/switched-to-french-canadian-keyboard>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2008/01/16/it-consolidation>, <Post: /blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>]}, &#8220;tags&#8221;=>{&#8220;ant&#8221;=>[<Post: /blog/2006/04/06/leverage-ant-xml-nature-2>], &#8220;aop&#8221;=>[<Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;aspectj&#8221;=>[<Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;spring&#8221;=>[<Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;maven&#8221;=>[<Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>], &#8220;asterisk&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;voip&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;vpn&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;jms&#8221;=>[<Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>], &#8220;lingo&#8221;=>[<Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>], &#8220;jibx&#8221;=>[<Post: /blog/2007/02/05/xfire-with-jbix>], &#8220;xfire&#8221;=>[<Post: /blog/2007/02/05/xfire-with-jbix>], &#8220;seam&#8221;=>[<Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2007/11/05/seam-20-released>], &#8220;jBPM&#8221;=>[<Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2007/11/16/a-jbpm-review>], &#8220;blog&#8221;=>[<Post: /blog/2007/12/24/my-top-10-blogs>], &#8220;htmlunit&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;java&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;xpath&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;web2.0-ria&#8221;=>[<Post: /blog/2007/12/30/would-you-blog-about-my-song>], &#8220;subversion&#8221;=>[<Post: /blog/2008/06/02/stat-your-commits>], &#8220;jpa&#8221;=>[<Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>], &#8220;jsf&#8221;=>[<Post: /blog/2008/09/01/some-common-jsf-pitfalls>], &#8220;jaxb&#8221;=>[<Post: /blog/2008/10/22/jaxb-bug-527>], &#8220;grails&#8221;=>[<Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>], &#8220;osgi&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>]}}
+</div>
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Luc Dewavrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lucdewavrinsblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

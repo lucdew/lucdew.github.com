@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Spring entityManagerFactory in jta and non-jta modes - Luc Dewavrin's website</title>
+  <meta name="author" content="Luc Dewavrin">
+
+  
+  <meta name="description" content="This blog post is about using JPA with Spring in 2 contexts :- production with a JTA transaction manager - testing with transactions handled by jpa &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lucdew.github.com/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1239956-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lucdew.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Spring entityManagerFactory in Jta and Non-jta Modes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-23T00:00:00-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This blog post is about using JPA with Spring in 2 contexts :- production with a JTA transaction manager - testing with transactions handled by jpa transaction manager. It has been inspired by <a href='http://erich.soomsam.net/2007/04/24/spring-jpa-and-jta-with-hibernate-and-jotm/'>Erich Soomsam blog post</a>You can achieve such configuration with a PersistenceUnitPostProcessor having a single persistence.xml file and 2 Spring context files (1 for each environment).Since you are likely to have at least 2 different Spring dataSource definitions : 1 for production that performs a JNDI lookup to find a bound datasource and 1 for development that uses a local and Spring declared datasource backed by a JDBC connection pool (C3p0 or DBCP), place the entityManager declaration in the same file as the datasource declaration. Let&#8217;s say that the default persistence.xml use the non-jta datasource: <pre lang='xml'> <persistence xsi:schemalocation='http://java.sun.com/xml/ns/persistence    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd' version='1.0' xmlns='http://java.sun.com/xml/ns/persistence' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'> <persistence-unit name='seamphony' transaction-type='RESOURCE_LOCAL'><properties>     <!-- Scan for annotated classes and Hibernate mapping XML files --><property name='hibernate.archive.autodetection' value='class, hbm' /><property name='hibernate.dialect' value='org.hibernate.dialect.MySQLDialect' /> </properties>    </persistence-unit></persistence></pre>Here&#8217;s how you can use Spring to post process the persistence unit and configure it for production (here with MySQL datasource and JBoss Transaction Manager):<pre lang='xml'><bean class='org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean' id='entityManagerFactory'><property name='dataSource' ref='dataSource' /><property name='jpaVendorAdapter'><bean class='org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter'><property name='database' value='MYSQL' /><property name='showSql' value='true' /><property name='databasePlatform' value='org.hibernate.dialect.MySQLDialect' /></bean></property><property name='jpaPropertyMap' /></bean><map><entry key='hibernate.transaction.manager_lookup_class' value='org.hibernate.transaction.JBossTransactionManagerLookup'><entry key='hibernate.transaction.flush_before_completion' value='true' /><entry key='hibernate.transaction.auto_close_session' value='true' /><entry key='hibernate.current_session_context_class' value='jta' /><entry key='hibernate.connection.release_mode' value='auto' /></entry></map><property name='persistenceUnitPostProcessors'><list><bean class='JtaPersistenceUnitPostProcessor'><property name='jtaMode' value='true' /><property name='jtaDataSource' ref='dataSource' /></bean></list></property><!-- Datasource Lookup--><bean class='org.springframework.jndi.JndiObjectFactoryBean' id='dataSource'><property name='resourceRef'>    <value>false</value></property><property name='jndiName'><value>java:/MyDS</value></property></bean><!-- Transaction Manager--><bean class='org.springframework.transaction.jta.JtaTransactionManager' id='transactionManager'><property name='transactionManagerName' value='java:/TransactionManager' /><property name='autodetectUserTransaction' value='false' /></bean></pre>Here&#8217;s the class that reads the jta mode property and configure the transaction type accordingly:<pre lang='java'>import javax.persistence.spi.PersistenceUnitTransactionType;import javax.sql.DataSource;import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;public class JtaPersistenceUnitPostProcessor implementsPersistenceUnitPostProcessor {private boolean jtaMode = false;private DataSource jtaDataSource;private PersistenceUnitTransactionType transacType = PersistenceUnitTransactionType.RESOURCE_LOCAL;public void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo mutablePersistenceUnitInfo) {  if (jtaMode) {    transacType = PersistenceUnitTransactionType.JTA;    mutablePersistenceUnitInfo.setJtaDataSource(this.getJtaDataSource());  }  mutablePersistenceUnitInfo.setTransactionType(transacType);}public boolean isJtaMode() {   return jtaMode;}public void setJtaMode(boolean jtaMode) {   this.jtaMode = jtaMode;}public DataSource getJtaDataSource() {   return jtaDataSource;}public void setJtaDataSource(DataSource jtaDataSource) {   this.jtaDataSource = jtaDataSource;}}</pre>Spring really helps tuning your persistence unit for different environments. It could be achieved by a custom build task that could alter the persistence.xml file but since this example assumes that Spring is already used, it can be avoided.</p></div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Luc Dewavrin</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-23T00:00:00-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/general/'>general</a>, <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/tech/'>tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lucdew.github.com/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes/" data-via="lucdew" data-counturl="http://lucdew.github.com/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2008/06/02/stat-your-commits/" title="Previous Post: Stat your commits">&laquo; Stat your commits</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2008/08/27/switched-to-french-canadian-keyboard/" title="next Post: Switched to french canadian keyboard">Switched to french canadian keyboard &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2009/09/16/last-post/">Last Post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/05/05/osgi-survey/">OSGI survey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/27/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/20/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/03/30/seam-usage-in-production/">Seam usage in production</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("lucdew", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/lucdew" class="twitter-follow-button" data-show-count="false">Follow @lucdew</a>
+  
+</section>
+
+
+
+
+<section>
+  <h1>Visitors</h1>
+  <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+</p>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Luc Dewavrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lucdewavrinsblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

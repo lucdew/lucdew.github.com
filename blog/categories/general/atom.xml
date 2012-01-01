@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: general | Luc Dewavrin's website]]></title>
+  <link href="http://lucdew.github.com/blog/categories/general/atom.xml" rel="self"/>
+  <link href="http://lucdew.github.com/"/>
+  <updated>2012-01-01T10:43:01-05:00</updated>
+  <id>http://lucdew.github.com/</id>
+  <author>
+    <name><![CDATA[Luc Dewavrin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Last Post]]></title>
+    <link href="http://lucdew.github.com/blog/2009/09/16/last-post/"/>
+    <updated>2009-09-16T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2009/09/16/last-post</id>
+    <content type="html"><![CDATA[<p>I decided to no longer post on my blog due to a serious lack of motivation, time and inspiring topics ;-). Of course, comments will now be closed.As a side note here are the titles of drafts that never turned into posts:-  Difficulty of choosing a Java web framework</p>
+
+<ul>
+<li> Seam managed persistence context and Spring</li>
+
+<li> Bye Bye computer book shelf</li>
+
+<li> Drools flow or jBPM4 ?</li>
+
+<li> Ejb3 on JBoss with Maven</li>
+
+<li> Creating a Spring based library (with its own context)</li>
+
+<li> Au revoir Windows vista</li>
+</ul>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Acquisition de Sun par Oracle]]></title>
+    <link href="http://lucdew.github.com/blog/2009/04/20/acquisition-de-sun-par-oracle/"/>
+    <updated>2009-04-20T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2009/04/20/acquisition-de-sun-par-oracle</id>
+    <content type="html"><![CDATA[<span>Pas sûr que Java soit gagnant dans l'histoire. Les incertitudes sur le devenir des produits Java n'est pas fait pour inciter les décideurs à opter pour cette technologie. Quelles sont les futures cibles : SpringSource, Redhat ? Sachant que SpringSource a été largement financé par des VC, à mon avis c'est un bon candidat. Bref, je me mets à la place d'un DSI aujourd'hui; si je ne veux pas prendre de risques j'opte pour .Net et les produits Microsoft : ligne de produits complète, cohérente et intégrée qui ne va pas disparaître d'ici 6 mois (j'exagère un peu...).</span>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Economic downturn and impact on javabloggers]]></title>
+    <link href="http://lucdew.github.com/blog/2009/02/17/economic-downturn-and-impact-on-javabloggers/"/>
+    <updated>2009-02-17T00:00:00-05:00</updated>
+    <id>http://lucdew.github.com/blog/2009/02/17/economic-downturn-and-impact-on-javabloggers</id>
+    <content type="html"><![CDATA[<p>I wanted to know if the economic crisis had an impact on blogging. I was curious because it seemed for me that the blogs that i usually follow had less activity  . With the help of a groovy script and gchart, here&#8217;s the last 2 years monthly blog posts count (don&#8217;t know why there&#8217;s a high peak for July 07). It seems that, so far, java bloggers still post.<img alt='' src='http://chart.apis.google.com/chart?cht=lc&amp;chs=600x500&amp;chtt=Javablogs+monthly+posts+count%20+%7C+since+01-01-2007+to+01-02-2009&amp;chxt=x,y&amp;chxr=1,0,15000&amp;chds=0,15000&amp;chd=t:4224,4133,4758,4474,5561,4933,14719,5155,4515,5301,5047,4862,5341,3975,5278,3826,5527,4271,4471,4305,4548,4480,4347,4993,4520&amp;chxl=0:%7C1-07%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-08%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-09' />For the quality of the blog posts that&#8217;s another story but my blog is not a good example ;-)</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Spring entityManagerFactory in jta and non-jta modes]]></title>
+    <link href="http://lucdew.github.com/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes/"/>
+    <updated>2008-06-23T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes</id>
+    <content type="html"><![CDATA[<p>This blog post is about using JPA with Spring in 2 contexts :- production with a JTA transaction manager - testing with transactions handled by jpa transaction manager. It has been inspired by <a href='http://erich.soomsam.net/2007/04/24/spring-jpa-and-jta-with-hibernate-and-jotm/'>Erich Soomsam blog post</a>You can achieve such configuration with a PersistenceUnitPostProcessor having a single persistence.xml file and 2 Spring context files (1 for each environment).Since you are likely to have at least 2 different Spring dataSource definitions : 1 for production that performs a JNDI lookup to find a bound datasource and 1 for development that uses a local and Spring declared datasource backed by a JDBC connection pool (C3p0 or DBCP), place the entityManager declaration in the same file as the datasource declaration. Let&#8217;s say that the default persistence.xml use the non-jta datasource: <pre lang='xml'> <persistence xsi:schemalocation='http://java.sun.com/xml/ns/persistence    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd' version='1.0' xmlns='http://java.sun.com/xml/ns/persistence' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'> <persistence-unit name='seamphony' transaction-type='RESOURCE_LOCAL'><properties>     <!-- Scan for annotated classes and Hibernate mapping XML files --><property name='hibernate.archive.autodetection' value='class, hbm' /><property name='hibernate.dialect' value='org.hibernate.dialect.MySQLDialect' /> </properties>    </persistence-unit></persistence></pre>Here&#8217;s how you can use Spring to post process the persistence unit and configure it for production (here with MySQL datasource and JBoss Transaction Manager):<pre lang='xml'><bean class='org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean' id='entityManagerFactory'><property name='dataSource' ref='dataSource' /><property name='jpaVendorAdapter'><bean class='org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter'><property name='database' value='MYSQL' /><property name='showSql' value='true' /><property name='databasePlatform' value='org.hibernate.dialect.MySQLDialect' /></bean></property><property name='jpaPropertyMap' /></bean><map><entry key='hibernate.transaction.manager_lookup_class' value='org.hibernate.transaction.JBossTransactionManagerLookup'><entry key='hibernate.transaction.flush_before_completion' value='true' /><entry key='hibernate.transaction.auto_close_session' value='true' /><entry key='hibernate.current_session_context_class' value='jta' /><entry key='hibernate.connection.release_mode' value='auto' /></entry></map><property name='persistenceUnitPostProcessors'><list><bean class='JtaPersistenceUnitPostProcessor'><property name='jtaMode' value='true' /><property name='jtaDataSource' ref='dataSource' /></bean></list></property><!-- Datasource Lookup--><bean class='org.springframework.jndi.JndiObjectFactoryBean' id='dataSource'><property name='resourceRef'>    <value>false</value></property><property name='jndiName'><value>java:/MyDS</value></property></bean><!-- Transaction Manager--><bean class='org.springframework.transaction.jta.JtaTransactionManager' id='transactionManager'><property name='transactionManagerName' value='java:/TransactionManager' /><property name='autodetectUserTransaction' value='false' /></bean></pre>Here&#8217;s the class that reads the jta mode property and configure the transaction type accordingly:<pre lang='java'>import javax.persistence.spi.PersistenceUnitTransactionType;import javax.sql.DataSource;import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;public class JtaPersistenceUnitPostProcessor implementsPersistenceUnitPostProcessor {private boolean jtaMode = false;private DataSource jtaDataSource;private PersistenceUnitTransactionType transacType = PersistenceUnitTransactionType.RESOURCE_LOCAL;public void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo mutablePersistenceUnitInfo) {  if (jtaMode) {    transacType = PersistenceUnitTransactionType.JTA;    mutablePersistenceUnitInfo.setJtaDataSource(this.getJtaDataSource());  }  mutablePersistenceUnitInfo.setTransactionType(transacType);}public boolean isJtaMode() {   return jtaMode;}public void setJtaMode(boolean jtaMode) {   this.jtaMode = jtaMode;}public DataSource getJtaDataSource() {   return jtaDataSource;}public void setJtaDataSource(DataSource jtaDataSource) {   this.jtaDataSource = jtaDataSource;}}</pre>Spring really helps tuning your persistence unit for different environments. It could be achieved by a custom build task that could alter the persistence.xml file but since this example assumes that Spring is already used, it can be avoided.</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HP about to buy EDS]]></title>
+    <link href="http://lucdew.github.com/blog/2008/05/12/hp-about-to-buy-eds/"/>
+    <updated>2008-05-12T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2008/05/12/hp-about-to-buy-eds</id>
+    <content type="html"><![CDATA[<p>Concentration in IT goes on ( is it an effect of a &#8220;SAAS strategy&#8221; ?):<a href='http://news.yahoo.com/s/nm/20080512/bs_nm/eds_hewlettpackard_dc_1'>http://news.yahoo.com/s/nm/20080512/bs_nm/eds_hewlettpackard_dc_1</a></p>]]></content>
+  </entry>
+  
+</feed>

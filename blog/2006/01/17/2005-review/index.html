@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>2005 review - Luc Dewavrin's website</title>
+  <meta name="author" content="Luc Dewavrin">
+
+  
+  <meta name="description" content="I am bit late but here are some Java technos and materials that stroke me in 2005.- Spring I used it for its IOC container (avoiding writing &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lucdew.github.com/blog/2006/01/17/2005-review">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1239956-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lucdew.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">2005 Review</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2006-01-17T00:00:00-05:00" pubdate data-updated="true">Jan 17<span>th</span>, 2006</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I am bit late but here are some Java technos and materials that stroke me in 2005.- Spring I used it for its IOC container (avoiding writing factories) and mostly because it makes integration and usage of J2EE components and third party components much easier. I even used their web MVC framework and liked it. It off course integrates well with Spring and it enables injection of &#8220;strategy&#8221; to the controller. However, it seems that Spring MVC is not really popular and other MVC framework will rise (Struts+Webwork). - Best read book: Head First Design patterns.Don&#8217;t expect a guru book about design patterns, this book just gives a good overview in a very amusing writing style of the most used OO design patterns (applied to Java). I liked it because I discoverd Java with J2EE (ugh) and its biased Enterprise design patterns (DTO anyone ?). Even if I already used most of the OO design patterns presented in the book (sometimes without knowing it) it was refreshing to read this book and make sure my usage was right ( Contenders: Spring in Action and Hibernate in Action)</p>
+
+<p>My deceptions of the Year:- Full featured J2EE application servers and especially Weblogic server 9: I really have been disappointed by Weblogic server 9 (and 9.1 release). Even if the server offers better production features (hot web app redeployment, JMS store/forward agents, etc. ) and it might be more production ready than ever, it&#8217;s really bloated ! It takes a while to start much more than 8.1 and the administration console is so slow that it makes editing the config.xml more convenient. Also, starting node managers through SSH is poorly documented and buggy and WLST lacks some important features like remote deployment (I haven&#8217;t checked if 9.1 fixed these issues). But BEA should really provide a lighter version for development now (like IBM will do with Geronimo). OTH, with frameworks like Spring 90% of enterprise needs can be satisfied with lightweight containers (unless you need remote, transactional, off the shell thread-safe, secured services&#8230;). - Jython: I learned Jython first for Weblogic scripting language (WLST) and for Grinder J2EE application stressing tool which relies on scripts written in Jython. But I guess that I won&#8217;t use it for anything else, Jython is still a Python 2.1 only implementation and it&#8217;s not possible off the shell to use Python 2.4 libraries and its language enhancements. And as a reminder for 2007,here are the Java and IT technos in which I&#8217;ll give interest in 2006 (Well I hope I&#8217;ll have enough time and motivation):- JBoss Seam: even if EJB 3 don&#8217;t provide much benefits over Spring+Hibernate except for some cases, Seam seems really interesting in the way it integrates Java EE 5 technos (EJB3 +JSF) and it provides Web conversations (a kind of session context applied to a business case) .</p>
+
+<ul>
+<li>Ruby as a better Perl (not for Rails): I wrote a lot of Perl some years ago and a little bit of Python and the few lines of Ruby I had the occasion to write I found it cleaner and it seems to have a good base of modules (a la CPAN). I hope performances will improve.</li>
+
+<li>Virtualization (for desktop): with multicore CPUs, RAM getting cheaper and free virtualization software (VMware player) it&#8217;s more and more interesting to run an OS on a virtual machine. Performances are statisfactory and administration (backup/installation) is reduced to file copy. Here&#8217;s a good <a href='http://www.virtualization.info'>blog</a> about it.</li>
+</ul></div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Luc Dewavrin</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2006-01-17T00:00:00-05:00" pubdate data-updated="true">Jan 17<span>th</span>, 2006</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lucdew.github.com/blog/2006/01/17/2005-review/" data-via="lucdew" data-counturl="http://lucdew.github.com/blog/2006/01/17/2005-review/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2005/12/24/article-on-spring-and-aop-2/" title="Previous Post: Article on Spring and AOP">&laquo; Article on Spring and AOP</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2006/02/17/is-ruby-ready-for-enterprise-2/" title="next Post: Is Ruby ready for enterprise ?">Is Ruby ready for enterprise ? &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2009/09/16/last-post/">Last Post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/05/05/osgi-survey/">OSGI survey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/27/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/20/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/03/30/seam-usage-in-production/">Seam usage in production</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("lucdew", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/lucdew" class="twitter-follow-button" data-show-count="false">Follow @lucdew</a>
+  
+</section>
+
+
+
+
+<section>
+  <h1>Visitors</h1>
+  <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+</p>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Luc Dewavrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lucdewavrinsblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

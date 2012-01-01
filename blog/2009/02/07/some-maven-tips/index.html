@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Some Maven tips - Luc Dewavrin's website</title>
+  <meta name="author" content="Luc Dewavrin">
+
+  
+  <meta name="description" content="First post of the year, here are some Maven tips you might find useful (or obvious for experienced users) :- How to version commercial libraries in &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lucdew.github.com/blog/2009/02/07/some-maven-tips">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1239956-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lucdew.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Some Maven Tips</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-07T00:00:00-05:00" pubdate data-updated="true">Feb 7<span>th</span>, 2009</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>First post of the year, here are some Maven tips you might find useful (or obvious for experienced users) :- <strong>How to version commercial libraries in your SCM and use them as dependency ?</strong>.In case you don&#8217;t have your own central repository and you&#8217;d like to version your libraries in your SCM server, you can declare in your pom a repository like this :<pre lang='xml'>    <repository>      <id>sipphonyrepo</id>      <url>file:///${basedir}/../repository</url>    </repository></pre>The &#8216;repository&#8217; directory should be versioned in your scm server but it also means that it should be checked out with your project. Also like any other repository, the dependencies will be copied in your local repository.</p>
+
+<ul>
+<li><strong>How to just copy files</strong> ?It might be useful on a development machine to copy files while installing an artifact, for instance you might want to copy a JBoss datasource file to a JBoss profile to make sure it&#8217;s deployed. For this you can use the Maven resource plugins. For instance the following plugin statement will copy the datasource file to your JBoss server&#8217;s default profile deployment directory if JBOSS_HOME environment library is defined (on the development machine) :<pre lang='xml'><profile> <id>jboss.deploy</id> <activation><property>   <name>env.JBOSS_HOME</name></property> </activation> <build><plugins><plugin><artifactid>maven-resources-plugin</artifactid><version>2.3</version><executions><execution><id>copy-ds</id><goals><goal>copy-resources</goal></goals><phase>install</phase><configuration><outputdirectory>${env.JBOSS_HOME}/server/default/deploy</outputdirectory><resources><resource><directory>${basedir}</directory><includes>  <include>mysql-ds.xml</include></includes></resource></resources></configuration></execution></executions></plugin></plugins></build></profile></pre></li>
+
+<li><strong>How to perform complex build build logic ?</strong>One solution would be to use profiles for that like in the above example. But it can quickly become cumbersome and limited. So a good option is to use Ant Maven plugin with <a href='http://ant-contrib.sourceforge.net/'>ant-contribs</a> dependency for control statements and loops or even better the <a href='http://groovy.codehaus.org/GMaven'>groovy GMaven plugin</a> (avoiding XML verbosity).Profiles have still the benefit of clearly identifying an intent in your build. The following command will list all profiles:<pre>mvn help:all-profiles</pre>If build logic can be extracted and used in different contexts, it&#8217;s time to create a plugin. It&#8217;s quite simple.</li>
+
+<li><strong>How to create an artifact of a zip or tar ?</strong>One obvious solution is to use maven assembly plugin but if you need to add some custom logic during packaging, you could just create the zip or tar file with Ant maven plugin or groovy GMaven plugin and gant during the package phase. Then attach the file to your project with Maven <a href='http://mojo.codehaus.org/build-helper-maven-plugin/attach-artifact-mojo.html'>build helper plugin</a> and its <strong>attach-artifact</strong> goal to install it in your repository during the install phase. Once installed in your local repository, the zip or tar file can be become a dependency, just use the proper type in the dependency declaration.<pre lang='xml'><type>zip</type></pre></li>
+
+<li><strong>How to create a full delivery layout with multiple archetype ?</strong>My advice for creating a comprehensive delivery directory structure would be to use a dedicated module, take advantage of ant,assembly and resource plugins for that. Struts2 has such a module : <a href='http://svn.apache.org/repos/asf/struts/struts2/trunk/assembly/pom.xml'>see the assembly module&#8217;s pom</a></li>
+</ul></div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Luc Dewavrin</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-07T00:00:00-05:00" pubdate data-updated="true">Feb 7<span>th</span>, 2009</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/tech/'>tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lucdew.github.com/blog/2009/02/07/some-maven-tips/" data-via="lucdew" data-counturl="http://lucdew.github.com/blog/2009/02/07/some-maven-tips/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2008/10/22/jaxb-bug-527/" title="Previous Post: Jaxb bug 527">&laquo; Jaxb bug 527</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2009/02/12/jboss-resources/" title="next Post: JBoss resources">JBoss resources &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2009/09/16/last-post/">Last Post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/05/05/osgi-survey/">OSGI survey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/27/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/20/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/03/30/seam-usage-in-production/">Seam usage in production</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("lucdew", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/lucdew" class="twitter-follow-button" data-show-count="false">Follow @lucdew</a>
+  
+</section>
+
+
+
+
+<section>
+  <h1>Visitors</h1>
+  <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+</p>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Luc Dewavrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lucdewavrinsblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

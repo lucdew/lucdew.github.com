@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: java | Luc Dewavrin's website]]></title>
+  <link href="http://lucdew.github.com/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://lucdew.github.com/"/>
+  <updated>2012-01-01T10:43:01-05:00</updated>
+  <id>http://lucdew.github.com/</id>
+  <author>
+    <name><![CDATA[Luc Dewavrin]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[OSGI survey]]></title>
+    <link href="http://lucdew.github.com/blog/2009/05/05/osgi-survey/"/>
+    <updated>2009-05-05T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2009/05/05/osgi-survey</id>
+    <content type="html"><![CDATA[<p>The results:</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mimic facelet layouts in grails]]></title>
+    <link href="http://lucdew.github.com/blog/2009/04/27/mimic-facelet-layouts-in-grails/"/>
+    <updated>2009-04-27T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2009/04/27/mimic-facelet-layouts-in-grails</id>
+    <content type="html"><![CDATA[<pre class='markdown-html-error' style='border: solid 3px red; background-color: pink'>REXML could not parse this XML/HTML: 
+&lt;div&gt;
+I wanted to mimic facelets &lt;ui:insert /&gt; and &lt;ui:define /&gt; tags in grails.I find facelets to be quite powerful because it allows to define a fragment in your template that can be redefined by the view, otherwise a default fragment is displayed.It can be useful for instance for a menu where you want all views to use a default menu and some use another menu. 
+
+In facelets, you would create a template file and add a &lt;ui:insert /&gt; statement for the menu, like this:
+&lt;pre lang=&quot;xml&quot;&gt;&lt;ui:insert name=&quot;menu&quot;&gt; &lt;ui:include src=&quot;../frags/menu.xhtml&quot; /&gt;&lt;/ui:insert&gt;&lt;/pre&gt;Here the &lt;span style=&quot;font-weight: bold&quot; class=&quot;Apple-style-span&quot;&gt;&amp;lt;ui:insert/&amp;gt;&lt;/span&gt; statement by default includes with the help of the &lt;span style=&quot;font-weight: bold&quot; class=&quot;Apple-style-span&quot;&gt;&amp;lt;ui:include/&amp;gt;&lt;/span&gt;element a menu fragment (a partial page).&lt;br /&gt;In your view you could if wanted redefine the menu with the &lt;span style=&quot;font-weight: bold&quot; class=&quot;Apple-style-span&quot;&gt;&amp;lt;ui:define/&amp;gt;&lt;/span&gt; element, like this:&lt;pre lang=&quot;xml&quot;&gt;&lt;ui:composition template=&quot;layout/template.xhtml&quot;&gt;&lt;ui:define name=&quot;menu&quot; /&gt;&lt;/ui:composition&gt;&lt;/pre&gt;&lt;div&gt; Override default menu here &lt;/div&gt;
+Grails template system is handled by sitemesh. To achieve the same goal, you can in your template file (layout/main.gsp for instance), add the following element for the menu :
+&lt;pre lang=&quot;xml&quot;&gt;&lt;g:pageproperty name=&quot;page.menu&quot; default=&quot;${render(template:&apos;/frags/menu&apos;)}&quot; /&gt;&lt;/pre&gt;It achieves the same purpose, actually instead of defining a page section like in facelets, it displays the calling page&apos;s &lt;b&gt;&amp;lt;content&amp;gt;&lt;/b&gt; element named menu if present (control is inverted but the result is the same).Otherwise,  if the &amp;lt;content&amp;gt; element is not found,  the menu fragment is rendered.The fragment page should be in our example created in the frags directory under the name _menu.gsp.In your view, you can therefore define the menu section of your template by declaring a content element. &lt;pre lang=&quot;xml&quot;&gt;&lt;html&gt;   &lt;head&gt;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;&lt;meta name=&quot;layout&quot; content=&quot;main&quot; /&gt; &lt;title&gt;Show Book&lt;/title&gt;  &lt;/head&gt;  &lt;body&gt;&lt;content tag=&quot;menu&quot; /&gt;&lt;div&gt;Override default menu here&lt;/div&gt;&lt;/content...  &lt;/body&gt;</pre>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Seam usage in production]]></title>
+    <link href="http://lucdew.github.com/blog/2009/03/30/seam-usage-in-production/"/>
+    <updated>2009-03-30T00:00:00-04:00</updated>
+    <id>http://lucdew.github.com/blog/2009/03/30/seam-usage-in-production</id>
+    <content type="html"><![CDATA[<p>There &#8216;s an interesting <a href='http://www.seamframework.org/Community/SeamInProfessionalUse'>thread</a> on the Seam forum about Seam in &#8220;profesional use&#8221;. Performance and steep learning curve are often mentioned as drawbacks.</p>
+
+<p>Seam heavily relies on proxy based components created by javassist. And javassist is known to be unperformant <a href='https://jira.jboss.org/jira/browse/JBSEAM-1977'>compared to cglib</a>. This library might have been chosen due to politic reason at JBoss. Seam Managed Persistence Context (SMPC) is also seen as a culprit but i guess that like many other frameworks you have to understand what&#8217;s underneath the carpet, lazy loading in some use cases can really hit performance.</p>
+
+<p>Scalability is not mentioned but i guess that since Seam is stateful it also can be an issue for large websites.</p>
+
+<p>For the learning curve, it might be true if you don&#8217;t come from the JavaEE world or have never developed JSF applications. Seam still requires good knowledge of JSF 1.X and how it corrects it in many ways. The request lifecycle is also complex albeit powerful.Also other &#8220;lightweight&#8221; JSF based frameworks are quoted like <a href='https://makefaces.dev.java.net/'>makefaces</a>.</p>
+
+<p>Seam for me is both a IOC container specialized for web development and a web integration framework of Java EE (Ejb,Web beans), JBoss stack (jBPM, Drools, Richfaces, JSFUnit) and commonly used libraries (quartz,jfreechart, itext, javamail,etc.) It also addresses many commonly asked features (conversations, mail sending, page caching,etc.) I am not sure for the future of Seam. Seam 3 might be a complete rewrite due to support of JSF 2 and JSR-299 aka <em>Java Contexts and Dependency Injection</em>, but it is a comprehensive and efficient web framework with a decent IDE (JBoss tools).</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Economic downturn and impact on javabloggers]]></title>
+    <link href="http://lucdew.github.com/blog/2009/02/17/economic-downturn-and-impact-on-javabloggers/"/>
+    <updated>2009-02-17T00:00:00-05:00</updated>
+    <id>http://lucdew.github.com/blog/2009/02/17/economic-downturn-and-impact-on-javabloggers</id>
+    <content type="html"><![CDATA[<p>I wanted to know if the economic crisis had an impact on blogging. I was curious because it seemed for me that the blogs that i usually follow had less activity  . With the help of a groovy script and gchart, here&#8217;s the last 2 years monthly blog posts count (don&#8217;t know why there&#8217;s a high peak for July 07). It seems that, so far, java bloggers still post.<img alt='' src='http://chart.apis.google.com/chart?cht=lc&amp;chs=600x500&amp;chtt=Javablogs+monthly+posts+count%20+%7C+since+01-01-2007+to+01-02-2009&amp;chxt=x,y&amp;chxr=1,0,15000&amp;chds=0,15000&amp;chd=t:4224,4133,4758,4474,5561,4933,14719,5155,4515,5301,5047,4862,5341,3975,5278,3826,5527,4271,4471,4305,4548,4480,4347,4993,4520&amp;chxl=0:%7C1-07%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-08%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-09' />For the quality of the blog posts that&#8217;s another story but my blog is not a good example ;-)</p>]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[JBoss resources]]></title>
+    <link href="http://lucdew.github.com/blog/2009/02/12/jboss-resources/"/>
+    <updated>2009-02-12T00:00:00-05:00</updated>
+    <id>http://lucdew.github.com/blog/2009/02/12/jboss-resources</id>
+    <content type="html"><![CDATA[<p>I recently discovered 2 good web sites that provide good JBoss knowledge :- <a href='http://www.mastertheboss.com'>Master the boss</a> : especially with articles with jBPM/JBoss ESB integration, jBPM best practices and JBoss AS tuning (a little bit outdated by the way, but still a good resource).- <a href='http://enterprisebpm.blogspot.com/'>Enterprise BPM blog</a> : blog by a Redhat engineer involved in jBPM and WS-BPEL jBPM implementation. It has also links to other jBPM related sites.</p>]]></content>
+  </entry>
+  
+</feed>

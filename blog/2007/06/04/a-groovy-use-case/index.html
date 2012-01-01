@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>A groovy use case - Luc Dewavrin's website</title>
+  <meta name="author" content="Luc Dewavrin">
+
+  
+  <meta name="description" content="I recently discovered Spring&#8217;s ability to declare beans that are script-based. This feature can be used to mock business interfaces with Groovy &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lucdew.github.com/blog/2007/06/04/a-groovy-use-case">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1239956-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lucdew.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">A Groovy Use Case</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-06-04T00:00:00-04:00" pubdate data-updated="true">Jun 4<span>th</span>, 2007</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I recently discovered Spring&#8217;s ability to declare beans that are script-based. This feature can be used to mock business interfaces with Groovy implementations. In a JavaEE container where startup and redeployment can take a while, it can be very useful, in pre-integration tests, to change the behaviour of your business services especially without redeploying the whole EAR or restarting the server.Here&#8217;s an example declaration:<pre lang='xml' line='1'><bean class='org.springframework.scripting.groovy.GroovyScriptFactory' id='MockServiceImpl'><constructor-arg value='${mocks.path}/MockServiceImpl.groovy' /></bean><bean class='org.springframework.scripting.support.ScriptFactoryPostProcessor'><property name='defaultRefreshCheckDelay' value='2' /></bean></pre>The &#8220;defaultRefreshCheckDelay&#8221; parameter sets the delay in seconds between checks for modifications of the script. and the groovy script:<pre lang='java' line='1'>public class MockServiceImpl implements Service {    ProductsReturn returnCase1 = new ProductsReturn(fetchDate:Calendar.getInstance(),products:[new Product(id:1,name:"good")])    ProductsReturn emptyReturn = new ProductsReturn(fetchDate:Calendar.getInstance(),products:[])    ReturnObject listProductsForUser(String userId) {                 return  returnCase1    }</pre>I see many benefits in this solution:- hot-swapping implementations without redeployment.</p>
+
+<ul>
+<li>returned objects can be dynamically generated. For instance if you want to return objects depending only one a given parameter it can be done easily.</li>
+
+<li>more concise than XML (see <a href='http://azote.sourceforge.net/xmlstubs.html'>xmlstubs</a> a XML based mocking solution). On a side note, groovy requires ASM 2.2.2 library so if you use hibernate use the cglib with no dependency library which includes asm classes in renamed packages. Also use Spring 2.0.3+ if you use AspectJ pointcut declarations or you can expect errors.With maven profiles it &#8216;s easy to build a mock and non-mocked service layer of an EAR.Note that you can still inject the real implementations if you want to delegate work to it.<pre lang='xml' line='1'><bean class='org.springframework.scripting.groovy.GroovyScriptFactory' id='MockServiceImpl'><constructor-arg value='${mocks.path}/MockServiceImpl.groovy' /><constructor-arg value='ServiceImpl' /></bean></pre>On an other side note, I like both Groovy and JRuby but now tend to prefer Groovy because it leverages my knowledge of Java API. With Ruby i spend too much time finding the reference web site how to achieve things that i do almost naturally in Java. OTH, Ruby has its core API use closures. Closures are tightly integrated and tend to favor loose coupling.</li>
+</ul></div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Luc Dewavrin</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2007-06-04T00:00:00-04:00" pubdate data-updated="true">Jun 4<span>th</span>, 2007</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/tech/'>tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lucdew.github.com/blog/2007/06/04/a-groovy-use-case/" data-via="lucdew" data-counturl="http://lucdew.github.com/blog/2007/06/04/a-groovy-use-case/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2007/02/05/xfire-with-jbix/" title="Previous Post: Xfire with Jibx">&laquo; Xfire with Jibx</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file/" title="next Post: Ant's replaceregexp task in a maven pom file">Ant's replaceregexp task in a maven pom file &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2009/09/16/last-post/">Last Post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/05/05/osgi-survey/">OSGI survey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/27/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/20/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/03/30/seam-usage-in-production/">Seam usage in production</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("lucdew", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/lucdew" class="twitter-follow-button" data-show-count="false">Follow @lucdew</a>
+  
+</section>
+
+
+
+
+<section>
+  <h1>Visitors</h1>
+  <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+</p>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Luc Dewavrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lucdewavrinsblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

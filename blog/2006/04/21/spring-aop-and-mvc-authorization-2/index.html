@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Spring AOP and MVC authorization - Luc Dewavrin's website</title>
+  <meta name="author" content="Luc Dewavrin">
+
+  
+  <meta name="description" content="With Spring and a bunch of AOP I&#8217;ll show how it&#8217;s easy to add protectionsof your business components and notify the view that the user is &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lucdew.github.com/blog/2006/04/21/spring-aop-and-mvc-authorization-2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1239956-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lucdew.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Spring AOP and MVC Authorization</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2006-04-21T00:00:00-04:00" pubdate data-updated="true">Apr 21<span>st</span>, 2006</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>With Spring and a bunch of AOP I&#8217;ll show how it&#8217;s easy to add protectionsof your business components and notify the view that the user is not authorizedto perform a specific action.This example relies on Spring 2.0 and Spring MVC for the presentation layer.Let&#8217;s take an example of a service that executes jobs whose class is named JobExecutorService.This service has methods to add jobs in a Job queue, remove a job from the queueor stop a running job. We would like to authorize only owners of a job to remove the job or stop it. The jobs are persistent (to recover from failure).<u>1) Defining the authorization aspect</u>Let&#8217;s define in Spring&#8217;s application context a Job authorization advice and inject it a Job DAO to access persistent jobs.<pre lang='xml'><bean class='security.JobAuthorizationAspect' id='jobAuthorizationAspect'>   <property name='jobDAO'>      <ref bean='jobDAO' />   </property></bean></pre>Here&#8217;s below the simplified code of the bean advice which is just a POJOwhich benefits from injection.When the user doesn&#8217;t own the Job an AuthorizationException is thrown.We&#8217;ll see later how to deal with the exception.<pre lang='java'>public class JobAuthorizationAspect {JobDAO jobDAO;protected static final Log LOG =LogFactory.getLog(JobAuthorizationAspect.class);public void setJobDAO(JobDAO jobDAO) {this.jobDAO= jobDAO;}public void checkForAuthorization(Job job) {boolean authorized = false;UserContext userCtx = ContextMgr.getUserContext();if (null != userCtx) {Job job = jobDAO.getJobById(job.getId());// If user launched Job, he's allowed to perform operations on itif ((job.getState() == Job.STATE.RUNNING || job.getState() == Job.STATE.STOPPED || job.getState() == job.getState().ENDED) &amp;&amp; job.getOwner().equals(userCtx.getPrincipal().getName())) authorized =true;}}else {LOG.warn("user context or job context have not been found");}if (! authorized ) {LOG.warn("user not authorized");throw new AuthorizationException("jobaction.notauthorized",new Object[]{},"this action is not allowed");}}</pre><u>N.B</u>I used Spring to bind user&#8217;s context (which stores user information) to the current Thread via a ThreadLocalto easily retrieve user&#8217;s data stored in memory and avoid being tied to the Servlet API. ContextMgr classhas a static method to retrieve user&#8217;s context.Actually binding is done with a Spring MVC interceptor on controllers in the Spring Web Application Context(you could also use a Servlet filter):<pre lang='xml'><bean class='org.springframework.web.servlet.handler.SimpleUrlHandlerMapping' id='authurlMapping'>   <property name='mappings'>      <props>      <prop key='/jobs.htm'>JobMultiActionController</prop>         <!-- Add additional URL mappings here -->      </props>   </property>   <property name='interceptors'>   <list>      <ref bean='ContextInterceptor' />   </list>   </property></bean></pre>The ContextInterceptor bean just retrieves user&#8217;s data from the HTTP sessionand binds it to the current thread<u>2) Declaring the poincuts</u>Then we add pointcuts to execute the aspect. Here the pointcuts are defined with AspectJ expressions<pre class='markdown-html-error' style='border: solid 3px red; background-color: pink'>REXML could not parse this XML/HTML: 
+&lt;pre lang=&quot;xml&quot;&gt;&lt;aop:config proxytargetclass=&quot;true&quot;&gt;&lt;aop:aspect id=&quot;beforeAdviceJobAuth&quot; ref=&quot;jobAuthorizationAspect&quot;&gt;&lt;aop:advicekind=&quot;before&quot;method=&quot;checkForAuthorization&quot; arg-names=&quot;job&quot;pointcut=&quot;(execution(* jobqueue.JobExecutorService.stopJob(..)) and args (job)) || ( execution(* jobqueue.JobExecutorService.removeJob(..)) and args(job)) &quot;/&gt;&lt;/aop:aspect&gt;&lt;/aop:config&gt;&lt;/pre&gt;</pre>So here we are weaving our jobAuthorizationAspect advice with the JobExecutorService bean (not detailed here).The proxyTargetClass attribute is here because the JobExecutorService is declared elsewehere in Spring&#8217;s applicationContext and injected and used directly in Spring MVC controllers not via its interfaces. But the bean&#8217;s class implements multiple interfaces (infrastructure interfaces like Observer )Spring&#8217;s default behaviour is when it detects that the class implements interfaces it to use Java dynamic proxies. So here we set this attribute to force CGLib proxying.The arg-names attribute is here to be as explicit as possible and make sure that our &#8220;before&#8221; advice is executed for the proper methods of JobExecutorService and that the Job argument is passed (by reference) to the &#8220;checkForAuthorization&#8221; method of our advice.<u>3) Dealing with the AuthorizationException</u>Spring has a mechanism that allows to intercept exceptions and deal with them.We could catch the error and redirects to a page displaying a generic authorization message,we&#8217;ll choose to extend this concept to return to the submitting view to display the message.Here&#8217;s the declaration of the AuthorizedExceptionResolver<pre lang='xml'><bean class='web.AuthorizedExceptionResolver' id='AuthorizedExceptionResolver'>  <property name='order'><value>1</value></property></bean></pre>And a simplified version of the code (we&#8217;ll suppose that all our controllersare SimpleFormController ). :&lt;pre lang=&#8221;java&#8221;&gt;public class RecoverableExceptionResolver implements HandlerExceptionResolver,Ordered,ApplicationContextAware {private int order;public ModelAndView resolveException(HttpServletRequest request,HttpServletResponse response,Object handler,Exception e) {if (e instanceof RecoverableException ) {Map&lt;Object,Object&gt; messages = new HashMap&lt;Object,Object&gt;();if (handler != null &amp;&amp; handler instanceof AbstractController ) { AbstractController controller = (AbstractController)handler; messages.put(&#8220;errormessage&#8221;,controller.getApplicationContext().getMessage(((AuthorizedException)e).getMessageKey(),&#8221;not authorized&#8221;,((AuthorizedException)e).getMessage(),request.getLocale()));request.setAttribute(&#8220;messages&#8221;,messages);}// If SimpleFormController return internally to its viewif (null != handler &amp;&amp; handler instanceof SimpleFormController) {return new ModelAndView(controller.getFormView());}}return null;}public int getOrder() {return order;}public void setOrder(int order) {this.order = order;}}&lt;/pre&gt;Here I made the assumption that the command (object that maps the HTTP submitted parameters)has been bound to user&#8217;s session in the controller (Spring has mechanism to do this)and that the form&#8217;s view first check that if the form&#8217;s command is in the user&#8217;s sessionit uses it to populate the form&#8217;s fields.We&#8217;ll also suppose that the controller&#8217;s form view has a box that displays messages whenfound in the request context under the messages attribute (like flash boxes of ROR).<u>Conclusion:</u>AOP is the perfect tool to protect business components in a non-intrusive way.Thanks to Spring MVC framework techniques we can create a very flexible and genericway to handle authorizations and report authorization exceptions in our web layer. (using many of the Java EE cool buzz technos)_N.B:_Sorry for my poor English&#8230;</p></div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Luc Dewavrin</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2006-04-21T00:00:00-04:00" pubdate data-updated="true">Apr 21<span>st</span>, 2006</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lucdew.github.com/blog/2006/04/21/spring-aop-and-mvc-authorization-2/" data-via="lucdew" data-counturl="http://lucdew.github.com/blog/2006/04/21/spring-aop-and-mvc-authorization-2/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2006/04/06/leverage-ant-xml-nature-2/" title="Previous Post: Leverage Ant XML nature">&laquo; Leverage Ant XML nature</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2006/04/27/maven-spring-20-pom-in-repositories-2/" title="next Post: Maven Spring 2.0 POM in repositories">Maven Spring 2.0 POM in repositories &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2009/09/16/last-post/">Last Post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/05/05/osgi-survey/">OSGI survey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/27/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/20/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/03/30/seam-usage-in-production/">Seam usage in production</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("lucdew", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/lucdew" class="twitter-follow-button" data-show-count="false">Follow @lucdew</a>
+  
+</section>
+
+
+
+
+<section>
+  <h1>Visitors</h1>
+  <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+</p>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Luc Dewavrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lucdewavrinsblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

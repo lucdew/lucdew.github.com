@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Passing through corporate firewall - Luc Dewavrin's website</title>
+  <meta name="author" content="Luc Dewavrin">
+
+  
+  <meta name="description" content="Well, at least from inside your corporate network ;-)to surf, chat and more anonymously.After reading this blog articlethanks man) and its comments, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lucdew.github.com/blog/2004/10/29/passing-through-corporate-firewall">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1239956-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lucdew.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Passing Through Corporate Firewall</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-10-29T00:00:00-04:00" pubdate data-updated="true">Oct 29<span>th</span>, 2004</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Well, at least from inside your corporate network ;-)to surf, chat and more anonymously.After reading this <a href='http://blogs.cadince.com/blojsom/blog/dan/?month=8&amp;year=2004'>blog article</a>thanks man) and its comments, I tried it and I have to say thatI have been happily surprised how easy it was. I didn&#8217;t know the existence of proxytunnel and that&#8217;s the key in it (for the theory about establishing a Ssh connectionthrough a SSL proxy see <a href='http://proxytunnel.sourceforge.net/papers/muppet-200204.html'>here</a>).Proxytunnel allows you to establish a SSH connectionvia a corporate proxy (all proxies that supports the CONNECT command)Here a schema of the solution I adopted<pre lang='text'>                                                          |Internet                                                          | -----------    SSL     -------------   SSL  ---------   SSL    443--------------| Windows WS| --------| Company Proxy |-----| Firewall|--------| Home SSh Server ||     |         |  "CONNECT TO" |     |         |   |    |                 |-----------           ---------------        ---------    |     -----------------                                                          |</pre>The other major point in this solution is the usage of a Socks5 serverthat will allow you to connect to any machine of your internal networkwith any Socks5 compliant software. A socks5 proxy is a proxy on layer4 of OSI modelFor example, I have been able toestablish a VNC connection to a Windows XP machine on my home network with &#8220;Smart CodeVNC manager&#8221; that has Socks5 capabilites.Here are the steps I followed.1) First check the prequesitesTools needed on client side (we&#8217;ll make the assumption that it runs on Windows)- cygwin with ssh client- proxytunnel cygwin port ( http://proxytunnel.sourceforge.net)Tools needs on server side:- SSH daemon and that&#8217;s it.- Port 443 opened- Optional: xinetd or a NAT tool to do port redirection (I used OpenBSD packet filter to redirectconnections on port 443 on my Internet gateway to an internal Linux server in my home network).2) SSH server configurationThe only thing to do is to configure it to listen on port 443and authorize root loggin. Or you canuse xinetd to use port redirection or any NAT tool ( PF, Netfilter&#8230;)and leave the server run on port 22.3) Client SSH configurationIn a cygwin terminal, create a $HOME/.ssh/config file and add the following lines:<pre lang='text'>Host myserver   KeepAlive yes   ProxyCommand path_to_proxytunnel/proxytunnel.exe -g proxy_ip_address -G proxy_port -d ssh_server address -D ssh_server_port</pre>The ssh server port should be 443.4) Establish the ssh tunnel:In one command, you establish a SSH tunnel with SOCKS5 capabilities to your remote SSH server.# ssh -D 1080 -l root myserverupdate: use -N to avoid opening a Shell and -C for compressionActually, the -D enables dynamic port redirection and listens on local port 1080.Connections are tunneled through SSH and are on the other side of the tunnel made by the remote SSh server (which behaves as a Socks proxy). ssh can also understant SOCKS5 protocol therefore you know have a Socks5 server that listens on port 1080 locally. The SOCKS connections are tunneled and are remotely executed by your ssh server5) Configure your Workstation software to use the Socks5 server on port 1080 on localhost and enjoy.Note that you can use IP of your remote internal network, you created &#8220;a kind of VPN&#8221;for SOCKS5 compliant software. For example, let&#8217;s say that you have on your homenetwork a Web server that runs on the private address 192.168.1.2. You can now reachit by typing in firefox http://192.168.1.2.Also don&#8217;t forget to use a firewall on your workstation or your coworkers will gladly be able to connect to your Socks5 proxy.</p></div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Luc Dewavrin</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2004-10-29T00:00:00-04:00" pubdate data-updated="true">Oct 29<span>th</span>, 2004</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/java/'>java</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lucdew.github.com/blog/2004/10/29/passing-through-corporate-firewall/" data-via="lucdew" data-counturl="http://lucdew.github.com/blog/2004/10/29/passing-through-corporate-firewall/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2004/10/29/broadcasting-music-with-itunes-on-your-corporate-network/" title="Previous Post: Broadcasting music with Itunes on your corporate Network">&laquo; Broadcasting music with Itunes on your corporate Network</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2004/12/15/wls-90-beta-is-out-2/" title="next Post: WLS 9.0 beta is out">WLS 9.0 beta is out &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2009/09/16/last-post/">Last Post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/05/05/osgi-survey/">OSGI survey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/27/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/04/20/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2009/03/30/seam-usage-in-production/">Seam usage in production</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("lucdew", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/lucdew" class="twitter-follow-button" data-show-count="false">Follow @lucdew</a>
+  
+</section>
+
+
+
+
+<section>
+  <h1>Visitors</h1>
+  <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+</p>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Luc Dewavrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lucdewavrinsblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
