@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Spring AOP and MVC authorization - Luc Dewavrin's website</title>
+  <title>Spring AOP and MVC authorization - Luc Dewavrin website</title>
   <meta name="author" content="Luc Dewavrin">
 
   
@@ -24,7 +24,7 @@
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin website" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -47,7 +47,7 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  <h1><a href="/">Luc Dewavrin website</a></h1>
   
 </hgroup>
 
@@ -102,8 +102,209 @@
   </header>
 
 
-<div class="entry-content"><p>With Spring and a bunch of AOP I&#8217;ll show how it&#8217;s easy to add protectionsof your business components and notify the view that the user is not authorizedto perform a specific action.This example relies on Spring 2.0 and Spring MVC for the presentation layer.Let&#8217;s take an example of a service that executes jobs whose class is named JobExecutorService.This service has methods to add jobs in a Job queue, remove a job from the queueor stop a running job. We would like to authorize only owners of a job to remove the job or stop it. The jobs are persistent (to recover from failure).<u>1) Defining the authorization aspect</u>Let&#8217;s define in Spring&#8217;s application context a Job authorization advice and inject it a Job DAO to access persistent jobs.<pre lang='xml'><bean class='security.JobAuthorizationAspect' id='jobAuthorizationAspect'>   <property name='jobDAO'>      <ref bean='jobDAO' />   </property></bean></pre>Here&#8217;s below the simplified code of the bean advice which is just a POJOwhich benefits from injection.When the user doesn&#8217;t own the Job an AuthorizationException is thrown.We&#8217;ll see later how to deal with the exception.<pre lang='java'>public class JobAuthorizationAspect {JobDAO jobDAO;protected static final Log LOG =LogFactory.getLog(JobAuthorizationAspect.class);public void setJobDAO(JobDAO jobDAO) {this.jobDAO= jobDAO;}public void checkForAuthorization(Job job) {boolean authorized = false;UserContext userCtx = ContextMgr.getUserContext();if (null != userCtx) {Job job = jobDAO.getJobById(job.getId());// If user launched Job, he's allowed to perform operations on itif ((job.getState() == Job.STATE.RUNNING || job.getState() == Job.STATE.STOPPED || job.getState() == job.getState().ENDED) &amp;&amp; job.getOwner().equals(userCtx.getPrincipal().getName())) authorized =true;}}else {LOG.warn("user context or job context have not been found");}if (! authorized ) {LOG.warn("user not authorized");throw new AuthorizationException("jobaction.notauthorized",new Object[]{},"this action is not allowed");}}</pre><u>N.B</u>I used Spring to bind user&#8217;s context (which stores user information) to the current Thread via a ThreadLocalto easily retrieve user&#8217;s data stored in memory and avoid being tied to the Servlet API. ContextMgr classhas a static method to retrieve user&#8217;s context.Actually binding is done with a Spring MVC interceptor on controllers in the Spring Web Application Context(you could also use a Servlet filter):<pre lang='xml'><bean class='org.springframework.web.servlet.handler.SimpleUrlHandlerMapping' id='authurlMapping'>   <property name='mappings'>      <props>      <prop key='/jobs.htm'>JobMultiActionController</prop>         <!-- Add additional URL mappings here -->      </props>   </property>   <property name='interceptors'>   <list>      <ref bean='ContextInterceptor' />   </list>   </property></bean></pre>The ContextInterceptor bean just retrieves user&#8217;s data from the HTTP sessionand binds it to the current thread<u>2) Declaring the poincuts</u>Then we add pointcuts to execute the aspect. Here the pointcuts are defined with AspectJ expressions<pre class='markdown-html-error' style='border: solid 3px red; background-color: pink'>REXML could not parse this XML/HTML: 
-&lt;pre lang=&quot;xml&quot;&gt;&lt;aop:config proxytargetclass=&quot;true&quot;&gt;&lt;aop:aspect id=&quot;beforeAdviceJobAuth&quot; ref=&quot;jobAuthorizationAspect&quot;&gt;&lt;aop:advicekind=&quot;before&quot;method=&quot;checkForAuthorization&quot; arg-names=&quot;job&quot;pointcut=&quot;(execution(* jobqueue.JobExecutorService.stopJob(..)) and args (job)) || ( execution(* jobqueue.JobExecutorService.removeJob(..)) and args(job)) &quot;/&gt;&lt;/aop:aspect&gt;&lt;/aop:config&gt;&lt;/pre&gt;</pre>So here we are weaving our jobAuthorizationAspect advice with the JobExecutorService bean (not detailed here).The proxyTargetClass attribute is here because the JobExecutorService is declared elsewehere in Spring&#8217;s applicationContext and injected and used directly in Spring MVC controllers not via its interfaces. But the bean&#8217;s class implements multiple interfaces (infrastructure interfaces like Observer )Spring&#8217;s default behaviour is when it detects that the class implements interfaces it to use Java dynamic proxies. So here we set this attribute to force CGLib proxying.The arg-names attribute is here to be as explicit as possible and make sure that our &#8220;before&#8221; advice is executed for the proper methods of JobExecutorService and that the Job argument is passed (by reference) to the &#8220;checkForAuthorization&#8221; method of our advice.<u>3) Dealing with the AuthorizationException</u>Spring has a mechanism that allows to intercept exceptions and deal with them.We could catch the error and redirects to a page displaying a generic authorization message,we&#8217;ll choose to extend this concept to return to the submitting view to display the message.Here&#8217;s the declaration of the AuthorizedExceptionResolver<pre lang='xml'><bean class='web.AuthorizedExceptionResolver' id='AuthorizedExceptionResolver'>  <property name='order'><value>1</value></property></bean></pre>And a simplified version of the code (we&#8217;ll suppose that all our controllersare SimpleFormController ). :&lt;pre lang=&#8221;java&#8221;&gt;public class RecoverableExceptionResolver implements HandlerExceptionResolver,Ordered,ApplicationContextAware {private int order;public ModelAndView resolveException(HttpServletRequest request,HttpServletResponse response,Object handler,Exception e) {if (e instanceof RecoverableException ) {Map&lt;Object,Object&gt; messages = new HashMap&lt;Object,Object&gt;();if (handler != null &amp;&amp; handler instanceof AbstractController ) { AbstractController controller = (AbstractController)handler; messages.put(&#8220;errormessage&#8221;,controller.getApplicationContext().getMessage(((AuthorizedException)e).getMessageKey(),&#8221;not authorized&#8221;,((AuthorizedException)e).getMessage(),request.getLocale()));request.setAttribute(&#8220;messages&#8221;,messages);}// If SimpleFormController return internally to its viewif (null != handler &amp;&amp; handler instanceof SimpleFormController) {return new ModelAndView(controller.getFormView());}}return null;}public int getOrder() {return order;}public void setOrder(int order) {this.order = order;}}&lt;/pre&gt;Here I made the assumption that the command (object that maps the HTTP submitted parameters)has been bound to user&#8217;s session in the controller (Spring has mechanism to do this)and that the form&#8217;s view first check that if the form&#8217;s command is in the user&#8217;s sessionit uses it to populate the form&#8217;s fields.We&#8217;ll also suppose that the controller&#8217;s form view has a box that displays messages whenfound in the request context under the messages attribute (like flash boxes of ROR).<u>Conclusion:</u>AOP is the perfect tool to protect business components in a non-intrusive way.Thanks to Spring MVC framework techniques we can create a very flexible and genericway to handle authorizations and report authorization exceptions in our web layer. (using many of the Java EE cool buzz technos)_N.B:_Sorry for my poor English&#8230;</p></div>
+<div class="entry-content"><p>With Spring and a bunch of AOP I&#8217;ll show how it&#8217;s easy to add protectionsof your business components and notify the view that the user is not authorizedto perform a specific action.This example relies on Spring 2.0 and Spring MVC for the presentation layer.Let&#8217;s take an example of a service that executes jobs whose class is named JobExecutorService.This service has methods to add jobs in a Job queue, remove a job from the queueor stop a running job. We would like to authorize only owners of a job to remove the job or stop it. The jobs are persistent (to recover from failure).</p>
+<u>1) Defining the authorization aspect</u>
+<p>Let&#8217;s define in Spring&#8217;s application context a Job authorization advice and inject it a Job DAO to access persistent jobs.</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;bean</span> <span class='na'>id=</span><span class='s'>&quot;jobAuthorizationAspect&quot;</span> <span class='na'>class=</span><span class='s'>&quot;security.JobAuthorizationAspect&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;jobDAO&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;ref</span> <span class='na'>bean=</span><span class='s'>&quot;jobDAO&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/property&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/bean&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>Here&#8217;s below the simplified code of the bean advice which is just a POJOwhich benefits from injection.When the user doesn&#8217;t own the Job an AuthorizationException is thrown.We&#8217;ll see later how to deal with the exception.</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class='kd'>public</span> <span class='kd'>class</span> <span class='nc'>JobAuthorizationAspect</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'><span class='n'>JobDAO</span> <span class='n'>jobDAO</span><span class='o'>;</span>
+</span><span class='line'><span class='kd'>protected</span> <span class='kd'>static</span> <span class='kd'>final</span> <span class='n'>Log</span> <span class='n'>LOG</span> <span class='o'>=</span><span class='n'>LogFactory</span><span class='o'>.</span><span class='na'>getLog</span><span class='o'>(</span><span class='n'>JobAuthorizationAspect</span><span class='o'>.</span><span class='na'>class</span><span class='o'>);</span>
+</span><span class='line'>
+</span><span class='line'><span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>setJobDAO</span><span class='o'>(</span><span class='n'>JobDAO</span> <span class='n'>jobDAO</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='k'>this</span><span class='o'>.</span><span class='na'>jobDAO</span><span class='o'>=</span> <span class='n'>jobDAO</span><span class='o'>;</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>checkForAuthorization</span><span class='o'>(</span><span class='n'>Job</span> <span class='n'>job</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='kt'>boolean</span> <span class='n'>authorized</span> <span class='o'>=</span> <span class='kc'>false</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'><span class='n'>UserContext</span> <span class='n'>userCtx</span> <span class='o'>=</span> <span class='n'>ContextMgr</span><span class='o'>.</span><span class='na'>getUserContext</span><span class='o'>();</span>
+</span><span class='line'>
+</span><span class='line'><span class='k'>if</span> <span class='o'>(</span><span class='kc'>null</span> <span class='o'>!=</span> <span class='n'>userCtx</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='n'>Job</span> <span class='n'>job</span> <span class='o'>=</span> <span class='n'>jobDAO</span><span class='o'>.</span><span class='na'>getJobById</span><span class='o'>(</span><span class='n'>job</span><span class='o'>.</span><span class='na'>getId</span><span class='o'>());</span>
+</span><span class='line'><span class='c1'>// If user launched Job, he&#39;s allowed to perform operations on it</span>
+</span><span class='line'><span class='k'>if</span> <span class='o'>((</span><span class='n'>job</span><span class='o'>.</span><span class='na'>getState</span><span class='o'>()</span> <span class='o'>==</span> <span class='n'>Job</span><span class='o'>.</span><span class='na'>STATE</span><span class='o'>.</span><span class='na'>RUNNING</span> <span class='o'>||</span> <span class='n'>job</span><span class='o'>.</span><span class='na'>getState</span><span class='o'>()</span> <span class='o'>==</span> <span class='n'>Job</span><span class='o'>.</span><span class='na'>STATE</span><span class='o'>.</span><span class='na'>STOPPED</span> <span class='o'>||</span> <span class='n'>job</span><span class='o'>.</span><span class='na'>getState</span><span class='o'>()</span> <span class='o'>==</span> <span class='n'>job</span><span class='o'>.</span><span class='na'>getState</span><span class='o'>().</span><span class='na'>ENDED</span><span class='o'>)</span> <span class='o'>&amp;&amp;</span> <span class='n'>job</span><span class='o'>.</span><span class='na'>getOwner</span><span class='o'>().</span><span class='na'>equals</span><span class='o'>(</span><span class='n'>userCtx</span><span class='o'>.</span><span class='na'>getPrincipal</span><span class='o'>().</span><span class='na'>getName</span><span class='o'>()))</span> <span class='n'>authorized</span> <span class='o'>=</span><span class='kc'>true</span><span class='o'>;</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='k'>else</span> <span class='o'>{</span>
+</span><span class='line'><span class='n'>LOG</span><span class='o'>.</span><span class='na'>warn</span><span class='o'>(</span><span class='s'>&quot;user context or job context have not been found&quot;</span><span class='o'>);</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='k'>if</span> <span class='o'>(!</span> <span class='n'>authorized</span> <span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='n'>LOG</span><span class='o'>.</span><span class='na'>warn</span><span class='o'>(</span><span class='s'>&quot;user not authorized&quot;</span><span class='o'>);</span>
+</span><span class='line'><span class='k'>throw</span> <span class='k'>new</span> <span class='nf'>AuthorizationException</span><span class='o'>(</span><span class='s'>&quot;jobaction.notauthorized&quot;</span><span class='o'>,</span><span class='k'>new</span> <span class='n'>Object</span><span class='o'>[]{},</span><span class='s'>&quot;this action is not allowed&quot;</span><span class='o'>);</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='o'>}</span>
+</span></code></pre></td></tr></table></div></figure><u>N.B</u>
+<p>I used Spring to bind user&#8217;s context (which stores user information) to the current Thread via a ThreadLocal to easily retrieve user&#8217;s data stored in memory and avoid being tied to the Servlet API. ContextMgr classhas a static method to retrieve user&#8217;s context.Actually binding is done with a Spring MVC interceptor on controllers in the Spring Web Application Context(you could also use a Servlet filter):</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;bean</span> <span class='na'>id=</span><span class='s'>&quot;authurlMapping&quot;</span>
+</span><span class='line'><span class='na'>class=</span><span class='s'>&quot;org.springframework.web.servlet.handler.SimpleUrlHandlerMapping&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;mappings&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>      <span class='nt'>&lt;props&gt;</span>
+</span><span class='line'>      <span class='nt'>&lt;prop</span> <span class='na'>key=</span><span class='s'>&quot;/jobs.htm&quot;</span><span class='nt'>&gt;</span>JobMultiActionController<span class='nt'>&lt;/prop&gt;</span>
+</span><span class='line'>         <span class='c'>&lt;!-- Add additional URL mappings here --&gt;</span>
+</span><span class='line'>      <span class='nt'>&lt;/props&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;/property&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;interceptors&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;list&gt;</span>
+</span><span class='line'>      <span class='nt'>&lt;ref</span> <span class='na'>bean=</span><span class='s'>&quot;ContextInterceptor&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;/list&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;/property&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/bean&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>The ContextInterceptor bean just retrieves user’s data from the HTTP session and binds it to the current thread</p>
+<u>2) Declaring the poincuts</u>
+<p>Then we add pointcuts to execute the aspect. Here the pointcuts are defined with AspectJ expressions</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;aop:config</span> <span class='na'>proxyTargetClass=</span><span class='s'>&quot;true&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'><span class='nt'>&lt;aop:aspect</span> <span class='na'>id=</span><span class='s'>&quot;beforeAdviceJobAuth&quot;</span> <span class='na'>ref=</span><span class='s'>&quot;jobAuthorizationAspect&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'><span class='nt'>&lt;aop:advice</span>
+</span><span class='line'><span class='na'>kind=</span><span class='s'>&quot;before&quot;</span>
+</span><span class='line'><span class='na'>method=</span><span class='s'>&quot;checkForAuthorization&quot;</span> <span class='na'>arg-names=</span><span class='s'>&quot;job&quot;</span>
+</span><span class='line'><span class='na'>pointcut=</span><span class='s'>&quot;(execution(* jobqueue.JobExecutorService.stopJob(..)) and args (job)) || ( execution(* jobqueue.JobExecutorService.removeJob(..)) and args(job)) &quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/aop:aspect&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/aop:config&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>So here we are weaving our jobAuthorizationAspect advice with the JobExecutorService bean (not detailed here).The proxyTargetClass attribute is here because the JobExecutorService is declared elsewehere in Spring&#8217;s applicationContext and injected and used directly in Spring MVC controllers not via its interfaces. But the bean&#8217;s class implements multiple interfaces (infrastructure interfaces like Observer )Spring&#8217;s default behaviour is when it detects that the class implements interfaces it to use Java dynamic proxies. So here we set this attribute to force CGLib proxying.The arg-names attribute is here to be as explicit as possible and make sure that our &#8220;before&#8221; advice is executed for the proper methods of JobExecutorService and that the Job argument is passed (by reference) to the &#8220;checkForAuthorization&#8221; method of our advice.</p>
+<u>3) Dealing with the AuthorizationException</u>
+<p>Spring has a mechanism that allows to intercept exceptions and deal with them.We could catch the error and redirects to a page displaying a generic authorization message,we&#8217;ll choose to extend this concept to return to the submitting view to display the message.Here&#8217;s the declaration of the AuthorizedExceptionResolver</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;bean</span> <span class='na'>id=</span><span class='s'>&quot;AuthorizedExceptionResolver&quot;</span> <span class='na'>class=</span><span class='s'>&quot;web.AuthorizedExceptionResolver&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>  <span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;order&quot;</span><span class='nt'>&gt;&lt;value&gt;</span>1<span class='nt'>&lt;/value&gt;&lt;/property&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/bean&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>And a simplified version of the code (we&#8217;ll suppose that all our controllersare SimpleFormController ). :</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class='kd'>public</span> <span class='kd'>class</span> <span class='nc'>RecoverableExceptionResolver</span> <span class='kd'>implements</span> <span class='n'>HandlerExceptionResolver</span><span class='o'>,</span><span class='n'>Ordered</span><span class='o'>,</span><span class='n'>ApplicationContextAware</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'><span class='kd'>private</span> <span class='kt'>int</span> <span class='n'>order</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'><span class='kd'>public</span> <span class='n'>ModelAndView</span> <span class='nf'>resolveException</span><span class='o'>(</span><span class='n'>HttpServletRequest</span> <span class='n'>request</span><span class='o'>,</span><span class='n'>HttpServletResponse</span> <span class='n'>response</span><span class='o'>,</span><span class='n'>Object</span> <span class='n'>handler</span><span class='o'>,</span><span class='n'>Exception</span> <span class='n'>e</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'><span class='k'>if</span> <span class='o'>(</span><span class='n'>e</span> <span class='k'>instanceof</span> <span class='n'>RecoverableException</span> <span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'><span class='n'>Map</span><span class='o'>&lt;</span><span class='n'>Object</span><span class='o'>,</span><span class='n'>Object</span><span class='o'>&gt;</span> <span class='n'>messages</span> <span class='o'>=</span> <span class='k'>new</span> <span class='n'>HashMap</span><span class='o'>&lt;</span><span class='n'>Object</span><span class='o'>,</span><span class='n'>Object</span><span class='o'>&gt;();</span>
+</span><span class='line'><span class='k'>if</span> <span class='o'>(</span><span class='n'>handler</span> <span class='o'>!=</span> <span class='kc'>null</span> <span class='o'>&amp;&amp;</span> <span class='n'>handler</span> <span class='k'>instanceof</span> <span class='n'>AbstractController</span> <span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>   <span class='n'>AbstractController</span> <span class='n'>controller</span> <span class='o'>=</span> <span class='o'>(</span><span class='n'>AbstractController</span><span class='o'>)</span><span class='n'>handler</span><span class='o'>;</span>
+</span><span class='line'>   <span class='n'>messages</span><span class='o'>.</span><span class='na'>put</span><span class='o'>(</span><span class='s'>&quot;errormessage&quot;</span><span class='o'>,</span><span class='n'>controller</span><span class='o'>.</span><span class='na'>getApplicationContext</span><span class='o'>().</span><span class='na'>getMessage</span><span class='o'>(((</span><span class='n'>AuthorizedException</span><span class='o'>)</span><span class='n'>e</span><span class='o'>).</span><span class='na'>getMessageKey</span><span class='o'>(),</span><span class='s'>&quot;not authorized&quot;</span><span class='o'>,((</span><span class='n'>AuthorizedException</span><span class='o'>)</span><span class='n'>e</span><span class='o'>).</span><span class='na'>getMessage</span><span class='o'>(),</span><span class='n'>request</span><span class='o'>.</span><span class='na'>getLocale</span><span class='o'>()));</span>
+</span><span class='line'><span class='n'>request</span><span class='o'>.</span><span class='na'>setAttribute</span><span class='o'>(</span><span class='s'>&quot;messages&quot;</span><span class='o'>,</span><span class='n'>messages</span><span class='o'>);</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='c1'>// If SimpleFormController return internally to its view</span>
+</span><span class='line'><span class='k'>if</span> <span class='o'>(</span><span class='kc'>null</span> <span class='o'>!=</span> <span class='n'>handler</span> <span class='o'>&amp;&amp;</span> <span class='n'>handler</span> <span class='k'>instanceof</span> <span class='n'>SimpleFormController</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='k'>return</span> <span class='k'>new</span> <span class='nf'>ModelAndView</span><span class='o'>(</span><span class='n'>controller</span><span class='o'>.</span><span class='na'>getFormView</span><span class='o'>());</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='k'>return</span> <span class='kc'>null</span><span class='o'>;</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='kd'>public</span> <span class='kt'>int</span> <span class='nf'>getOrder</span><span class='o'>()</span> <span class='o'>{</span>
+</span><span class='line'><span class='k'>return</span> <span class='n'>order</span><span class='o'>;</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>setOrder</span><span class='o'>(</span><span class='kt'>int</span> <span class='n'>order</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='k'>this</span><span class='o'>.</span><span class='na'>order</span> <span class='o'>=</span> <span class='n'>order</span><span class='o'>;</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='o'>}</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>Here I made the assumption that the command (object that maps the HTTP submitted parameters)has been bound to user&#8217;s session in the controller (Spring has mechanism to do this)and that the form&#8217;s view first check that if the form&#8217;s command is in the user&#8217;s sessionit uses it to populate the form&#8217;s fields.We&#8217;ll also suppose that the controller&#8217;s form view has a box that displays messages whenfound in the request context under the messages attribute (like flash boxes of ROR).</p>
+<u>Conclusion:</u>
+<p>AOP is the perfect tool to protect business components in a non-intrusive way.Thanks to Spring MVC framework techniques we can create a very flexible and genericway to handle authorizations and report authorization exceptions in our web layer. (using many of the Java EE cool buzz technos)</p>
+
+<p><em>N.B:</em> Sorry for my poor English&#8230;</p></div>
 
 
   <footer>
@@ -208,6 +409,7 @@
 
 
 
+<section><h1>Tags</h1><p><a href="/tags/ant" title="Postings tagged ant" style="font-size: 11.0px; line-height:11.0px">ant</a> <a href="/tags/aop" title="Postings tagged aop" style="font-size: 11.0px; line-height:11.0px">aop</a> <a href="/tags/aspectj" title="Postings tagged aspectj" style="font-size: 11.0px; line-height:11.0px">aspectj</a> <a href="/tags/asterisk" title="Postings tagged asterisk" style="font-size: 10.5px; line-height:10.5px">asterisk</a> <a href="/tags/axis" title="Postings tagged axis" style="font-size: 10.5px; line-height:10.5px">axis</a> <a href="/tags/blog" title="Postings tagged blog" style="font-size: 10.5px; line-height:10.5px">blog</a> <a href="/tags/eclipse" title="Postings tagged eclipse" style="font-size: 11.0px; line-height:11.0px">eclipse</a> <a href="/tags/ejb" title="Postings tagged ejb" style="font-size: 10.5px; line-height:10.5px">ejb</a> <a href="/tags/firewall" title="Postings tagged firewall" style="font-size: 12.5px; line-height:12.5px">firewall</a> <a href="/tags/freebsd" title="Postings tagged freebsd" style="font-size: 10.5px; line-height:10.5px">freebsd</a> <a href="/tags/grails" title="Postings tagged grails" style="font-size: 10.5px; line-height:10.5px">grails</a> <a href="/tags/groovy" title="Postings tagged groovy" style="font-size: 10.5px; line-height:10.5px">groovy</a> <a href="/tags/gwt" title="Postings tagged gwt" style="font-size: 10.5px; line-height:10.5px">gwt</a> <a href="/tags/htmlunit" title="Postings tagged htmlunit" style="font-size: 10.5px; line-height:10.5px">htmlunit</a> <a href="/tags/jBPM" title="Postings tagged jBPM" style="font-size: 11.0px; line-height:11.0px">jBPM</a> <a href="/tags/java" title="Postings tagged java" style="font-size: 12.5px; line-height:12.5px">java</a> <a href="/tags/jaxb" title="Postings tagged jaxb" style="font-size: 10.5px; line-height:10.5px">jaxb</a> <a href="/tags/jdbc" title="Postings tagged jdbc" style="font-size: 11.0px; line-height:11.0px">jdbc</a> <a href="/tags/jibx" title="Postings tagged jibx" style="font-size: 10.5px; line-height:10.5px">jibx</a> <a href="/tags/jms" title="Postings tagged jms" style="font-size: 10.5px; line-height:10.5px">jms</a> <a href="/tags/jmx" title="Postings tagged jmx" style="font-size: 10.5px; line-height:10.5px">jmx</a> <a href="/tags/jpa" title="Postings tagged jpa" style="font-size: 10.5px; line-height:10.5px">jpa</a> <a href="/tags/jrockit" title="Postings tagged jrockit" style="font-size: 10.5px; line-height:10.5px">jrockit</a> <a href="/tags/jsf" title="Postings tagged jsf" style="font-size: 10.5px; line-height:10.5px">jsf</a> <a href="/tags/jta" title="Postings tagged jta" style="font-size: 10.5px; line-height:10.5px">jta</a> <a href="/tags/ldap" title="Postings tagged ldap" style="font-size: 10.5px; line-height:10.5px">ldap</a> <a href="/tags/lingo" title="Postings tagged lingo" style="font-size: 10.5px; line-height:10.5px">lingo</a> <a href="/tags/maven" title="Postings tagged maven" style="font-size: 13.0px; line-height:13.0px">maven</a> <a href="/tags/misc" title="Postings tagged misc" style="font-size: 13.0px; line-height:13.0px">misc</a> <a href="/tags/osgi" title="Postings tagged osgi" style="font-size: 10.5px; line-height:10.5px">osgi</a> <a href="/tags/quartz" title="Postings tagged quartz" style="font-size: 10.5px; line-height:10.5px">quartz</a> <a href="/tags/rails" title="Postings tagged rails" style="font-size: 10.5px; line-height:10.5px">rails</a> <a href="/tags/ruby" title="Postings tagged ruby" style="font-size: 10.5px; line-height:10.5px">ruby</a> <a href="/tags/seam" title="Postings tagged seam" style="font-size: 12.0px; line-height:12.0px">seam</a> <a href="/tags/security" title="Postings tagged security" style="font-size: 12.0px; line-height:12.0px">security</a> <a href="/tags/snmp" title="Postings tagged snmp" style="font-size: 10.5px; line-height:10.5px">snmp</a> <a href="/tags/spring" title="Postings tagged spring" style="font-size: 14.5px; line-height:14.5px">spring</a> <a href="/tags/subversion" title="Postings tagged subversion" style="font-size: 10.5px; line-height:10.5px">subversion</a> <a href="/tags/swing" title="Postings tagged swing" style="font-size: 10.5px; line-height:10.5px">swing</a> <a href="/tags/tomcat" title="Postings tagged tomcat" style="font-size: 11.0px; line-height:11.0px">tomcat</a> <a href="/tags/tuning" title="Postings tagged tuning" style="font-size: 10.5px; line-height:10.5px">tuning</a> <a href="/tags/voip" title="Postings tagged voip" style="font-size: 10.5px; line-height:10.5px">voip</a> <a href="/tags/vpn" title="Postings tagged vpn" style="font-size: 10.5px; line-height:10.5px">vpn</a> <a href="/tags/web2.0-ria" title="Postings tagged web2.0-ria" style="font-size: 10.5px; line-height:10.5px">web2.0-ria</a> <a href="/tags/weblogic" title="Postings tagged weblogic" style="font-size: 20.0px; line-height:20.0px">weblogic</a> <a href="/tags/webservices" title="Postings tagged webservices" style="font-size: 10.5px; line-height:10.5px">webservices</a> <a href="/tags/websphere" title="Postings tagged websphere" style="font-size: 10.5px; line-height:10.5px">websphere</a> <a href="/tags/xfire" title="Postings tagged xfire" style="font-size: 10.5px; line-height:10.5px">xfire</a> <a href="/tags/xpath" title="Postings tagged xpath" style="font-size: 10.5px; line-height:10.5px">xpath</a> </p></section>
 <section>
   <h1>Visitors</h1>
   <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>

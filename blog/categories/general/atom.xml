@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: general | Luc Dewavrin's website]]></title>
+  <title><![CDATA[Category: general | Luc Dewavrin website]]></title>
   <link href="http://lucdew.github.com/blog/categories/general/atom.xml" rel="self"/>
   <link href="http://lucdew.github.com/"/>
-  <updated>2012-01-01T10:43:01-05:00</updated>
+  <updated>2012-01-02T17:22:17-05:00</updated>
   <id>http://lucdew.github.com/</id>
   <author>
     <name><![CDATA[Luc Dewavrin]]></name>
@@ -18,9 +18,11 @@
     <link href="http://lucdew.github.com/blog/2009/09/16/last-post/"/>
     <updated>2009-09-16T00:00:00-04:00</updated>
     <id>http://lucdew.github.com/blog/2009/09/16/last-post</id>
-    <content type="html"><![CDATA[<p>I decided to no longer post on my blog due to a serious lack of motivation, time and inspiring topics ;-). Of course, comments will now be closed.As a side note here are the titles of drafts that never turned into posts:-  Difficulty of choosing a Java web framework</p>
+    <content type="html"><![CDATA[<p>I decided to no longer post on my blog due to a serious lack of motivation, time and inspiring topics ;-). Of course, comments will now be closed. As a side note here are the titles of drafts that never turned into posts:</p>
 
 <ul>
+<li> Difficulty of choosing a Java web framework</li>
+
 <li> Seam managed persistence context and Spring</li>
 
 <li> Bye Bye computer book shelf</li>
@@ -40,7 +42,11 @@
     <link href="http://lucdew.github.com/blog/2009/04/20/acquisition-de-sun-par-oracle/"/>
     <updated>2009-04-20T00:00:00-04:00</updated>
     <id>http://lucdew.github.com/blog/2009/04/20/acquisition-de-sun-par-oracle</id>
-    <content type="html"><![CDATA[<span>Pas sûr que Java soit gagnant dans l'histoire. Les incertitudes sur le devenir des produits Java n'est pas fait pour inciter les décideurs à opter pour cette technologie. Quelles sont les futures cibles : SpringSource, Redhat ? Sachant que SpringSource a été largement financé par des VC, à mon avis c'est un bon candidat. Bref, je me mets à la place d'un DSI aujourd'hui; si je ne veux pas prendre de risques j'opte pour .Net et les produits Microsoft : ligne de produits complète, cohérente et intégrée qui ne va pas disparaître d'ici 6 mois (j'exagère un peu...).</span>]]></content>
+    <content type="html"><![CDATA[<p>Pas sûr que Java soit gagnant dans l&#8217;histoire. Les incertitudes sur le devenir des produits Java n&#8217;est pas fait pour inciter les décideurs à opter pour cette technologie. Quelles sont les futures cibles : SpringSource, Redhat ? Sachant que SpringSource a été largement financé par des VC, à mon avis c&#8217;est un bon candidat. Bref, je me mets à la place d&#8217;un DSI aujourd&#8217;hui; si je ne veux pas prendre de risques j&#8217;opte pour .Net et les produits Microsoft : ligne de produits complète, cohérente et intégrée qui ne va pas disparaître d&#8217;ici 6 mois (j&#8217;exagère un peu&#8230;).</p>
+
+<p>Je pense aussi que la période de flottement qui va suivre accentuée en + par une baisse d&#8217;investissements liée à la conjoncture va freiner grandement l&#8217;innovation autour de la plateforme Java et laisser le champ libre à d&#8217;autres technologies. Java n&#8217;est pas prêt de combler le retard sur C#.</p>
+
+<p>Bref, sans doute quelques mois difficiles en perspective pour la plateforme Java avant d&#8217;y voir + clair.</p>]]></content>
   </entry>
   
   <entry>
@@ -48,7 +54,7 @@
     <link href="http://lucdew.github.com/blog/2009/02/17/economic-downturn-and-impact-on-javabloggers/"/>
     <updated>2009-02-17T00:00:00-05:00</updated>
     <id>http://lucdew.github.com/blog/2009/02/17/economic-downturn-and-impact-on-javabloggers</id>
-    <content type="html"><![CDATA[<p>I wanted to know if the economic crisis had an impact on blogging. I was curious because it seemed for me that the blogs that i usually follow had less activity  . With the help of a groovy script and gchart, here&#8217;s the last 2 years monthly blog posts count (don&#8217;t know why there&#8217;s a high peak for July 07). It seems that, so far, java bloggers still post.<img alt='' src='http://chart.apis.google.com/chart?cht=lc&amp;chs=600x500&amp;chtt=Javablogs+monthly+posts+count%20+%7C+since+01-01-2007+to+01-02-2009&amp;chxt=x,y&amp;chxr=1,0,15000&amp;chds=0,15000&amp;chd=t:4224,4133,4758,4474,5561,4933,14719,5155,4515,5301,5047,4862,5341,3975,5278,3826,5527,4271,4471,4305,4548,4480,4347,4993,4520&amp;chxl=0:%7C1-07%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-08%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-09' />For the quality of the blog posts that&#8217;s another story but my blog is not a good example ;-)</p>]]></content>
+    <content type="html"><![CDATA[<p>I wanted to know if the economic crisis had an impact on blogging. I was curious because it seemed for me that the blogs that i usually follow had less activity  . With the help of a groovy script and gchart, here&#8217;s the last 2 years monthly blog posts count (don&#8217;t know why there&#8217;s a high peak for July 07). It seems that, so far, java bloggers still post.<img alt='' src='http://chart.apis.google.com/chart?cht=lc&amp;chs=600x500&amp;chtt=Javablogs+monthly+posts+count%20+%7C+since+01-01-2007+to+01-02-2009&amp;chxt=x,y&amp;chxr=1,0,15000&amp;chds=0,15000&amp;chd=t:4224,4133,4758,4474,5561,4933,14719,5155,4515,5301,5047,4862,5341,3975,5278,3826,5527,4271,4471,4305,4548,4480,4347,4993,4520&amp;chxl=0:%7C1-07%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-08%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-09' /> For the quality of the blog posts that&#8217;s another story but my blog is not a good example ;-)</p>]]></content>
   </entry>
   
   <entry>
@@ -56,7 +62,173 @@
     <link href="http://lucdew.github.com/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes/"/>
     <updated>2008-06-23T00:00:00-04:00</updated>
     <id>http://lucdew.github.com/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes</id>
-    <content type="html"><![CDATA[<p>This blog post is about using JPA with Spring in 2 contexts :- production with a JTA transaction manager - testing with transactions handled by jpa transaction manager. It has been inspired by <a href='http://erich.soomsam.net/2007/04/24/spring-jpa-and-jta-with-hibernate-and-jotm/'>Erich Soomsam blog post</a>You can achieve such configuration with a PersistenceUnitPostProcessor having a single persistence.xml file and 2 Spring context files (1 for each environment).Since you are likely to have at least 2 different Spring dataSource definitions : 1 for production that performs a JNDI lookup to find a bound datasource and 1 for development that uses a local and Spring declared datasource backed by a JDBC connection pool (C3p0 or DBCP), place the entityManager declaration in the same file as the datasource declaration. Let&#8217;s say that the default persistence.xml use the non-jta datasource: <pre lang='xml'> <persistence xsi:schemalocation='http://java.sun.com/xml/ns/persistence    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd' version='1.0' xmlns='http://java.sun.com/xml/ns/persistence' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'> <persistence-unit name='seamphony' transaction-type='RESOURCE_LOCAL'><properties>     <!-- Scan for annotated classes and Hibernate mapping XML files --><property name='hibernate.archive.autodetection' value='class, hbm' /><property name='hibernate.dialect' value='org.hibernate.dialect.MySQLDialect' /> </properties>    </persistence-unit></persistence></pre>Here&#8217;s how you can use Spring to post process the persistence unit and configure it for production (here with MySQL datasource and JBoss Transaction Manager):<pre lang='xml'><bean class='org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean' id='entityManagerFactory'><property name='dataSource' ref='dataSource' /><property name='jpaVendorAdapter'><bean class='org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter'><property name='database' value='MYSQL' /><property name='showSql' value='true' /><property name='databasePlatform' value='org.hibernate.dialect.MySQLDialect' /></bean></property><property name='jpaPropertyMap' /></bean><map><entry key='hibernate.transaction.manager_lookup_class' value='org.hibernate.transaction.JBossTransactionManagerLookup'><entry key='hibernate.transaction.flush_before_completion' value='true' /><entry key='hibernate.transaction.auto_close_session' value='true' /><entry key='hibernate.current_session_context_class' value='jta' /><entry key='hibernate.connection.release_mode' value='auto' /></entry></map><property name='persistenceUnitPostProcessors'><list><bean class='JtaPersistenceUnitPostProcessor'><property name='jtaMode' value='true' /><property name='jtaDataSource' ref='dataSource' /></bean></list></property><!-- Datasource Lookup--><bean class='org.springframework.jndi.JndiObjectFactoryBean' id='dataSource'><property name='resourceRef'>    <value>false</value></property><property name='jndiName'><value>java:/MyDS</value></property></bean><!-- Transaction Manager--><bean class='org.springframework.transaction.jta.JtaTransactionManager' id='transactionManager'><property name='transactionManagerName' value='java:/TransactionManager' /><property name='autodetectUserTransaction' value='false' /></bean></pre>Here&#8217;s the class that reads the jta mode property and configure the transaction type accordingly:<pre lang='java'>import javax.persistence.spi.PersistenceUnitTransactionType;import javax.sql.DataSource;import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;public class JtaPersistenceUnitPostProcessor implementsPersistenceUnitPostProcessor {private boolean jtaMode = false;private DataSource jtaDataSource;private PersistenceUnitTransactionType transacType = PersistenceUnitTransactionType.RESOURCE_LOCAL;public void postProcessPersistenceUnitInfo(MutablePersistenceUnitInfo mutablePersistenceUnitInfo) {  if (jtaMode) {    transacType = PersistenceUnitTransactionType.JTA;    mutablePersistenceUnitInfo.setJtaDataSource(this.getJtaDataSource());  }  mutablePersistenceUnitInfo.setTransactionType(transacType);}public boolean isJtaMode() {   return jtaMode;}public void setJtaMode(boolean jtaMode) {   this.jtaMode = jtaMode;}public DataSource getJtaDataSource() {   return jtaDataSource;}public void setJtaDataSource(DataSource jtaDataSource) {   this.jtaDataSource = jtaDataSource;}}</pre>Spring really helps tuning your persistence unit for different environments. It could be achieved by a custom build task that could alter the persistence.xml file but since this example assumes that Spring is already used, it can be avoided.</p>]]></content>
+    <content type="html"><![CDATA[<p>This blog post is about using JPA with Spring in 2 contexts :</p>
+
+<ul>
+<li>production with a JTA transaction manager</li>
+
+<li>testing with transactions handled by jpa transaction manager. It has been inspired by <a href='http://erich.soomsam.net/2007/04/24/spring-jpa-and-jta-with-hibernate-and-jotm/'>Erich Soomsam blog post</a>You can achieve such configuration with a PersistenceUnitPostProcessor having a single persistence.xml file and 2 Spring context files (1 for each environment).Since you are likely to have at least 2 different Spring dataSource definitions : 1 for production that performs a JNDI lookup to find a bound datasource and 1 for development that uses a local and Spring declared datasource backed by a JDBC connection pool (C3p0 or DBCP), place the entityManager declaration in the same file as the datasource declaration. Let&#8217;s say that the default persistence.xml use the non-jta datasource: <div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'> <span class="nt">&lt;persistence</span> <span class="na">xsi:schemalocation=</span><span class="s">&#39;http://java.sun.com/xml/ns/persistence    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd&#39;</span> <span class="na">version=</span><span class="s">&#39;1.0&#39;</span> <span class="na">xmlns=</span><span class="s">&#39;http://java.sun.com/xml/ns/persistence&#39;</span> <span class="na">xmlns:xsi=</span><span class="s">&#39;http://www.w3.org/2001/XMLSchema-instance&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;persistence-unit</span> <span class="na">name=</span><span class="s">&#39;seamphony&#39;</span> <span class="na">transaction-type=</span><span class="s">&#39;RESOURCE_LOCAL&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;properties&gt;</span>     <span class="c">&lt;!-- Scan for annotated classes and Hibernate mapping XML files --&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;hibernate.archive.autodetection&#39;</span> <span class="na">value=</span><span class="s">&#39;class, hbm&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;hibernate.dialect&#39;</span> <span class="na">value=</span><span class="s">&#39;org.hibernate.dialect.MySQLDialect&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;/properties&gt;</span>
+</span><span class='line'><span class="nt">&lt;/persistence-unit&gt;</span>
+</span><span class='line'><span class="nt">&lt;/persistence&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div> Here&#8217;s how you can use Spring to post process the persistence unit and configure it for production (here with MySQL datasource and JBoss Transaction Manager): <div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'> <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">&#39;org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean&#39;</span> <span class="na">id=</span><span class="s">&#39;entityManagerFactory&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;dataSource&#39;</span> <span class="na">ref=</span><span class="s">&#39;dataSource&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;jpaVendorAdapter&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">&#39;org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;database&#39;</span> <span class="na">value=</span><span class="s">&#39;MYSQL&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;showSql&#39;</span> <span class="na">value=</span><span class="s">&#39;true&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;databasePlatform&#39;</span> <span class="na">value=</span><span class="s">&#39;org.hibernate.dialect.MySQLDialect&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;/bean&gt;</span>
+</span><span class='line'><span class="nt">&lt;/property&gt;</span>
+</span><span class='line'><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;jpaPropertyMap&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/bean&gt;</span> <span class="nt">&lt;map&gt;</span>
+</span><span class='line'><span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">&#39;hibernate.transaction.manager_lookup_class&#39;</span> <span class="na">value=</span><span class="s">&#39;org.hibernate.transaction.JBossTransactionManagerLookup&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">&#39;hibernate.transaction.flush_before_completion&#39;</span> <span class="na">value=</span><span class="s">&#39;true&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">&#39;hibernate.transaction.auto_close_session&#39;</span> <span class="na">value=</span><span class="s">&#39;true&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">&#39;hibernate.current_session_context_class&#39;</span> <span class="na">value=</span><span class="s">&#39;jta&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;entry</span> <span class="na">key=</span><span class="s">&#39;hibernate.connection.release_mode&#39;</span> <span class="na">value=</span><span class="s">&#39;auto&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/entry&gt;</span>
+</span><span class='line'><span class="nt">&lt;/map&gt;</span> <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;persistenceUnitPostProcessors&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;list&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">&#39;JtaPersistenceUnitPostProcessor&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;jtaMode&#39;</span> <span class="na">value=</span><span class="s">&#39;true&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>		<span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;jtaDataSource&#39;</span> <span class="na">ref=</span><span class="s">&#39;dataSource&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;/bean&gt;</span>
+</span><span class='line'><span class="nt">&lt;/list&gt;</span>
+</span><span class='line'><span class="nt">&lt;/property&gt;</span><span class="c">&lt;!-- Datasource Lookup --&gt;</span> <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">&#39;org.springframework.jndi.JndiObjectFactoryBean&#39;</span> <span class="na">id=</span><span class="s">&#39;dataSource&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;resourceRef&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;value&gt;</span>false<span class="nt">&lt;/value&gt;</span>
+</span><span class='line'><span class="nt">&lt;/property&gt;</span>
+</span><span class='line'><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;jndiName&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>	<span class="nt">&lt;value&gt;</span>java:/MyDS<span class="nt">&lt;/value&gt;</span>
+</span><span class='line'><span class="nt">&lt;/property&gt;</span>
+</span><span class='line'><span class="nt">&lt;/bean&gt;</span><span class="c">&lt;!-- Transaction Manager --&gt;</span> <span class="nt">&lt;bean</span> <span class="na">class=</span><span class="s">&#39;org.springframework.transaction.jta.JtaTransactionManager&#39;</span> <span class="na">id=</span><span class="s">&#39;transactionManager&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;transactionManagerName&#39;</span> <span class="na">value=</span><span class="s">&#39;java:/TransactionManager&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&#39;autodetectUserTransaction&#39;</span> <span class="na">value=</span><span class="s">&#39;false&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/bean&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+</ul>
+
+<p>Here&#8217;s the class that reads the jta mode property and configure the transaction type accordingly: <div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">import</span> <span class="nn">javax.persistence.spi.PersistenceUnitTransactionType</span><span class="o">;</span> <span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span> <span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo</span><span class="o">;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor</span><span class="o">;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">JtaPersistenceUnitPostProcessor</span> <span class="kd">implements</span> <span class="n">PersistenceUnitPostProcessor</span> <span class="o">{</span> <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">jtaMode</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span> <span class="kd">private</span> <span class="n">DataSource</span> <span class="n">jtaDataSource</span><span class="o">;</span> <span class="kd">private</span> <span class="n">PersistenceUnitTransactionType</span> <span class="n">transacType</span> <span class="o">=</span> <span class="n">PersistenceUnitTransactionType</span><span class="o">.</span><span class="na">RESOURCE_LOCAL</span><span class="o">;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="kd">public</span> <span class="kt">void</span> <span class="n">postProcessPersistenceUnitInfo</span><span class="o">(</span>
+</span><span class='line'>		<span class="n">MutablePersistenceUnitInfo</span> <span class="n">mutablePersistenceUnitInfo</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>	<span class="k">if</span> <span class="o">(</span><span class="n">jtaMode</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>		<span class="n">transacType</span> <span class="o">=</span> <span class="n">PersistenceUnitTransactionType</span><span class="o">.</span><span class="na">JTA</span><span class="o">;</span>
+</span><span class='line'>		<span class="n">mutablePersistenceUnitInfo</span>
+</span><span class='line'>				<span class="o">.</span><span class="na">setJtaDataSource</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getJtaDataSource</span><span class="o">());</span>
+</span><span class='line'>	<span class="o">}</span>
+</span><span class='line'>	<span class="n">mutablePersistenceUnitInfo</span><span class="o">.</span><span class="na">setTransactionType</span><span class="o">(</span><span class="n">transacType</span><span class="o">);</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isJtaMode</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>	<span class="k">return</span> <span class="n">jtaMode</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setJtaMode</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">jtaMode</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>	<span class="k">this</span><span class="o">.</span><span class="na">jtaMode</span> <span class="o">=</span> <span class="n">jtaMode</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">getJtaDataSource</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>	<span class="k">return</span> <span class="n">jtaDataSource</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setJtaDataSource</span><span class="o">(</span><span class="n">DataSource</span> <span class="n">jtaDataSource</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>	<span class="k">this</span><span class="o">.</span><span class="na">jtaDataSource</span> <span class="o">=</span> <span class="n">jtaDataSource</span><span class="o">;</span>
+</span><span class='line'><span class="o">}&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;}&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>Spring really helps tuning your persistence unit for different environments. It could be achieved by a custom build task that could alter the persistence.xml file but since this example assumes that Spring is already used, it can be avoided.</p>]]></content>
   </entry>
   
   <entry>

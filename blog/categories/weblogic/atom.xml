@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: weblogic | Luc Dewavrin's website]]></title>
+  <title><![CDATA[Category: weblogic | Luc Dewavrin website]]></title>
   <link href="http://lucdew.github.com/blog/categories/weblogic/atom.xml" rel="self"/>
   <link href="http://lucdew.github.com/"/>
-  <updated>2012-01-01T10:43:01-05:00</updated>
+  <updated>2012-01-02T17:22:17-05:00</updated>
   <id>http://lucdew.github.com/</id>
   <author>
     <name><![CDATA[Luc Dewavrin]]></name>
@@ -18,7 +18,13 @@
     <link href="http://lucdew.github.com/blog/2005/09/17/memory-leaks-hunting-articles-2/"/>
     <updated>2005-09-17T00:00:00-04:00</updated>
     <id>http://lucdew.github.com/blog/2005/09/17/memory-leaks-hunting-articles-2</id>
-    <content type="html"><![CDATA[<p>I have been busy lately and once again I will only add interesting links. These are about memory leaks hunting in the JVM. Memory leaks can be hard to spot and these articles were published while I was facing the same problems in my company. So thanks to Java&#8217;s community, I have been able to quickly identify the potential origins of the leaks. Read this very interesting article which also has links to other blogs which deal the issues of using ThreadLocal. <a href='http://www.patrickpeak.com/page/patrick/20050614#your_web_app_is_leaking'>The Art of war blog</a> And this article about Java threads stack which can lead, when not properly sized, to &#8220;Out of memory exceptions&#8221; even with enough free heap space and lost threads.<a href=''>http://www.javablogs.com/Jump.action?id=215672</a> And this thread about -Xss JVM option and ulimit on Linux <a href='http://forum.java.sun.com/thread.jspa?threadID=261344&amp;tstart=0'>http://forum.java.sun.com/thread.jspa?threadID=261344&amp;tstart=0</a></p>]]></content>
+    <content type="html"><![CDATA[<p>I have been busy lately and once again I will only add interesting links. These are about memory leaks hunting in the JVM. Memory leaks can be hard to spot and these articles were published while I was facing the same problems in my company. So thanks to Java&#8217;s community, I have been able to quickly identify the potential origins of the leaks.</p>
+
+<p>Read this very interesting article which also has links to other blogs which deal the issues of using ThreadLocal. <a href='http://www.patrickpeak.com/page/patrick/20050614#your_web_app_is_leaking'>The Art of war blog</a></p>
+
+<p>And this article about Java threads stack which can lead, when not properly sized, to &#8220;Out of memory exceptions&#8221; even with enough free heap space and lost threads.<a href=''>http://www.javablogs.com/Jump.action?id=215672</a></p>
+
+<p>And this thread about -Xss JVM option and ulimit on Linux <a href='http://forum.java.sun.com/thread.jspa?threadID=261344&amp;tstart=0'>http://forum.java.sun.com/thread.jspa?threadID=261344&amp;tstart=0</a></p>]]></content>
   </entry>
   
   <entry>
@@ -36,17 +42,135 @@
     <link href="http://lucdew.github.com/blog/2005/05/10/enable-logging-for-jdbcs-thin-driver-in-weblogic/"/>
     <updated>2005-05-10T00:00:00-04:00</updated>
     <id>http://lucdew.github.com/blog/2005/05/10/enable-logging-for-jdbcs-thin-driver-in-weblogic</id>
-    <content type="html"><![CDATA[<p>Here&#8217;s a quick and dirty tip to enable JDBC logging for Oracle thin drivers.Enabling JDBC logging for connections of a pool is straightforward with JDBC connectionproxies like p6spy tool. Sadly some applications still don&#8217;t use connection poolsconfigured on J2EE application server and connect directly to database withoutretrieving a connection from a pool and with the JDBC URL hardcoded.For the latters, you can still trace JDBC activity.To do so,- 1) Configure Weblogic server, to use the Oracle&#8217;s debug thin driver which is called ojdbc14_g.jarand its located in the $WEBLOGIC_HOME/server/ext/jdbc/oracle/ directory.Just add it in the server&#8217;s CLASSPATH the path to this library.</p>
+    <content type="html"><![CDATA[<p>Here&#8217;s a quick and dirty tip to enable JDBC logging for Oracle thin drivers.Enabling JDBC logging for connections of a pool is straightforward with JDBC connection proxies like p6spy tool. Sadly some applications still don&#8217;t use connection pools configured on J2EE application server and connect directly to database without retrieving a connection from a pool and with the JDBC URL hardcoded. For the latters, you can still trace JDBC activity.</p>
+
+<p>To do so:</p>
 
 <ul>
-<li>2) Put the following class in the server&#8217;s CLASSPATH to control the logging level. The default one (2)is very high it creates a huge amount of log. This class takes as first argument the log levelwhich should go from 1 (lower) to 3 (higher)<pre lang='java'>import oracle.jdbc.driver.OracleLog;import weblogic.logging.NonCatalogLogger;/** * Class that sets the Oracle's thin driver log level * */public class OracleLoggingSetter {   protected final static NonCatalogLogger logger = new NonCatalogLogger("OracleLoggingSetter");   static final int LOWLOGLEVEL=1;   static final int MEDIUMLOGLEVEL=2;   static final int HIGHLOGLEVEL=3;   public static void main(String[] args) {   int loglevel=0;   try {   loglevel=Integer.parseInt(args[0]);   }   catch(NumberFormatException e) {   logger.error("Wrong oracle log level");   return;   }   switch (loglevel) {case 1:logger.info("Setting oracle low log level ");OracleLog.setLogVolume(LOWLOGLEVEL);break;case 2:logger.info("Setting oracle default log level ");OracleLog.setLogVolume(MEDIUMLOGLEVEL);break;case 3:logger.info("Setting oracle high log level ");OracleLog.setLogVolume(HIGHLOGLEVEL);break;default:logger.info("log level is incorrect or unspecified, no action performed ");break;}   }}</pre></li>
+<li>
+<p>1) Configure Weblogic server, to use the Oracle&#8217;s debug thin driver which is called ojdbc14_g.jar and its located in the $WEBLOGIC_HOME/server/ext/jdbc/oracle/ directory. Just add it in the server&#8217;s CLASSPATH the path to this library.</p>
+</li>
 
-<li>3) Configure Weblogic to use this startup class and give the log level as an argument (1 is fineand doesn&#8217;t fill too quickly).(On the Startup &#38; shutdown node of the adminisration console )</li>
+<li>
+<p>2) Put the following class in the server&#8217;s CLASSPATH to control the logging level. The default one (2) is very high it creates a huge amount of log. This class takes as first argument the log levelwhich should go from 1 (lower) to 3 (higher)</p>
+</li>
+</ul>
 
-<li>4) Enable JDBC logging for the Weblogic server in the administration console.(Server node -&#62; Logging tab -&#62; JDBC tab )</li>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">import</span> <span class="nn">oracle.jdbc.driver.OracleLog</span><span class="o">;</span> <span class="kn">import</span> <span class="nn">weblogic.logging.NonCatalogLogger</span><span class="o">;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> Class that sets the Oracle thin driver log level </span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OracleLoggingSetter</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">protected</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">NonCatalogLogger</span> <span class="n">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NonCatalogLogger</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">OracleLoggingSetter</span><span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>   <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">LOWLOGLEVEL</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>   <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">MEDIUMLOGLEVEL</span><span class="o">=</span><span class="mi">2</span><span class="o">;</span>
+</span><span class='line'>   <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">HIGHLOGLEVEL</span><span class="o">=</span><span class="mi">3</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   	<span class="kt">int</span> <span class="n">loglevel</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>   	<span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>   		<span class="n">loglevel</span><span class="o">=</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+</span><span class='line'>   	<span class="o">}</span>
+</span><span class='line'>   	<span class="k">catch</span><span class="o">(</span><span class="n">NumberFormatException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>   		<span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">Wrong</span> <span class="n">oracle</span> <span class="n">log</span> <span class="n">level</span><span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>   		<span class="k">return</span><span class="o">;</span>
+</span><span class='line'>   	<span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   	<span class="k">switch</span> <span class="o">(</span><span class="n">loglevel</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>	<span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+</span><span class='line'>		<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">Setting</span> <span class="n">oracle</span> <span class="n">low</span> <span class="n">log</span> <span class="n">level</span> <span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>		<span class="n">OracleLog</span><span class="o">.</span><span class="na">setLogVolume</span><span class="o">(</span><span class="n">LOWLOGLEVEL</span><span class="o">);</span>
+</span><span class='line'>		<span class="k">break</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>	<span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
+</span><span class='line'>		<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">Setting</span> <span class="n">oracle</span> <span class="k">default</span> <span class="n">log</span> <span class="n">level</span> <span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>		<span class="n">OracleLog</span><span class="o">.</span><span class="na">setLogVolume</span><span class="o">(</span><span class="n">MEDIUMLOGLEVEL</span><span class="o">);</span>
+</span><span class='line'>		<span class="k">break</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>	<span class="k">case</span> <span class="mi">3</span><span class="o">:</span>
+</span><span class='line'>		<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">Setting</span> <span class="n">oracle</span> <span class="n">high</span> <span class="n">log</span> <span class="n">level</span> <span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>		<span class="n">OracleLog</span><span class="o">.</span><span class="na">setLogVolume</span><span class="o">(</span><span class="n">HIGHLOGLEVEL</span><span class="o">);</span>
+</span><span class='line'>		<span class="k">break</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>	<span class="k">default</span><span class="o">:</span>
+</span><span class='line'>		<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">log</span> <span class="n">level</span> <span class="n">is</span> <span class="n">incorrect</span> <span class="n">or</span> <span class="n">unspecified</span><span class="o">,</span> <span class="n">no</span> <span class="n">action</span> <span class="n">performed</span> <span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>		<span class="k">break</span><span class="o">;</span>
+</span><span class='line'>	<span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="o">}&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<li>5) Restart the server Now you should see the connection string used, the SQL (prepared)statementsand the Oracle&#8217;s session attributes in the JDBC log file.Note that enabling logging has a great impact on performance even when the logging levelis low.</li>
-</ul>]]></content>
+<ul>
+<li>
+<p>3) Configure Weblogic to use this startup class and give the log level as an argument (1 is fineand doesn&#8217;t fill too quickly).(On the Startup &#38; shutdown node of the adminisration console )</p>
+</li>
+
+<li>
+<p>4) Enable JDBC logging for the Weblogic server in the administration console.(Server node -&#62; Logging tab -&#62; JDBC tab )</p>
+</li>
+
+<li>
+<p>5) Restart the server</p>
+</li>
+</ul>
+
+<p>Now you should see the connection string used, the SQL (prepared)statementsand the Oracle&#8217;s session attributes in the JDBC log file.Note that enabling logging has a great impact on performance even when the logging levelis low.</p>]]></content>
   </entry>
   
   <entry>
@@ -54,7 +178,9 @@
     <link href="http://lucdew.github.com/blog/2005/04/11/weblogic-prepared-statement-caching-2/"/>
     <updated>2005-04-11T00:00:00-04:00</updated>
     <id>http://lucdew.github.com/blog/2005/04/11/weblogic-prepared-statement-caching-2</id>
-    <content type="html"><![CDATA[<p>Another interesting <a href='http://www.jroller.com/comments/maximdim/Weblog/improving_jdbc_performance_with_statement'>Dmitri Maximovich blog entry</a> about enabling &#8220;prepared statements caching&#8221; (or pooling)inside Weblogic server. Don&#8217;t forget that the PS cache works on a per connection basisAlso <a href='http://www.javalobby.org/members-only/eps/jdbc-performance/?source=archives'>see</a> this good presentation about JDBC performance on Javalobby (need an accountto access it)</p>]]></content>
+    <content type="html"><![CDATA[<p>Another interesting <a href='http://www.jroller.com/comments/maximdim/Weblog/improving_jdbc_performance_with_statement'>Dmitri Maximovich blog entry</a> about enabling &#8220;prepared statements caching&#8221; (or pooling) inside Weblogic server.</p>
+
+<p>Don&#8217;t forget that the PS cache works on a per connection basisAlso <a href='http://www.javalobby.org/members-only/eps/jdbc-performance/?source=archives'>see</a> this good presentation about JDBC performance on Javalobby (need an accountto access it)</p>]]></content>
   </entry>
   
   <entry>
@@ -62,10 +188,9 @@
     <link href="http://lucdew.github.com/blog/2005/04/01/weblogic-impossible-to-load-other-jmx-classes/"/>
     <updated>2005-04-01T00:00:00-05:00</updated>
     <id>http://lucdew.github.com/blog/2005/04/01/weblogic-impossible-to-load-other-jmx-classes</id>
-    <content type="html"><![CDATA[<p>I have recently discovered that it not possible to use other JMX classes (JMX 1.1 javax.management.<em>)than the ones in the weblogic.jar on Weblogic 8.1. Actually, I was trying to extend CruiseControl web app to offer the ability to start/resume/pauseintegration processes in the cruisecontrol daemon. The CruiseControl daemon has its own mx4j JMX agent with an embedded RMI connector (and an HTML adaptor which I didn&#8217;t want to use). My webapp connects to the RMI adapator to contact the MBean server of cruisecontrol.</em></p>
+    <content type="html"><![CDATA[<p>I have recently discovered that it not possible to use other JMX classes (JMX 1.1 javax.management.*)than the ones in the weblogic.jar on Weblogic 8.1. Actually, I was trying to extend CruiseControl web app to offer the ability to start/resume/pauseintegration processes in the cruisecontrol daemon. The CruiseControl daemon has its own mx4j JMX agent with an embedded RMI connector (and an HTML adaptor which I didn&#8217;t want to use). My webapp connects to the RMI adapator to contact the MBean server of cruisecontrol.</p>
 
-<p>But I had class cast exceptions when run inside Weblogic on the JMX classes. I tried to use the mx4j JMX classes but actually there is no way to do it. I tried to add them in the Weblogic server&#8217;s classpath before the weblogic.jar but Weblogic refuses to boot. So I added them in the WEB-INF/lib directory of my web app and used the special option <prefer-web-inf-classes> in the weblogic.xml file but it didn't work either. This option is supposed to force the Webapp classloader to first load the classes in the WEB-INF subdirectories lib and classes contrary to the hierarchical classloading mecanism. But fatally, it doesn't work for javax.management.* classes and it's not documented. The reason given me by the BEA support is that the javax.management.* classes are already used internally even in the context of the web app classloader for monitoring purpose...  
-</prefer-web-inf-classes></p>]]></content>
+<p>But I had class cast exceptions when run inside Weblogic on the JMX classes. I tried to use the mx4j JMX classes but actually there is no way to do it. I tried to add them in the Weblogic server&#8217;s classpath before the weblogic.jar but Weblogic refuses to boot. So I added them in the WEB-INF/lib directory of my web app and used the special option &#60;prefer-web-inf-classes&#62; in the weblogic.xml file but it didn&#8217;t work either. This option is supposed to force the Webapp classloader to first load the classes in the WEB-INF subdirectories lib and classes contrary to the hierarchical classloading mecanism. But fatally, it doesn&#8217;t work for javax.management.* classes and it&#8217;s not documented. The reason given me by the BEA support is that the javax.management.* classes are already used internally even in the context of the web app classloader for monitoring purpose&#8230;</p>]]></content>
   </entry>
   
 </feed>

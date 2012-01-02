@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Some Maven tips - Luc Dewavrin's website</title>
+  <title>Some Maven tips - Luc Dewavrin website</title>
   <meta name="author" content="Luc Dewavrin">
 
   
-  <meta name="description" content="First post of the year, here are some Maven tips you might find useful (or obvious for experienced users) :- How to version commercial libraries in &hellip;">
+  <meta name="description" content="First post of the year, here are some Maven tips you might find useful (or obvious for experienced users): How to version commercial libraries in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -24,7 +24,7 @@
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin website" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -47,7 +47,7 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  <h1><a href="/">Luc Dewavrin website</a></h1>
   
 </hgroup>
 
@@ -102,16 +102,113 @@
   </header>
 
 
-<div class="entry-content"><p>First post of the year, here are some Maven tips you might find useful (or obvious for experienced users) :- <strong>How to version commercial libraries in your SCM and use them as dependency ?</strong>.In case you don&#8217;t have your own central repository and you&#8217;d like to version your libraries in your SCM server, you can declare in your pom a repository like this :<pre lang='xml'>    <repository>      <id>sipphonyrepo</id>      <url>file:///${basedir}/../repository</url>    </repository></pre>The &#8216;repository&#8217; directory should be versioned in your scm server but it also means that it should be checked out with your project. Also like any other repository, the dependencies will be copied in your local repository.</p>
+<div class="entry-content"><p>First post of the year, here are some Maven tips you might find useful (or obvious for experienced users):</p>
 
 <ul>
-<li><strong>How to just copy files</strong> ?It might be useful on a development machine to copy files while installing an artifact, for instance you might want to copy a JBoss datasource file to a JBoss profile to make sure it&#8217;s deployed. For this you can use the Maven resource plugins. For instance the following plugin statement will copy the datasource file to your JBoss server&#8217;s default profile deployment directory if JBOSS_HOME environment library is defined (on the development machine) :<pre lang='xml'><profile> <id>jboss.deploy</id> <activation><property>   <name>env.JBOSS_HOME</name></property> </activation> <build><plugins><plugin><artifactid>maven-resources-plugin</artifactid><version>2.3</version><executions><execution><id>copy-ds</id><goals><goal>copy-resources</goal></goals><phase>install</phase><configuration><outputdirectory>${env.JBOSS_HOME}/server/default/deploy</outputdirectory><resources><resource><directory>${basedir}</directory><includes>  <include>mysql-ds.xml</include></includes></resource></resources></configuration></execution></executions></plugin></plugins></build></profile></pre></li>
+<li><strong>How to version commercial libraries in your SCM and use them as dependency ?</strong> In case you don&#8217;t have your own central repository and you&#8217;d like to version your libraries in your SCM server, you can declare in your pom a repository like this :</li>
+</ul>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;repository&gt;</span>
+</span><span class='line'>    <span class='nt'>&lt;id&gt;</span>sipphonyrepo<span class='nt'>&lt;/id&gt;</span>
+</span><span class='line'>    <span class='nt'>&lt;url&gt;</span>file:///${basedir}/../repository<span class='nt'>&lt;/url&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/repository&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>The &#8216;repository&#8217; directory should be versioned in your scm server but it also means that it should be checked out with your project. Also like any other repository, the dependencies will be copied in your local repository.</p>
 
-<li><strong>How to perform complex build build logic ?</strong>One solution would be to use profiles for that like in the above example. But it can quickly become cumbersome and limited. So a good option is to use Ant Maven plugin with <a href='http://ant-contrib.sourceforge.net/'>ant-contribs</a> dependency for control statements and loops or even better the <a href='http://groovy.codehaus.org/GMaven'>groovy GMaven plugin</a> (avoiding XML verbosity).Profiles have still the benefit of clearly identifying an intent in your build. The following command will list all profiles:<pre>mvn help:all-profiles</pre>If build logic can be extracted and used in different contexts, it&#8217;s time to create a plugin. It&#8217;s quite simple.</li>
+<ul>
+<li><strong>How to just copy files</strong> ?It might be useful on a development machine to copy files while installing an artifact, for instance you might want to copy a JBoss datasource file to a JBoss profile to make sure it&#8217;s deployed. For this you can use the Maven resource plugins. For instance the following plugin statement will copy the datasource file to your JBoss server&#8217;s default profile deployment directory if JBOSS_HOME environment library is defined (on the development machine) :</li>
+</ul>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;profile&gt;</span>
+</span><span class='line'> <span class='nt'>&lt;id&gt;</span>jboss.deploy<span class='nt'>&lt;/id&gt;</span>
+</span><span class='line'> <span class='nt'>&lt;activation&gt;</span>
+</span><span class='line'>  <span class='nt'>&lt;property&gt;</span>
+</span><span class='line'>     <span class='nt'>&lt;name&gt;</span>env.JBOSS_HOME<span class='nt'>&lt;/name&gt;</span>
+</span><span class='line'>  <span class='nt'>&lt;/property&gt;</span>
+</span><span class='line'> <span class='nt'>&lt;/activation&gt;</span>
+</span><span class='line'> <span class='nt'>&lt;build&gt;</span>
+</span><span class='line'>    <span class='nt'>&lt;plugins&gt;</span>
+</span><span class='line'>       <span class='nt'>&lt;plugin&gt;</span>
+</span><span class='line'>         <span class='nt'>&lt;artifactid&gt;</span>maven-resources-plugin<span class='nt'>&lt;/artifactid&gt;</span>
+</span><span class='line'>         <span class='nt'>&lt;version&gt;</span>2.3<span class='nt'>&lt;/version&gt;</span>
+</span><span class='line'>         <span class='nt'>&lt;executions&gt;</span>
+</span><span class='line'>           <span class='nt'>&lt;execution&gt;</span>
+</span><span class='line'>             <span class='nt'>&lt;id&gt;</span>copy-ds<span class='nt'>&lt;/id&gt;</span>
+</span><span class='line'>             <span class='nt'>&lt;goals&gt;</span>
+</span><span class='line'>               <span class='nt'>&lt;goal&gt;</span>copy-resources<span class='nt'>&lt;/goal&gt;</span>
+</span><span class='line'>             <span class='nt'>&lt;/goals&gt;</span>
+</span><span class='line'>             <span class='nt'>&lt;phase&gt;</span>install<span class='nt'>&lt;/phase&gt;</span>
+</span><span class='line'>             <span class='nt'>&lt;configuration&gt;</span>
+</span><span class='line'>                <span class='nt'>&lt;outputdirectory&gt;</span>${env.JBOSS_HOME}/server/default/deploy<span class='nt'>&lt;/outputdirectory&gt;</span>
+</span><span class='line'>                <span class='nt'>&lt;resources&gt;</span>
+</span><span class='line'>                  <span class='nt'>&lt;resource&gt;</span>
+</span><span class='line'>                   <span class='nt'>&lt;directory&gt;</span>${basedir}<span class='nt'>&lt;/directory&gt;</span>
+</span><span class='line'>                   <span class='nt'>&lt;includes&gt;</span>
+</span><span class='line'>                      <span class='nt'>&lt;include&gt;</span>mysql-ds.xml<span class='nt'>&lt;/include&gt;</span>
+</span><span class='line'>                  <span class='nt'>&lt;/includes&gt;</span>
+</span><span class='line'>               <span class='nt'>&lt;/resource&gt;</span>
+</span><span class='line'>               <span class='nt'>&lt;/resources&gt;</span>
+</span><span class='line'>             <span class='nt'>&lt;/configuration&gt;</span>
+</span><span class='line'>           <span class='nt'>&lt;/execution&gt;</span>
+</span><span class='line'>         <span class='nt'>&lt;/executions&gt;</span>
+</span><span class='line'>      <span class='nt'>&lt;/plugin&gt;</span>
+</span><span class='line'>    <span class='nt'>&lt;/plugins&gt;</span>
+</span><span class='line'>  <span class='nt'>&lt;/build&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/profile&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>How to perform complex build build logic ?</strong> One solution would be to use profiles for that like in the above example. But it can quickly become cumbersome and limited. So a good option is to use Ant Maven plugin with <a href='http://ant-contrib.sourceforge.net/'>ant-contribs</a> dependency for control statements and loops or even better the <a href='http://groovy.codehaus.org/GMaven'>groovy GMaven plugin</a> (avoiding XML verbosity).Profiles have still the benefit of clearly identifying an intent in your build. The following command will list all profiles:</li>
+</ul>
+<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mvn help:all-profiles</span></code></pre></td></tr></table></div></figure>
+<p>If build logic can be extracted and used in different contexts, it&#8217;s time to create a plugin. It&#8217;s quite simple.</p>
 
-<li><strong>How to create an artifact of a zip or tar ?</strong>One obvious solution is to use maven assembly plugin but if you need to add some custom logic during packaging, you could just create the zip or tar file with Ant maven plugin or groovy GMaven plugin and gant during the package phase. Then attach the file to your project with Maven <a href='http://mojo.codehaus.org/build-helper-maven-plugin/attach-artifact-mojo.html'>build helper plugin</a> and its <strong>attach-artifact</strong> goal to install it in your repository during the install phase. Once installed in your local repository, the zip or tar file can be become a dependency, just use the proper type in the dependency declaration.<pre lang='xml'><type>zip</type></pre></li>
-
-<li><strong>How to create a full delivery layout with multiple archetype ?</strong>My advice for creating a comprehensive delivery directory structure would be to use a dedicated module, take advantage of ant,assembly and resource plugins for that. Struts2 has such a module : <a href='http://svn.apache.org/repos/asf/struts/struts2/trunk/assembly/pom.xml'>see the assembly module&#8217;s pom</a></li>
+<ul>
+<li><strong>How to create an artifact of a zip or tar ?</strong> One obvious solution is to use maven assembly plugin but if you need to add some custom logic during packaging, you could just create the zip or tar file with Ant maven plugin or groovy GMaven plugin and gant during the package phase. Then attach the file to your project with Maven <a href='http://mojo.codehaus.org/build-helper-maven-plugin/attach-artifact-mojo.html'>build helper plugin</a> and its <strong>attach-artifact</strong> goal to install it in your repository during the install phase. Once installed in your local repository, the zip or tar file can be become a dependency, just use the proper type in the dependency declaration.</li>
+</ul>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;type&gt;</span>zip<span class='nt'>&lt;/type&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>How to create a full delivery layout with multiple archetype ?</strong> My advice for creating a comprehensive delivery directory structure would be to use a dedicated module, take advantage of ant,assembly and resource plugins for that. Struts2 has such a module : <a href='http://svn.apache.org/repos/asf/struts/struts2/trunk/assembly/pom.xml'>see the assembly module&#8217;s pom</a></li>
 </ul></div>
 
 
@@ -217,6 +314,7 @@
 
 
 
+<section><h1>Tags</h1><p><a href="/tags/ant" title="Postings tagged ant" style="font-size: 11.0px; line-height:11.0px">ant</a> <a href="/tags/aop" title="Postings tagged aop" style="font-size: 11.0px; line-height:11.0px">aop</a> <a href="/tags/aspectj" title="Postings tagged aspectj" style="font-size: 11.0px; line-height:11.0px">aspectj</a> <a href="/tags/asterisk" title="Postings tagged asterisk" style="font-size: 10.5px; line-height:10.5px">asterisk</a> <a href="/tags/axis" title="Postings tagged axis" style="font-size: 10.5px; line-height:10.5px">axis</a> <a href="/tags/blog" title="Postings tagged blog" style="font-size: 10.5px; line-height:10.5px">blog</a> <a href="/tags/eclipse" title="Postings tagged eclipse" style="font-size: 11.0px; line-height:11.0px">eclipse</a> <a href="/tags/ejb" title="Postings tagged ejb" style="font-size: 10.5px; line-height:10.5px">ejb</a> <a href="/tags/firewall" title="Postings tagged firewall" style="font-size: 12.5px; line-height:12.5px">firewall</a> <a href="/tags/freebsd" title="Postings tagged freebsd" style="font-size: 10.5px; line-height:10.5px">freebsd</a> <a href="/tags/grails" title="Postings tagged grails" style="font-size: 10.5px; line-height:10.5px">grails</a> <a href="/tags/groovy" title="Postings tagged groovy" style="font-size: 10.5px; line-height:10.5px">groovy</a> <a href="/tags/gwt" title="Postings tagged gwt" style="font-size: 10.5px; line-height:10.5px">gwt</a> <a href="/tags/htmlunit" title="Postings tagged htmlunit" style="font-size: 10.5px; line-height:10.5px">htmlunit</a> <a href="/tags/jBPM" title="Postings tagged jBPM" style="font-size: 11.0px; line-height:11.0px">jBPM</a> <a href="/tags/java" title="Postings tagged java" style="font-size: 12.5px; line-height:12.5px">java</a> <a href="/tags/jaxb" title="Postings tagged jaxb" style="font-size: 10.5px; line-height:10.5px">jaxb</a> <a href="/tags/jdbc" title="Postings tagged jdbc" style="font-size: 11.0px; line-height:11.0px">jdbc</a> <a href="/tags/jibx" title="Postings tagged jibx" style="font-size: 10.5px; line-height:10.5px">jibx</a> <a href="/tags/jms" title="Postings tagged jms" style="font-size: 10.5px; line-height:10.5px">jms</a> <a href="/tags/jmx" title="Postings tagged jmx" style="font-size: 10.5px; line-height:10.5px">jmx</a> <a href="/tags/jpa" title="Postings tagged jpa" style="font-size: 10.5px; line-height:10.5px">jpa</a> <a href="/tags/jrockit" title="Postings tagged jrockit" style="font-size: 10.5px; line-height:10.5px">jrockit</a> <a href="/tags/jsf" title="Postings tagged jsf" style="font-size: 10.5px; line-height:10.5px">jsf</a> <a href="/tags/jta" title="Postings tagged jta" style="font-size: 10.5px; line-height:10.5px">jta</a> <a href="/tags/ldap" title="Postings tagged ldap" style="font-size: 10.5px; line-height:10.5px">ldap</a> <a href="/tags/lingo" title="Postings tagged lingo" style="font-size: 10.5px; line-height:10.5px">lingo</a> <a href="/tags/maven" title="Postings tagged maven" style="font-size: 13.0px; line-height:13.0px">maven</a> <a href="/tags/misc" title="Postings tagged misc" style="font-size: 13.0px; line-height:13.0px">misc</a> <a href="/tags/osgi" title="Postings tagged osgi" style="font-size: 10.5px; line-height:10.5px">osgi</a> <a href="/tags/quartz" title="Postings tagged quartz" style="font-size: 10.5px; line-height:10.5px">quartz</a> <a href="/tags/rails" title="Postings tagged rails" style="font-size: 10.5px; line-height:10.5px">rails</a> <a href="/tags/ruby" title="Postings tagged ruby" style="font-size: 10.5px; line-height:10.5px">ruby</a> <a href="/tags/seam" title="Postings tagged seam" style="font-size: 12.0px; line-height:12.0px">seam</a> <a href="/tags/security" title="Postings tagged security" style="font-size: 12.0px; line-height:12.0px">security</a> <a href="/tags/snmp" title="Postings tagged snmp" style="font-size: 10.5px; line-height:10.5px">snmp</a> <a href="/tags/spring" title="Postings tagged spring" style="font-size: 14.5px; line-height:14.5px">spring</a> <a href="/tags/subversion" title="Postings tagged subversion" style="font-size: 10.5px; line-height:10.5px">subversion</a> <a href="/tags/swing" title="Postings tagged swing" style="font-size: 10.5px; line-height:10.5px">swing</a> <a href="/tags/tomcat" title="Postings tagged tomcat" style="font-size: 11.0px; line-height:11.0px">tomcat</a> <a href="/tags/tuning" title="Postings tagged tuning" style="font-size: 10.5px; line-height:10.5px">tuning</a> <a href="/tags/voip" title="Postings tagged voip" style="font-size: 10.5px; line-height:10.5px">voip</a> <a href="/tags/vpn" title="Postings tagged vpn" style="font-size: 10.5px; line-height:10.5px">vpn</a> <a href="/tags/web2.0-ria" title="Postings tagged web2.0-ria" style="font-size: 10.5px; line-height:10.5px">web2.0-ria</a> <a href="/tags/weblogic" title="Postings tagged weblogic" style="font-size: 20.0px; line-height:20.0px">weblogic</a> <a href="/tags/webservices" title="Postings tagged webservices" style="font-size: 10.5px; line-height:10.5px">webservices</a> <a href="/tags/websphere" title="Postings tagged websphere" style="font-size: 10.5px; line-height:10.5px">websphere</a> <a href="/tags/xfire" title="Postings tagged xfire" style="font-size: 10.5px; line-height:10.5px">xfire</a> <a href="/tags/xpath" title="Postings tagged xpath" style="font-size: 10.5px; line-height:10.5px">xpath</a> </p></section>
 <section>
   <h1>Visitors</h1>
   <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>

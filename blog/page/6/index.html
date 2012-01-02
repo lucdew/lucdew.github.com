@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Luc Dewavrin's website</title>
+  <title>Luc Dewavrin website</title>
   <meta name="author" content="Luc Dewavrin">
 
   
@@ -24,7 +24,7 @@
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin website" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -47,7 +47,7 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  <h1><a href="/">Luc Dewavrin website</a></h1>
   
 </hgroup>
 
@@ -105,17 +105,135 @@
   </header>
 
 
-  <div class="entry-content"><p>Here&#8217;s a quick and dirty tip to enable JDBC logging for Oracle thin drivers.Enabling JDBC logging for connections of a pool is straightforward with JDBC connectionproxies like p6spy tool. Sadly some applications still don&#8217;t use connection poolsconfigured on J2EE application server and connect directly to database withoutretrieving a connection from a pool and with the JDBC URL hardcoded.For the latters, you can still trace JDBC activity.To do so,- 1) Configure Weblogic server, to use the Oracle&#8217;s debug thin driver which is called ojdbc14_g.jarand its located in the $WEBLOGIC_HOME/server/ext/jdbc/oracle/ directory.Just add it in the server&#8217;s CLASSPATH the path to this library.</p>
+  <div class="entry-content"><p>Here&#8217;s a quick and dirty tip to enable JDBC logging for Oracle thin drivers.Enabling JDBC logging for connections of a pool is straightforward with JDBC connection proxies like p6spy tool. Sadly some applications still don&#8217;t use connection pools configured on J2EE application server and connect directly to database without retrieving a connection from a pool and with the JDBC URL hardcoded. For the latters, you can still trace JDBC activity.</p>
+
+<p>To do so:</p>
 
 <ul>
-<li>2) Put the following class in the server&#8217;s CLASSPATH to control the logging level. The default one (2)is very high it creates a huge amount of log. This class takes as first argument the log levelwhich should go from 1 (lower) to 3 (higher)<pre lang='java'>import oracle.jdbc.driver.OracleLog;import weblogic.logging.NonCatalogLogger;/** * Class that sets the Oracle's thin driver log level * */public class OracleLoggingSetter {   protected final static NonCatalogLogger logger = new NonCatalogLogger("OracleLoggingSetter");   static final int LOWLOGLEVEL=1;   static final int MEDIUMLOGLEVEL=2;   static final int HIGHLOGLEVEL=3;   public static void main(String[] args) {   int loglevel=0;   try {   loglevel=Integer.parseInt(args[0]);   }   catch(NumberFormatException e) {   logger.error("Wrong oracle log level");   return;   }   switch (loglevel) {case 1:logger.info("Setting oracle low log level ");OracleLog.setLogVolume(LOWLOGLEVEL);break;case 2:logger.info("Setting oracle default log level ");OracleLog.setLogVolume(MEDIUMLOGLEVEL);break;case 3:logger.info("Setting oracle high log level ");OracleLog.setLogVolume(HIGHLOGLEVEL);break;default:logger.info("log level is incorrect or unspecified, no action performed ");break;}   }}</pre></li>
+<li>
+<p>1) Configure Weblogic server, to use the Oracle&#8217;s debug thin driver which is called ojdbc14_g.jar and its located in the $WEBLOGIC_HOME/server/ext/jdbc/oracle/ directory. Just add it in the server&#8217;s CLASSPATH the path to this library.</p>
+</li>
 
-<li>3) Configure Weblogic to use this startup class and give the log level as an argument (1 is fineand doesn&#8217;t fill too quickly).(On the Startup &#38; shutdown node of the adminisration console )</li>
+<li>
+<p>2) Put the following class in the server&#8217;s CLASSPATH to control the logging level. The default one (2) is very high it creates a huge amount of log. This class takes as first argument the log levelwhich should go from 1 (lower) to 3 (higher)</p>
+</li>
+</ul>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'>    <span class='kn'>import</span> <span class='nn'>oracle.jdbc.driver.OracleLog</span><span class='o'>;</span>
+</span><span class='line'>    <span class='kn'>import</span> <span class='nn'>weblogic.logging.NonCatalogLogger</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class='cm'>/**</span>
+</span><span class='line'><span class='cm'>     Class that sets the Oracle thin driver log level </span>
+</span><span class='line'><span class='cm'>    */</span>
+</span><span class='line'>
+</span><span class='line'>    <span class='kd'>public</span> <span class='kd'>class</span> <span class='nc'>OracleLoggingSetter</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'>	   <span class='kd'>protected</span> <span class='kd'>final</span> <span class='kd'>static</span> <span class='n'>NonCatalogLogger</span> <span class='n'>logger</span> <span class='o'>=</span> <span class='k'>new</span> <span class='n'>NonCatalogLogger</span><span class='o'>(</span><span class='s'>&quot;OracleLoggingSetter&quot;</span><span class='o'>);</span>
+</span><span class='line'>	   <span class='kd'>static</span> <span class='kd'>final</span> <span class='kt'>int</span> <span class='n'>LOWLOGLEVEL</span><span class='o'>=</span><span class='mi'>1</span><span class='o'>;</span>
+</span><span class='line'>	   <span class='kd'>static</span> <span class='kd'>final</span> <span class='kt'>int</span> <span class='n'>MEDIUMLOGLEVEL</span><span class='o'>=</span><span class='mi'>2</span><span class='o'>;</span>
+</span><span class='line'>	   <span class='kd'>static</span> <span class='kd'>final</span> <span class='kt'>int</span> <span class='n'>HIGHLOGLEVEL</span><span class='o'>=</span><span class='mi'>3</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'>	   <span class='kd'>public</span> <span class='kd'>static</span> <span class='kt'>void</span> <span class='nf'>main</span><span class='o'>(</span><span class='n'>String</span><span class='o'>[]</span> <span class='n'>args</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'>	   	<span class='kt'>int</span> <span class='n'>loglevel</span><span class='o'>=</span><span class='mi'>0</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'>	   	<span class='k'>try</span> <span class='o'>{</span>
+</span><span class='line'>	   		<span class='n'>loglevel</span><span class='o'>=</span><span class='n'>Integer</span><span class='o'>.</span><span class='na'>parseInt</span><span class='o'>(</span><span class='n'>args</span><span class='o'>[</span><span class='mi'>0</span><span class='o'>]);</span>
+</span><span class='line'>	   	<span class='o'>}</span>
+</span><span class='line'>	   	<span class='k'>catch</span><span class='o'>(</span><span class='n'>NumberFormatException</span> <span class='n'>e</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>	   		<span class='n'>logger</span><span class='o'>.</span><span class='na'>error</span><span class='o'>(</span><span class='s'>&quot;Wrong oracle log level&quot;</span><span class='o'>);</span>
+</span><span class='line'>	   		<span class='k'>return</span><span class='o'>;</span>
+</span><span class='line'>	   	<span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'>	   	<span class='k'>switch</span> <span class='o'>(</span><span class='n'>loglevel</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>		<span class='k'>case</span> <span class='mi'>1</span><span class='o'>:</span>
+</span><span class='line'>			<span class='n'>logger</span><span class='o'>.</span><span class='na'>info</span><span class='o'>(</span><span class='s'>&quot;Setting oracle low log level &quot;</span><span class='o'>);</span>
+</span><span class='line'>			<span class='n'>OracleLog</span><span class='o'>.</span><span class='na'>setLogVolume</span><span class='o'>(</span><span class='n'>LOWLOGLEVEL</span><span class='o'>);</span>
+</span><span class='line'>			<span class='k'>break</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'>		<span class='k'>case</span> <span class='mi'>2</span><span class='o'>:</span>
+</span><span class='line'>			<span class='n'>logger</span><span class='o'>.</span><span class='na'>info</span><span class='o'>(</span><span class='s'>&quot;Setting oracle default log level &quot;</span><span class='o'>);</span>
+</span><span class='line'>			<span class='n'>OracleLog</span><span class='o'>.</span><span class='na'>setLogVolume</span><span class='o'>(</span><span class='n'>MEDIUMLOGLEVEL</span><span class='o'>);</span>
+</span><span class='line'>			<span class='k'>break</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'>		<span class='k'>case</span> <span class='mi'>3</span><span class='o'>:</span>
+</span><span class='line'>			<span class='n'>logger</span><span class='o'>.</span><span class='na'>info</span><span class='o'>(</span><span class='s'>&quot;Setting oracle high log level &quot;</span><span class='o'>);</span>
+</span><span class='line'>			<span class='n'>OracleLog</span><span class='o'>.</span><span class='na'>setLogVolume</span><span class='o'>(</span><span class='n'>HIGHLOGLEVEL</span><span class='o'>);</span>
+</span><span class='line'>			<span class='k'>break</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'>		<span class='k'>default</span><span class='o'>:</span>
+</span><span class='line'>			<span class='n'>logger</span><span class='o'>.</span><span class='na'>info</span><span class='o'>(</span><span class='s'>&quot;log level is incorrect or unspecified, no action performed &quot;</span><span class='o'>);</span>
+</span><span class='line'>			<span class='k'>break</span><span class='o'>;</span>
+</span><span class='line'>		<span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'>	   <span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='o'>}</span>
+</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>
+<p>3) Configure Weblogic to use this startup class and give the log level as an argument (1 is fineand doesn&#8217;t fill too quickly).(On the Startup &#38; shutdown node of the adminisration console )</p>
+</li>
 
-<li>4) Enable JDBC logging for the Weblogic server in the administration console.(Server node -&#62; Logging tab -&#62; JDBC tab )</li>
+<li>
+<p>4) Enable JDBC logging for the Weblogic server in the administration console.(Server node -&#62; Logging tab -&#62; JDBC tab )</p>
+</li>
 
-<li>5) Restart the server Now you should see the connection string used, the SQL (prepared)statementsand the Oracle&#8217;s session attributes in the JDBC log file.Note that enabling logging has a great impact on performance even when the logging levelis low.</li>
-</ul></div>
+<li>
+<p>5) Restart the server</p>
+</li>
+</ul>
+
+<p>Now you should see the connection string used, the SQL (prepared)statementsand the Oracle&#8217;s session attributes in the JDBC log file.Note that enabling logging has a great impact on performance even when the logging levelis low.</p></div>
   
   
 
@@ -240,7 +358,9 @@
   </header>
 
 
-  <div class="entry-content"><p>Another interesting <a href='http://www.jroller.com/comments/maximdim/Weblog/improving_jdbc_performance_with_statement'>Dmitri Maximovich blog entry</a> about enabling &#8220;prepared statements caching&#8221; (or pooling)inside Weblogic server. Don&#8217;t forget that the PS cache works on a per connection basisAlso <a href='http://www.javalobby.org/members-only/eps/jdbc-performance/?source=archives'>see</a> this good presentation about JDBC performance on Javalobby (need an accountto access it)</p></div>
+  <div class="entry-content"><p>Another interesting <a href='http://www.jroller.com/comments/maximdim/Weblog/improving_jdbc_performance_with_statement'>Dmitri Maximovich blog entry</a> about enabling &#8220;prepared statements caching&#8221; (or pooling) inside Weblogic server.</p>
+
+<p>Don&#8217;t forget that the PS cache works on a per connection basisAlso <a href='http://www.javalobby.org/members-only/eps/jdbc-performance/?source=archives'>see</a> this good presentation about JDBC performance on Javalobby (need an accountto access it)</p></div>
   
   
 
@@ -277,10 +397,9 @@
   </header>
 
 
-  <div class="entry-content"><p>I have recently discovered that it not possible to use other JMX classes (JMX 1.1 javax.management.<em>)than the ones in the weblogic.jar on Weblogic 8.1. Actually, I was trying to extend CruiseControl web app to offer the ability to start/resume/pauseintegration processes in the cruisecontrol daemon. The CruiseControl daemon has its own mx4j JMX agent with an embedded RMI connector (and an HTML adaptor which I didn&#8217;t want to use). My webapp connects to the RMI adapator to contact the MBean server of cruisecontrol.</em></p>
+  <div class="entry-content"><p>I have recently discovered that it not possible to use other JMX classes (JMX 1.1 javax.management.*)than the ones in the weblogic.jar on Weblogic 8.1. Actually, I was trying to extend CruiseControl web app to offer the ability to start/resume/pauseintegration processes in the cruisecontrol daemon. The CruiseControl daemon has its own mx4j JMX agent with an embedded RMI connector (and an HTML adaptor which I didn&#8217;t want to use). My webapp connects to the RMI adapator to contact the MBean server of cruisecontrol.</p>
 
-<p>But I had class cast exceptions when run inside Weblogic on the JMX classes. I tried to use the mx4j JMX classes but actually there is no way to do it. I tried to add them in the Weblogic server&#8217;s classpath before the weblogic.jar but Weblogic refuses to boot. So I added them in the WEB-INF/lib directory of my web app and used the special option <prefer-web-inf-classes> in the weblogic.xml file but it didn&#8217;t work either. This option is supposed to force the Webapp classloader to first load the classes in the WEB-INF subdirectories lib and classes contrary to the hierarchical classloading mecanism. But fatally, it doesn&#8217;t work for javax.management.* classes and it&#8217;s not documented. The reason given me by the BEA support is that the javax.management.* classes are already used internally even in the context of the web app classloader for monitoring purpose&#8230;  
-</prefer-web-inf-classes></p></div>
+<p>But I had class cast exceptions when run inside Weblogic on the JMX classes. I tried to use the mx4j JMX classes but actually there is no way to do it. I tried to add them in the Weblogic server&#8217;s classpath before the weblogic.jar but Weblogic refuses to boot. So I added them in the WEB-INF/lib directory of my web app and used the special option &#60;prefer-web-inf-classes&#62; in the weblogic.xml file but it didn&#8217;t work either. This option is supposed to force the Webapp classloader to first load the classes in the WEB-INF subdirectories lib and classes contrary to the hierarchical classloading mecanism. But fatally, it doesn&#8217;t work for javax.management.* classes and it&#8217;s not documented. The reason given me by the BEA support is that the javax.management.* classes are already used internally even in the context of the web app classloader for monitoring purpose&#8230;</p></div>
   
   
 
@@ -317,10 +436,17 @@
   </header>
 
 
-  <div class="entry-content"><br />
+  <div class="entry-content"><p>See Dmitri Maximovich&#39;s <a href='http://www.jroller.com/page/maximdim/20050330#long_term_caching_of_cmp'>Blog</a>. With very interesting articles about:</p>
+
 <ul>
-<li>Weblogic server v9 new entity Ejb clustering features If entity Ejbs 2.1 are a &#8220;nightmare&#8221; to develop and test compared to transparent persistence frameworks of POJOs like Hibernate, some containers like BEA&#39;s one offer nice features to build up a R/W <b>distributed cache</b> (of persistent data). But it&#39;s also true that some distributed cache products can also plug into hibernate&#8230; see <a href='http://www.hibernate.org/hib_docs/v3/reference/en/html/performance.html#performance-cache'>Hibernate&#39;s doc</a> and <a href='http://www.hibernate.org/132.html'>Tangosol</a></li>
-</ul></div>
+<li>CMP entity Ejbs clustering behaviour regarding &#39;Optimistic concurrency&#39; strategy</li>
+
+<li>Weblogic server v9 new entity Ejb clustering features</li>
+</ul>
+
+<p>If entity Ejbs 2.1 are a &#8220;nightmare&#8221; to develop and test compared to transparent persistence frameworks of POJOs like Hibernate, some containers like BEA&#39;s one offer nice features to build up a R/W <b>distributed cache</b> (of persistent data).</p>
+
+<p>But it&#39;s also true that some distributed cache products can also plug into hibernate&#8230; see <a href='http://www.hibernate.org/hib_docs/v3/reference/en/html/performance.html#performance-cache'>Hibernate&#39;s doc</a> and <a href='http://www.hibernate.org/132.html'>Tangosol</a></p></div>
   
   
 
@@ -394,13 +520,23 @@
   </header>
 
 
-  <div class="entry-content"><p><a href='http://www.jroller.com/page/ldewavrin/20040819'>Last time</a> I have used the combination of proxytunnel and SSH to connect tomy home machine from a corporate network behind a firewall and proxy. But it seems that proxytunnel is unableto pass through Microsoft ISA Proxy server. At least, I have tried with the -u and -p arguments of proxytunnels and it didn&#8217;t work (even with a username following this pattern domain\username or username@domain) The Microsoft ISA proxy server requires NTLM authenticationand there &#8216;s another combination that worked successfully to be able to connect through it to an external machine on SSL :<a href='http://ntlmaps.sourceforge.net/'>Ntlmaps</a>, <a href='http://www.agroman.net/corkscrew/'>Corkscrew</a> which tunnels ssh through HTTPS and of courseSSH.Ntlmaps is a Python program that acts as _ a proxy software that allows you to authenticate via an MS Proxy Server using the proprietary NTLM protocol_. Once downloaded, all you need is to configure the hostname/port of your corporateproxy and your Windows domain username/password (I left other options with their default values).Corscrew can be compiled with Cygwin tools under Windows. Once compiled and installed configure SSH to use it. In order to do so, edit your ~/.ssh/config file and use the following command:<pre lang='text'> ProxyCommand /usr/local/bin/corkscrew 127.0.0.1 5865 %h %p</pre>.Corkscrew will use your local ntlmaps proxy server which in turn is authenticated on Microsoft proxy serverThen use SSH (openSSH) like this :<pre lang='text'># ssh -C -N -D 1080 -p 443 root@myhomemachine</pre>- -D to use the SSH daemon at the other side of the tunnel as a Socksv5 proxy server. It will listen locally on port 1080</p>
+  <div class="entry-content"><p><a href='http://www.jroller.com/page/ldewavrin/20040819'>Last time</a> I have used the combination of proxytunnel and SSH to connect tomy home machine from a corporate network behind a firewall and proxy. But it seems that proxytunnel is unableto pass through Microsoft ISA Proxy server. At least, I have tried with the -u and -p arguments of proxytunnels and it didn&#8217;t work (even with a username following this pattern domain\username or username@domain) The Microsoft ISA proxy server requires NTLM authenticationand there&#8217;s another combination that worked successfully to be able to connect through it to an external machine on SSL :<a href='http://ntlmaps.sourceforge.net/'>Ntlmaps</a>, <a href='http://www.agroman.net/corkscrew/'>Corkscrew</a> which tunnels ssh through HTTPS and of courseSSH.</p>
+
+<p>Ntlmaps is a Python program that acts as a proxy software that allows you to authenticate via an MS Proxy Server using the proprietary NTLM protocol. Once downloaded, all you need is to configure the hostname/port of your corporateproxy and your Windows domain username/password (I left other options with their default values).</p>
+
+<p>Corscrew can be compiled with Cygwin tools under Windows. Once compiled and installed configure SSH to use it. In order to do so, edit your ~/.ssh/config file and use the following command: <pre lang='text'> ProxyCommand /usr/local/bin/corkscrew 127.0.0.1 5865 %h %p</pre></p>
+
+<p>Corkscrew will use your local ntlmaps proxy server which in turn is authenticated on Microsoft proxy server. Then use SSH (openSSH) like this : <pre lang='text'># ssh -C -N -D 1080 -p 443 root@myhomemachine</pre></p>
+
+<p>-D to use the SSH daemon at the other side of the tunnel as a Socksv5 proxy server. It will listen locally on port 1080</p>
 
 <ul>
 <li>-C for compression</li>
 
-<li>-D to not start a shell Then you can configure your software to use the Socks proxy server on localhost port 1080</li>
-</ul></div>
+<li>-D to not start a shell</li>
+</ul>
+
+<p>Then you can configure your software to use the Socks proxy server on localhost port 1080</p></div>
   
   
 
@@ -437,7 +573,38 @@
   </header>
 
 
-  <div class="entry-content"><p>Today many middleware and back end enterprise systems embedtheir own SNMP agent (or at least send SNMP traps). SNMP agentsare polled by SNMP managers or enterprise monitoring systems likeTivoli Netview or HP Openview.<a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> offers the ablity to proxy the OS SNMP agent and other SNMP agents butgenerally it&#8217;s better to use the OS&#8217;s SNMP agent asa proxy for all applications SNMP agents hosted on your machine.(Mostly because if the OS SNMP agent fails it&#8217;s likely that the machine isdown and all its applications also ;-) whereas if <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent fails the OSmight still be alive )In order to achieve this goal on Linux/Unix, you can use the <a href='http://www.net-snmp.org/'>net-snmp</a>(a.k.a ucd-snmp) to proxy SNMP requests to <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server&#8217;s SNMP agent.And it&#8217;s pretty straightforwardThe <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> domain is composed here of 2 <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> servers one administrationserver adminserver and 1 managed server ejbserver on the hostname machine. The <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent runs on port1610 of the administration server and is allowed to received requests and send traps for the weblogicpublic community.Here&#8217;s the <a href='http://www.net-snmp.org/docs/man/snmpd.conf.html'>net-snmp snmpd.conf</a> I used:<pre lang='text' line='1'>syslocation  "SunOS hostname 5.8 Generic_108528-16 sun4u sparc SUNW,Sun-Fire-480R"syscontact  "Root "rocommunity publicrocommunity weblogicpublicrouser myuser noauthproxy -v 1 -c weblogicpublic hostname:1610 .1.3.6.1.4.1.140proxy -Cn adminserver -v 1 -c weblogicpublic@adminserver hostname:1610 .1.3.6.1.4.1.140proxy -Cn ejbserver -v 1 -c weblogicpublic@ejbserver hostname:1610 .1.3.6.1.4.1.140</pre>Line 4: we authorize the weblogicpublic community to perform SNMP polling requests.Line 6: by default SNMP requests are forwarded to <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent without context for all requests that concern the <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server MIB (starting with .1.3.6.1.4.1.140 OID)Line 7: a context is configured to address the adminserver <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> serverLine 8: same as above for the ejbserverDon&#8217;t forget to add the <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a>&#8217;s MIB in the net-snmp MIB repository and you&#8217;re done.</p></div>
+  <div class="entry-content"><p>Today many middleware and back end enterprise systems embedtheir own SNMP agent (or at least send SNMP traps). SNMP agentsare polled by SNMP managers or enterprise monitoring systems likeTivoli Netview or HP Openview.</p>
+
+<p><a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> offers the ablity to proxy the OS SNMP agent and other SNMP agents butgenerally it&#8217;s better to use the OS&#8217;s SNMP agent asa proxy for all applications SNMP agents hosted on your machine.(Mostly because if the OS SNMP agent fails it&#8217;s likely that the machine isdown and all its applications also ;-) whereas if <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent fails the OSmight still be alive).</p>
+
+<p>In order to achieve this goal on Linux/Unix, you can use the <a href='http://www.net-snmp.org/'>net-snmp</a>(a.k.a ucd-snmp) to proxy SNMP requests to <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server&#8217;s SNMP agent.And it&#8217;s pretty straightforward.</p>
+
+<p>The <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> domain is composed here of 2 <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> servers one administrationserver adminserver and 1 managed server ejbserver on the hostname machine. The <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent runs on port1610 of the administration server and is allowed to received requests and send traps for the weblogicpublic community.</p>
+
+<p>Here&#8217;s the <a href='http://www.net-snmp.org/docs/man/snmpd.conf.html'>net-snmp snmpd.conf</a> I used:</p>
+<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>syslocation  "SunOS hostname 5.8 Generic_108528-16 sun4u sparc SUNW,Sun-Fire-480R"
+</span><span class='line'>syscontact  "Root "
+</span><span class='line'>rocommunity public
+</span><span class='line'>rocommunity weblogicpublic
+</span><span class='line'>rouser myuser noauth
+</span><span class='line'>proxy -v 1 -c weblogicpublic hostname:1610 .1.3.6.1.4.1.140
+</span><span class='line'>proxy -Cn adminserver -v 1 -c weblogicpublic@adminserver hostname:1610 .1.3.6.1.4.1.140
+</span><span class='line'>proxy -Cn ejbserver -v 1 -c weblogicpublic@ejbserver hostname:1610 .1.3.6.1.4.1.140</span></code></pre></td></tr></table></div></figure>
+<p>Line 4: we authorize the weblogicpublic community to perform SNMP polling requests.</p>
+
+<p>Line 6: by default SNMP requests are forwarded to <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent without context for all requests that concern the <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server MIB (starting with .1.3.6.1.4.1.140 OID)</p>
+
+<p>Line 7: a context is configured to address the adminserver <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server</p>
+
+<p>Line 8: same as above for the ejbserverDon&#8217;t forget to add the <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a>&#8217;s MIB in the net-snmp MIB repository and you&#8217;re done.</p></div>
   
   
 
@@ -474,12 +641,54 @@
   </header>
 
 
-  <div class="entry-content"><p>Ok back to more serious <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> posts !Intranet web applications often require to authenticateusers with their Windows domain account.<a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> can be easily configured to authenticate users through ActiveDirectory Server. <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> connects to ADS with LDAP (protocol) andtries to bind to the latter with user&#8217;s credentials.To do so, it&#8217;s pretty easy,just create in your security realm an &#8220;Active Directory Authenticator&#8221;.You need an account which will have sufficient rights to browse the LDAP&#8217;s Directory InformationTree of ADS to retrieve users and groups. Also you need to configure ADS to authorize LDAPrequests :bind,read and lookups at least on the branches where users and groups reside (this seems to be enabled by default once connected as domain user).When a user will connect to your Web application and be asked for login/password, the followingsteps will be performed by the authenticator:- Retrieve the Distinguished Name of the user by performing a LDAP request to ADS.The search&#8217;s filter and base DN can be configured in the users tab of the authenticator in the administration console. Also in that tab you can specify theuser&#8217;s attribute name with which the filter to get the user DN will be applied.</p>
+  <div class="entry-content"><p>Ok back to more serious <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> posts !</p>
+
+<p>Intranet web applications often require to authenticate users with their Windows domain account.<a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> can be easily configured to authenticate users through ActiveDirectory Server. <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> connects to ADS with LDAP (protocol) andtries to bind to the latter with user&#8217;s credentials.</p>
+
+<p>To do so, it&#8217;s pretty easy,just create in your security realm an &#8220;Active Directory Authenticator&#8221;.</p>
+
+<p>You need an account which will have sufficient rights to browse the LDAP&#8217;s Directory InformationTree of ADS to retrieve users and groups. Also you need to configure ADS to authorize LDAPrequests: bind,read and lookups at least on the branches where users and groups reside (this seems to be enabled by default once connected as domain user).</p>
+
+<p>When a user will connect to your Web application and be asked for login/password, the following steps will be performed by the authenticator:</p>
 
 <ul>
+<li>Retrieve the Distinguished Name of the user by performing a LDAP request to ADS.The search&#8217;s filter and base DN can be configured in the users tab of the authenticator in the administration console. Also in that tab you can specify theuser&#8217;s attribute name with which the filter to get the user DN will be applied.</li>
+
 <li>Then <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> binds to ADS with the distinguished name and password given.</li>
 
-<li>If previous step is successful, then it tries to find out to which groups the userbelongs. For this, the filter defined in the membership tab (when configuring the authenticator)is used on each static group. Then in the &#8220;autentication and authorization&#8221; process the other security providers ( authorization and role mapper)are invoked. As you might have noticed, LDAP requests are numerous and it&#8217;s a good idea toenable the cache of LDAP lookups. The cache has a TTL but there&#8217;s no option to reset the cache in the console. The AD authenticator MBean doesn&#8217;t provide a method to reset the cache programmatically.Here&#8217;s a sample configuration extracted from the config.xml file I used for a domain called snakeoil.com.Of course, you might have organised your users and groups differentlyand should adapt your base DN search and filter parameters.<pre lang='xml'><weblogic.security.providers.authentication.activedirectoryauthenticator credential='{3DES}8KN5usC0Qp0qSVbgQqtHpg==' displayname='SNAKEOIL_ADS' groupbasedn='OU=SNAKEOIL_GLOBAL_GROUPS,OU=US,DC=snakeoil,DC=com' host='myhost' name='Security:Name=myrealmSNAKEOIL_ADS' ontrolflag='OPTIONAL' principal='CN=FirstName LastName,OU=SNAKEOIL_USERS_INTERNALS,OU=SNAKEOIL_USERS,OU=US,DC=snakeoil,DC=com' realm='Security:Name=myrealm' userbasedn='OU=SNAKEOIL_USERS,OU=US,DC=snakeoil,DC=com' userfromnamefilter='(&amp;(sAMAccountName=%u)(objectclass=user))' usernameattribute='sAMAccountName' /></pre>I didn&#8217;t change the membership&#8217;s default parameters (they were fine for my environment)that&#8217;s why they don&#8217;t appear here. The SAMAccountName attribute which contains the Windows login Idis used to find the user DN.<strong>NB1:</strong>By default the JAAS flag of the default authenticator is &#8220;required&#8221; and you should change it to &#8220;Sufficient&#8221; or &#8220;Optional&#8221; otherwise your ADS users will be denied access to your application<strong>NB2:</strong>Their might be a way to transparently authenticate the user once it has an open session on Windows but I haven&#8217;t investigated on that (maybe with Kerberos):Update 12/7/2004: I am answering to my ignorance: yes it exists it is NTLM protocol <a href='http://www.luigidragone.com/networking/ntlm.html'>link</a>But it seems that there&#8217;s no easy way to use it with WLS. It must be better to proxy <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> with IIS or use SiteMinder.Update 22/02/2005: Since WLS 8.1 sp4 it&#8217;s possible to get automatically authenticated with the Kerberos token obtained once logged in the Windows domain. More explanations on <a href='e-docs.bea.com/wls/docs81/secmanage/sso.html'>edocs.bea.com</a><strong>Links:</strong>- edocs.bea.com documentation about <a href='http://e-docs.bea.com/wls/docs81/secmanage/providers.html#1172008'>Configuring LDAP authenticators</a></li>
+<li>If previous step is successful, then it tries to find out to which groups the userbelongs. For this, the filter defined in the membership tab (when configuring the authenticator)is used on each static group. Then in the &#8220;autentication and authorization&#8221; process the other security providers ( authorization and role mapper)are invoked.</li>
+</ul>
+
+<p>As you might have noticed, LDAP requests are numerous and it&#8217;s a good idea toenable the cache of LDAP lookups. The cache has a TTL but there&#8217;s no option to reset the cache in the console. The AD authenticator MBean doesn&#8217;t provide a method to reset the cache programmatically.Here&#8217;s a sample configuration extracted from the config.xml file I used for a domain called snakeoil.com.Of course, you might have organised your users and groups differentlyand should adapt your base DN search and filter parameters.</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;weblogic.security.providers.authentication.activedirectoryauthenticator</span>
+</span><span class='line'><span class='na'>ontrolflag=</span><span class='s'>&quot;OPTIONAL&quot;</span> <span class='na'>credential=</span><span class='s'>&quot;{3DES}8KN5usC0Qp0qSVbgQqtHpg==&quot;</span> <span class='na'>displayname=</span><span class='s'>&quot;SNAKEOIL_ADS&quot;</span>
+</span><span class='line'><span class='na'>groupbasedn=</span><span class='s'>&quot;OU=SNAKEOIL_GLOBAL_GROUPS,OU=US,DC=snakeoil,DC=com&quot;</span> <span class='na'>host=</span><span class='s'>&quot;myhost&quot;</span>
+</span><span class='line'><span class='na'>name=</span><span class='s'>&quot;Security:Name=myrealmSNAKEOIL_ADS&quot;</span> <span class='na'>principal=</span><span class='s'>&quot;CN=FirstName </span>
+</span><span class='line'><span class='s'>LastName,OU=SNAKEOIL_USERS_INTERNALS,OU=SNAKEOIL_USERS,OU=US,DC=snakeoil,DC=com&quot;</span> <span class='na'>realm=</span><span class='s'>&quot;Security:Name=myrealm&quot;</span>
+</span><span class='line'><span class='na'>userbasedn=</span><span class='s'>&quot;OU=SNAKEOIL_USERS,OU=US,DC=snakeoil,DC=com&quot;</span>
+</span><span class='line'><span class='na'>userfromnamefilter=</span><span class='s'>&quot;(&amp;amp;(sAMAccountName=%u)(objectclass=user))&quot;</span>
+</span><span class='line'><span class='na'>usernameattribute=</span><span class='s'>&quot;sAMAccountName&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/weblogic.security.providers.authentication.activedirectoryauthenticator&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>I didn&#8217;t change the membership&#8217;s default parameters (they were fine for my environment)that&#8217;s why they don&#8217;t appear here. The SAMAccountName attribute which contains the Windows login Idis used to find the user DN.</p>
+
+<p><strong>NB1:</strong> By default the JAAS flag of the default authenticator is &#8220;required&#8221; and you should change it to &#8220;Sufficient&#8221; or &#8220;Optional&#8221; otherwise your ADS users will be denied access to your application</p>
+
+<p><strong>NB2:</strong> Their might be a way to transparently authenticate the user once it has an open session on Windows but I haven&#8217;t investigated on that (maybe with Kerberos):Update 12/7/2004: I am answering to my ignorance: yes it exists it is NTLM protocol <a href='http://www.luigidragone.com/networking/ntlm.html'>link</a>But it seems that there&#8217;s no easy way to use it with WLS. It must be better to proxy <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> with IIS or use SiteMinder.Update 22/02/2005: Since WLS 8.1 sp4 it&#8217;s possible to get automatically authenticated with the Kerberos token obtained once logged in the Windows domain. More explanations on <a href='e-docs.bea.com/wls/docs81/secmanage/sso.html'>edocs.bea.com</a></p>
+
+<p><strong>Links:</strong></p>
+
+<ul>
+<li>edocs.bea.com documentation about <a href='http://e-docs.bea.com/wls/docs81/secmanage/providers.html#1172008'>Configuring LDAP authenticators</a></li>
 
 <li>edocs.bea.com documentation about <a href='e-docs.bea.com/wls/docs81/secmanage/sso.html'>Configuring Single Sign-On with Microsoft Clients</a></li>
 
@@ -554,6 +763,7 @@
 
 
 
+<section><h1>Tags</h1><p><a href="/tags/ant" title="Postings tagged ant" style="font-size: 11.0px; line-height:11.0px">ant</a> <a href="/tags/aop" title="Postings tagged aop" style="font-size: 11.0px; line-height:11.0px">aop</a> <a href="/tags/aspectj" title="Postings tagged aspectj" style="font-size: 11.0px; line-height:11.0px">aspectj</a> <a href="/tags/asterisk" title="Postings tagged asterisk" style="font-size: 10.5px; line-height:10.5px">asterisk</a> <a href="/tags/axis" title="Postings tagged axis" style="font-size: 10.5px; line-height:10.5px">axis</a> <a href="/tags/blog" title="Postings tagged blog" style="font-size: 10.5px; line-height:10.5px">blog</a> <a href="/tags/eclipse" title="Postings tagged eclipse" style="font-size: 11.0px; line-height:11.0px">eclipse</a> <a href="/tags/ejb" title="Postings tagged ejb" style="font-size: 10.5px; line-height:10.5px">ejb</a> <a href="/tags/firewall" title="Postings tagged firewall" style="font-size: 12.5px; line-height:12.5px">firewall</a> <a href="/tags/freebsd" title="Postings tagged freebsd" style="font-size: 10.5px; line-height:10.5px">freebsd</a> <a href="/tags/grails" title="Postings tagged grails" style="font-size: 10.5px; line-height:10.5px">grails</a> <a href="/tags/groovy" title="Postings tagged groovy" style="font-size: 10.5px; line-height:10.5px">groovy</a> <a href="/tags/gwt" title="Postings tagged gwt" style="font-size: 10.5px; line-height:10.5px">gwt</a> <a href="/tags/htmlunit" title="Postings tagged htmlunit" style="font-size: 10.5px; line-height:10.5px">htmlunit</a> <a href="/tags/jBPM" title="Postings tagged jBPM" style="font-size: 11.0px; line-height:11.0px">jBPM</a> <a href="/tags/java" title="Postings tagged java" style="font-size: 12.5px; line-height:12.5px">java</a> <a href="/tags/jaxb" title="Postings tagged jaxb" style="font-size: 10.5px; line-height:10.5px">jaxb</a> <a href="/tags/jdbc" title="Postings tagged jdbc" style="font-size: 11.0px; line-height:11.0px">jdbc</a> <a href="/tags/jibx" title="Postings tagged jibx" style="font-size: 10.5px; line-height:10.5px">jibx</a> <a href="/tags/jms" title="Postings tagged jms" style="font-size: 10.5px; line-height:10.5px">jms</a> <a href="/tags/jmx" title="Postings tagged jmx" style="font-size: 10.5px; line-height:10.5px">jmx</a> <a href="/tags/jpa" title="Postings tagged jpa" style="font-size: 10.5px; line-height:10.5px">jpa</a> <a href="/tags/jrockit" title="Postings tagged jrockit" style="font-size: 10.5px; line-height:10.5px">jrockit</a> <a href="/tags/jsf" title="Postings tagged jsf" style="font-size: 10.5px; line-height:10.5px">jsf</a> <a href="/tags/jta" title="Postings tagged jta" style="font-size: 10.5px; line-height:10.5px">jta</a> <a href="/tags/ldap" title="Postings tagged ldap" style="font-size: 10.5px; line-height:10.5px">ldap</a> <a href="/tags/lingo" title="Postings tagged lingo" style="font-size: 10.5px; line-height:10.5px">lingo</a> <a href="/tags/maven" title="Postings tagged maven" style="font-size: 13.0px; line-height:13.0px">maven</a> <a href="/tags/misc" title="Postings tagged misc" style="font-size: 13.0px; line-height:13.0px">misc</a> <a href="/tags/osgi" title="Postings tagged osgi" style="font-size: 10.5px; line-height:10.5px">osgi</a> <a href="/tags/quartz" title="Postings tagged quartz" style="font-size: 10.5px; line-height:10.5px">quartz</a> <a href="/tags/rails" title="Postings tagged rails" style="font-size: 10.5px; line-height:10.5px">rails</a> <a href="/tags/ruby" title="Postings tagged ruby" style="font-size: 10.5px; line-height:10.5px">ruby</a> <a href="/tags/seam" title="Postings tagged seam" style="font-size: 12.0px; line-height:12.0px">seam</a> <a href="/tags/security" title="Postings tagged security" style="font-size: 12.0px; line-height:12.0px">security</a> <a href="/tags/snmp" title="Postings tagged snmp" style="font-size: 10.5px; line-height:10.5px">snmp</a> <a href="/tags/spring" title="Postings tagged spring" style="font-size: 14.5px; line-height:14.5px">spring</a> <a href="/tags/subversion" title="Postings tagged subversion" style="font-size: 10.5px; line-height:10.5px">subversion</a> <a href="/tags/swing" title="Postings tagged swing" style="font-size: 10.5px; line-height:10.5px">swing</a> <a href="/tags/tomcat" title="Postings tagged tomcat" style="font-size: 11.0px; line-height:11.0px">tomcat</a> <a href="/tags/tuning" title="Postings tagged tuning" style="font-size: 10.5px; line-height:10.5px">tuning</a> <a href="/tags/voip" title="Postings tagged voip" style="font-size: 10.5px; line-height:10.5px">voip</a> <a href="/tags/vpn" title="Postings tagged vpn" style="font-size: 10.5px; line-height:10.5px">vpn</a> <a href="/tags/web2.0-ria" title="Postings tagged web2.0-ria" style="font-size: 10.5px; line-height:10.5px">web2.0-ria</a> <a href="/tags/weblogic" title="Postings tagged weblogic" style="font-size: 20.0px; line-height:20.0px">weblogic</a> <a href="/tags/webservices" title="Postings tagged webservices" style="font-size: 10.5px; line-height:10.5px">webservices</a> <a href="/tags/websphere" title="Postings tagged websphere" style="font-size: 10.5px; line-height:10.5px">websphere</a> <a href="/tags/xfire" title="Postings tagged xfire" style="font-size: 10.5px; line-height:10.5px">xfire</a> <a href="/tags/xpath" title="Postings tagged xpath" style="font-size: 10.5px; line-height:10.5px">xpath</a> </p></section>
 <section>
   <h1>Visitors</h1>
   <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
@@ -561,9 +771,6 @@
 </section>
 
   
-<div id="tag-cloud">
-  {&#8220;safe&#8221;=>false, &#8220;auto&#8221;=>false, &#8220;server&#8221;=>false, &#8220;server_port&#8221;=>4000, &#8220;source&#8221;=>&#8221;source&#8221;, &#8220;destination&#8221;=>&#8221;public&#8221;, &#8220;plugins&#8221;=>&#8221;plugins&#8221;, &#8220;future&#8221;=>true, &#8220;lsi&#8221;=>false, &#8220;pygments&#8221;=>false, &#8220;markdown&#8221;=>&#8221;maruku&#8221;, &#8220;permalink&#8221;=>&#8221;/blog/:year/:month/:day/:title/&#8221;, &#8220;markdown_ext&#8221;=>&#8221;markdown,mkd,mkdn,md&#8221;, &#8220;textile_ext&#8221;=>&#8221;textile&#8221;, &#8220;maruku&#8221;=>{&#8220;use_tex&#8221;=>false, &#8220;use_divs&#8221;=>false, &#8220;png_engine&#8221;=>&#8221;blahtex&#8221;, &#8220;png_dir&#8221;=>&#8221;images/latex&#8221;, &#8220;png_url&#8221;=>&#8221;/images/latex&#8221;}, &#8220;rdiscount&#8221;=>{&#8220;extensions&#8221;=>[]}, &#8220;redcarpet&#8221;=>{&#8220;extensions&#8221;=>[]}, &#8220;kramdown&#8221;=>{&#8220;auto_ids&#8221;=>true, &#8220;footnote_nr&#8221;=>1, &#8220;entity_output&#8221;=>&#8221;as_char&#8221;, &#8220;toc_levels&#8221;=>&#8221;1..6&#8221;, &#8220;use_coderay&#8221;=>false, &#8220;coderay&#8221;=>{&#8220;coderay_wrap&#8221;=>&#8221;div&#8221;, &#8220;coderay_line_numbers&#8221;=>&#8221;inline&#8221;, &#8220;coderay_line_number_start&#8221;=>1, &#8220;coderay_tab_width&#8221;=>4, &#8220;coderay_bold_every&#8221;=>10, &#8220;coderay_css&#8221;=>&#8221;style&#8221;}}, &#8220;url&#8221;=>&#8221;http://lucdew.github.com&#8221;, &#8220;title&#8221;=>&#8221;Luc Dewavrin&#8217;s website&#8221;, &#8220;subtitle&#8221;=>nil, &#8220;author&#8221;=>&#8221;Luc Dewavrin&#8221;, &#8220;simple_search&#8221;=>&#8221;http://google.com/search&#8221;, &#8220;description&#8221;=>nil, &#8220;date_format&#8221;=>&#8221;ordinal&#8221;, &#8220;subscribe_rss&#8221;=>&#8221;/atom.xml&#8221;, &#8220;subscribe_email&#8221;=>nil, &#8220;email&#8221;=>nil, &#8220;root&#8221;=>&#8221;/&#8221;, &#8220;code_dir&#8221;=>&#8221;downloads/code&#8221;, &#8220;category_dir&#8221;=>&#8221;blog/categories&#8221;, &#8220;paginate&#8221;=>10, &#8220;pagination_dir&#8221;=>&#8221;blog&#8221;, &#8220;recent_posts&#8221;=>5, &#8220;excerpt_link&#8221;=>&#8221;Read on &rarr;&#8221;, &#8220;titlecase&#8221;=>true, &#8220;default_asides&#8221;=>[&#8220;asides/recent_posts.html&#8221;, &#8220;asides/github.html&#8221;, &#8220;asides/twitter.html&#8221;, &#8220;asides/delicious.html&#8221;, &#8220;asides/pinboard.html&#8221;, &#8220;asides/googleplus.html&#8221;, &#8220;custom/asides/clustrmap.html&#8221;], &#8220;github_user&#8221;=>nil, &#8220;github_repo_count&#8221;=>0, &#8220;github_show_profile_link&#8221;=>true, &#8220;github_skip_forks&#8221;=>true, &#8220;twitter_user&#8221;=>&#8221;lucdew&#8221;, &#8220;twitter_tweet_count&#8221;=>4, &#8220;twitter_show_replies&#8221;=>false, &#8220;twitter_follow_button&#8221;=>true, &#8220;twitter_show_follower_count&#8221;=>false, &#8220;twitter_tweet_button&#8221;=>true, &#8220;google_plus_one&#8221;=>false, &#8220;google_plus_one_size&#8221;=>&#8221;medium&#8221;, &#8220;googleplus_user&#8221;=>nil, &#8220;googleplus_hidden&#8221;=>false, &#8220;pinboard_user&#8221;=>nil, &#8220;pinboard_count&#8221;=>3, &#8220;delicious_user&#8221;=>nil, &#8220;delicious_count&#8221;=>3, &#8220;disqus_short_name&#8221;=>&#8221;lucdewavrinsblog&#8221;, &#8220;disqus_show_comment_count&#8221;=>true, &#8220;google_analytics_tracking_id&#8221;=>&#8221;UA-1239956-1&#8221;, &#8220;facebook_like&#8221;=>false, &#8220;tag_page_layout&#8221;=>&#8221;tag_page&#8221;, &#8220;tag_page_dir&#8221;=>&#8221;tag&#8221;, &#8220;time&#8221;=>2012-01-01 10:43:01 -0500, &#8220;posts&#8221;=>[<Post: /blog/2009/09/16/last-post>, <Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/04/20/acquisition-de-sun-par-oracle>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/12/jboss-resources>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/10/22/jaxb-bug-527>, <Post: /blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/08/27/switched-to-french-canadian-keyboard>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2008/01/16/it-consolidation>, <Post: /blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list>, <Post: /blog/2007/12/30/would-you-blog-about-my-song>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/12/24/my-top-10-blogs>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/11/05/seam-20-released>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>, <Post: /blog/2006/12/18/gwt-client-with-rails-backend-integration-tip-2>, <Post: /blog/2006/11/27/maven-quick-tip-adding-a-local-dependency>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/05/25/use-your-voip-softphone-work-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>, <Post: /blog/2006/04/06/leverage-ant-xml-nature-2>, <Post: /blog/2006/04/06/java-on-freebsd-2>, <Post: /blog/2006/02/28/memory-leaks-2>, <Post: /blog/2006/02/20/axis-through-apache-httpd-quick-tips-2>, <Post: /blog/2006/02/17/is-ruby-ready-for-enterprise-2>, <Post: /blog/2006/01/17/2005-review>, <Post: /blog/2005/12/24/article-on-spring-and-aop-2>, <Post: /blog/2005/10/25/persistent-quartz-jobs-with-spring-2>, <Post: /blog/2005/09/17/programmatic-authentication-in-tomcat>, <Post: /blog/2005/09/17/memory-leaks-hunting-articles-2>, <Post: /blog/2005/08/02/tomcat-active-directory-realm-2>, <Post: /blog/2005/07/25/weblogic-server-90-released-2>, <Post: /blog/2005/06/28/feelings-after-1st-swing-app-development-2>, <Post: /blog/2005/06/20/paris-air-show-2005-2>, <Post: /blog/2005/05/10/enable-logging-for-jdbcs-thin-driver-in-weblogic>, <Post: /blog/2005/05/07/hacked-or-not>, <Post: /blog/2005/05/04/weblogic-ssl-with-openssl>, <Post: /blog/2005/04/11/weblogic-prepared-statement-caching-2>, <Post: /blog/2005/04/01/weblogic-impossible-to-load-other-jmx-classes>, <Post: /blog/2005/03/30/interesting-article-about-weblogic-entity-ejb-clustering>, <Post: /blog/2005/03/23/websphered>, <Post: /blog/2005/03/10/passing-through-corporate-firewall-part2-2>, <Post: /blog/2005/03/06/proxying-weblogic-snmp-agent>, <Post: /blog/2005/02/22/weblogic-and-active-directory-authentication>, <Post: /blog/2004/12/24/presentation-slides-of-weblogic-server-90-2>, <Post: /blog/2004/12/16/jrockit-rocks-on-ia64>, <Post: /blog/2004/12/15/wls-90-beta-is-out-2>, <Post: /blog/2004/10/29/passing-through-corporate-firewall>, <Post: /blog/2004/10/29/broadcasting-music-with-itunes-on-your-corporate-network>, <Post: /blog/2004/09/28/weblogic-server-9>, <Post: /blog/2004/08/30/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell>, <Post: /blog/2004/08/19/weblogic-ant-tasks-2>, <Post: /blog/2004/08/19/boost-eclipse-performance-under-windows>, <Post: /blog/2004/07/18/weblogic-81-sp3-is-out-2>, <Post: /blog/2004/07/18/french-national-day-photos>, <Post: /blog/2004/07/17/weblog-opened-2>, <Post: /blog/2004/07/17/openssl-and-weblogic-howto-2>, <Post: /blog/2004/04/14/luc-dewvrin>], &#8220;pages&#8221;=>[#<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">], &#8220;html_pages&#8221;=>[#<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">], &#8220;categories&#8221;=>{&#8220;general&#8221;=>[<Post: /blog/2009/09/16/last-post>, <Post: /blog/2009/04/20/acquisition-de-sun-par-oracle>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2007/12/24/my-top-10-blogs>, <Post: /blog/2006/05/25/use-your-voip-softphone-work-2>, <Post: /blog/2006/04/06/leverage-ant-xml-nature-2>, <Post: /blog/2006/02/17/is-ruby-ready-for-enterprise-2>, <Post: /blog/2005/06/20/paris-air-show-2005-2>, <Post: /blog/2005/05/07/hacked-or-not>, <Post: /blog/2005/03/10/passing-through-corporate-firewall-part2-2>, <Post: /blog/2004/10/29/broadcasting-music-with-itunes-on-your-corporate-network>, <Post: /blog/2004/09/28/weblogic-server-9>, <Post: /blog/2004/07/18/french-national-day-photos>, <Post: /blog/2004/07/17/weblog-opened-2>, <Post: /blog/2004/04/14/luc-dewvrin>], &#8220;weblogic&#8221;=>[<Post: /blog/2005/09/17/memory-leaks-hunting-articles-2>, <Post: /blog/2005/07/25/weblogic-server-90-released-2>, <Post: /blog/2005/05/10/enable-logging-for-jdbcs-thin-driver-in-weblogic>, <Post: /blog/2005/04/11/weblogic-prepared-statement-caching-2>, <Post: /blog/2005/04/01/weblogic-impossible-to-load-other-jmx-classes>, <Post: /blog/2005/03/30/interesting-article-about-weblogic-entity-ejb-clustering>, <Post: /blog/2005/03/06/proxying-weblogic-snmp-agent>, <Post: /blog/2005/02/22/weblogic-and-active-directory-authentication>, <Post: /blog/2004/12/24/presentation-slides-of-weblogic-server-90-2>, <Post: /blog/2004/12/16/jrockit-rocks-on-ia64>, <Post: /blog/2004/12/15/wls-90-beta-is-out-2>, <Post: /blog/2004/08/30/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell>, <Post: /blog/2004/08/19/weblogic-ant-tasks-2>, <Post: /blog/2004/07/18/weblogic-81-sp3-is-out-2>, <Post: /blog/2004/07/17/openssl-and-weblogic-howto-2>], &#8220;java&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/12/jboss-resources>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/10/22/jaxb-bug-527>, <Post: /blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/11/05/seam-20-released>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>, <Post: /blog/2006/12/18/gwt-client-with-rails-backend-integration-tip-2>, <Post: /blog/2006/11/27/maven-quick-tip-adding-a-local-dependency>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>, <Post: /blog/2006/04/06/java-on-freebsd-2>, <Post: /blog/2006/02/28/memory-leaks-2>, <Post: /blog/2006/02/20/axis-through-apache-httpd-quick-tips-2>, <Post: /blog/2006/01/17/2005-review>, <Post: /blog/2005/12/24/article-on-spring-and-aop-2>, <Post: /blog/2005/10/25/persistent-quartz-jobs-with-spring-2>, <Post: /blog/2005/09/17/programmatic-authentication-in-tomcat>, <Post: /blog/2005/08/02/tomcat-active-directory-realm-2>, <Post: /blog/2005/06/28/feelings-after-1st-swing-app-development-2>, <Post: /blog/2005/03/23/websphered>, <Post: /blog/2004/10/29/passing-through-corporate-firewall>, <Post: /blog/2004/08/19/boost-eclipse-performance-under-windows>], &#8220;uncategorized&#8221;=>[<Post: /blog/2007/12/30/would-you-blog-about-my-song>, <Post: /blog/2005/05/04/weblogic-ssl-with-openssl>], &#8220;tech&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/08/27/switched-to-french-canadian-keyboard>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2008/01/16/it-consolidation>, <Post: /blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>]}, &#8220;tags&#8221;=>{&#8220;ant&#8221;=>[<Post: /blog/2006/04/06/leverage-ant-xml-nature-2>], &#8220;aop&#8221;=>[<Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;aspectj&#8221;=>[<Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;spring&#8221;=>[<Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;maven&#8221;=>[<Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>], &#8220;asterisk&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;voip&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;vpn&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;jms&#8221;=>[<Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>], &#8220;lingo&#8221;=>[<Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>], &#8220;jibx&#8221;=>[<Post: /blog/2007/02/05/xfire-with-jbix>], &#8220;xfire&#8221;=>[<Post: /blog/2007/02/05/xfire-with-jbix>], &#8220;seam&#8221;=>[<Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2007/11/05/seam-20-released>], &#8220;jBPM&#8221;=>[<Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2007/11/16/a-jbpm-review>], &#8220;blog&#8221;=>[<Post: /blog/2007/12/24/my-top-10-blogs>], &#8220;htmlunit&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;java&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;xpath&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;web2.0-ria&#8221;=>[<Post: /blog/2007/12/30/would-you-blog-about-my-song>], &#8220;subversion&#8221;=>[<Post: /blog/2008/06/02/stat-your-commits>], &#8220;jpa&#8221;=>[<Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>], &#8220;jsf&#8221;=>[<Post: /blog/2008/09/01/some-common-jsf-pitfalls>], &#8220;jaxb&#8221;=>[<Post: /blog/2008/10/22/jaxb-bug-527>], &#8220;grails&#8221;=>[<Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>], &#8220;osgi&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>]}}
-</div>
 </aside>
 
     </div>

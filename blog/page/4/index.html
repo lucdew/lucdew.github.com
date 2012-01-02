@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Luc Dewavrin's website</title>
+  <title>Luc Dewavrin website</title>
   <meta name="author" content="Luc Dewavrin">
 
   
@@ -24,7 +24,7 @@
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin website" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -47,7 +47,7 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  <h1><a href="/">Luc Dewavrin website</a></h1>
   
 </hgroup>
 
@@ -105,7 +105,81 @@
   </header>
 
 
-  <div class="entry-content"><p>Writing a rich web interface in Java and server side code in ruby : pretty unsual isn&#8217;it ? But hey after all, web client interfaces get everyday more complex and are mix of technologies. Gwt sounds interesting since you write your complex web UI components like you&#8217;d write a Swing widget, mostly in Java. Then, unlike echo2 you can compile your Gwt code to Javascript and Html and deploy it in any Web server.So, if you &#8216;d like to invoke a rails service with a Gwt client and getsa Json response here are the steps to achieve this kind of stuff.1) Create a Gwt JSNI class to invoke your rails service.Update 12/17/06: Since GWT 1.2.2, you can achievethis without writing your own JSNI class, by using the GWT <a href='http://code.google.com/webtoolkit/documentation/com.google.gwt.http.client.RequestBuilder.html'>RequestBuilder</a> class which provides a method to set your own http header.<a href='http://code.google.com/webtoolkit/documentation/com.google.gwt.doc.DeveloperGuide.JavaScriptNativeInterface.html'>Java Script Native Interface</a> is Google Web Toolkit equivalent of JNI but for Javascript. Java objects (which are BTW translated to Javascript code by GWT compiler) can interact with Javascript objects (and reversly).Rails <strong>respond_to</strong> method available in each controller can be used to respond to yourclient and deliver a different response for each mime type asked.Rails uses <strong>Accept HTTP header</strong> to differentiate the asked media type response.So the class <a href='http://www.dewavrin.info/code/HTTPJsonRequest.java'>Java source file</a> have static GET and POST methods which perform HTTP requests and especially set the accept HTTP header to &#8216;text/json&#8217; . (I grabbed this code from the GWT mailing list and modified it a little bit).Then declare it in your GWT module.<pre lang='xml'><inherits name='biz.dewavrin.net.HTTPJsonRequest' /></pre>2) Enable rails to perform Json responses.Everything is explained <a href='http://superfluo.org/blojsom/blog/pic/devel/2006/06/21/How-to-register-a-new-MIME-type-in-Rails.html'>on this blog entry.</a>N.B: importing the json module is &#8220;superfluous&#8221; ;-) since it&#8217;s packed with rails 1.13) Modify ROR active record base class to dump themselves as a Json data structure.Add the following method (the code comes from rails wiki):<pre lang='ruby'>def to_json(*)result = Hash.newself.class.content_columns.each do |column|result[column.name.to_sym] = self.send(column.name)endresult.to_jsonend</pre>4) UsageIn your rails controller, send a Json response when asked (note the call to the to_json method):<pre lang='ruby'>def list@songs = Song.find(:all)respond_to do |wants|wants.json {     render :text =&gt; @songs.to_json    }wants.html { @song_pages, @songs = paginate :song, :per_page =&gt; 10}endend</pre> and in your GWT client, the asynchronous HTTP request-response:<pre lang='java'> HTTPJsonRequest.asyncGet("http://localhost:3000/library/list", new ResponseTextHandler() {try { JSONValue jsonValue = JSONParser.parse(responseText); ... }catch (JSONException e) { // do nothing } } );</pre>Note that this solution is limited for the following reasons:- It&#8217;s forbidden to do Java reflection in the GWT client. So you can&#8217;tinstantiate a JavaBean from a Json object in a generic way.I would have liked to add a type field in my Json data representationand have my Java code instantiate a bean. - Gwt client limits usage of J2SE 1.4.2 to collection&#8217;s API and some java.lang classes. See <a href='http://code.google.com/webtoolkit/documentation/com.google.gwt.doc.DeveloperGuide.Fundamentals.JavaToJavaScriptCompiler.JavaRuntimeSupport.html'>runtime library support</a></p></div>
+  <div class="entry-content"><p>
+Writing a rich web interface in Java and server side code in ruby : pretty unsual isn&#8217;it ? But hey after all, web client interfaces get everyday more complex and are mix of technologies. Gwt sounds interesting since you write your complex web UI components like you&#8217;d write a Swing widget, mostly in Java. 
+Then, unlike echo2  you can compile your Gwt code to Javascript and Html and deploy it in any Web server.So, if you would like to invoke a rails service with a Gwt client and getsa Json response here are the steps to achieve this kind of stuff.
+</p>
+<p>1) Create a Gwt JSNI class to invoke your rails service.</p>
+
+<p>Update 12/17/06: Since GWT 1.2.2, you can achievethis without writing your own JSNI class, by using the GWT <a href='http://code.google.com/webtoolkit/documentation/com.google.gwt.http.client.RequestBuilder.html'>RequestBuilder</a> class which provides a method to set your own http header.<a href='http://code.google.com/webtoolkit/documentation/com.google.gwt.doc.DeveloperGuide.JavaScriptNativeInterface.html'>Java Script Native Interface</a> is Google Web Toolkit equivalent of JNI but for Javascript. Java objects (which are BTW translated to Javascript code by GWT compiler) can interact with Javascript objects (and reversly).Rails <strong>respond_to</strong> method available in each controller can be used to respond to yourclient and deliver a different response for each mime type asked.Rails uses <strong>Accept HTTP header</strong> to differentiate the asked media type response.So the class <a href='http://www.dewavrin.info/code/HTTPJsonRequest.java'>Java source file</a> have static GET and POST methods which perform HTTP requests and especially set the accept HTTP header to &#8216;text/json&#8217; . (I grabbed this code from the GWT mailing list and modified it a little bit).Then declare it in your GWT module.</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;inherits</span> <span class='na'>name=</span><span class='s'>&quot;biz.dewavrin.net.HTTPJsonRequest&quot;</span> <span class='nt'>/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>2) Enable rails to perform Json responses.Everything is explained <a href='http://superfluo.org/blojsom/blog/pic/devel/2006/06/21/How-to-register-a-new-MIME-type-in-Rails.html'>on this blog entry.</a>N.B: importing the json module is &#8220;superfluous&#8221; ;-) since it&#8217;s packed with rails 1.1</p>
+
+<p>3) Modify ROR active record base class to dump themselves as a Json data structure.</p>
+
+<p>Add the following method (the code comes from rails wiki):</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class='k'>def</span> <span class='nf'>to_json</span><span class='p'>(</span><span class='o'>*</span><span class='p'>)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class='n'>result</span> <span class='o'>=</span> <span class='no'>Hash</span><span class='o'>.</span><span class='n'>new</span>
+</span><span class='line'>  <span class='nb'>self</span><span class='o'>.</span><span class='n'>class</span><span class='o'>.</span><span class='n'>content_columns</span><span class='o'>.</span><span class='n'>each</span> <span class='k'>do</span> <span class='o'>|</span><span class='n'>column</span><span class='o'>|</span>
+</span><span class='line'>    <span class='n'>result</span><span class='o'>[</span><span class='n'>column</span><span class='o'>.</span><span class='n'>name</span><span class='o'>.</span><span class='n'>to_sym</span><span class='o'>]</span> <span class='o'>=</span> <span class='nb'>self</span><span class='o'>.</span><span class='n'>send</span><span class='p'>(</span><span class='n'>column</span><span class='o'>.</span><span class='n'>name</span><span class='p'>)</span>
+</span><span class='line'>  <span class='k'>end</span>
+</span><span class='line'>  <span class='n'>result</span><span class='o'>.</span><span class='n'>to_json</span>
+</span><span class='line'>
+</span><span class='line'><span class='k'>end</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>4) In your rails controller, send a Json response when asked (note the call to the to_json method):</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class='k'>def</span> <span class='nf'>list</span>
+</span><span class='line'>  <span class='vi'>@songs</span> <span class='o'>=</span> <span class='no'>Song</span><span class='o'>.</span><span class='n'>find</span><span class='p'>(</span><span class='ss'>:all</span><span class='p'>)</span>
+</span><span class='line'>  <span class='n'>respond_to</span> <span class='k'>do</span> <span class='o'>|</span><span class='n'>wants</span><span class='o'>|</span>
+</span><span class='line'>    <span class='n'>wants</span><span class='o'>.</span><span class='n'>json</span> <span class='p'>{</span>
+</span><span class='line'>       <span class='n'>render</span> <span class='ss'>:text</span> <span class='o'>=&gt;</span> <span class='vi'>@songs</span><span class='o'>.</span><span class='n'>to_json</span>
+</span><span class='line'>    <span class='p'>}</span>
+</span><span class='line'>    <span class='n'>wants</span><span class='o'>.</span><span class='n'>html</span> <span class='p'>{</span>
+</span><span class='line'>        <span class='vi'>@song_pages</span><span class='p'>,</span> <span class='vi'>@songs</span> <span class='o'>=</span> <span class='n'>paginate</span> <span class='ss'>:song</span><span class='p'>,</span> <span class='ss'>:per_page</span> <span class='o'>=&amp;</span><span class='n'>gt</span><span class='p'>;</span> <span class='mi'>10</span>
+</span><span class='line'>    <span class='p'>}</span>
+</span><span class='line'>  <span class='k'>end</span>
+</span><span class='line'><span class='k'>end</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>and in your GWT client, the asynchronous HTTP request-response:</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class='n'>HTTPJsonRequest</span><span class='o'>.</span><span class='na'>asyncGet</span><span class='o'>(</span><span class='s'>&quot;http://localhost:3000/library/list&quot;</span><span class='o'>,</span> <span class='k'>new</span> <span class='n'>ResponseTextHandler</span><span class='o'>()</span> <span class='o'>{</span>
+</span><span class='line'>        <span class='k'>try</span> <span class='o'>{</span> <span class='n'>JSONValue</span> <span class='n'>jsonValue</span> <span class='o'>=</span> <span class='n'>JSONParser</span><span class='o'>.</span><span class='na'>parse</span><span class='o'>(</span><span class='n'>responseText</span><span class='o'>);</span> <span class='o'>...</span> <span class='o'>}</span>
+</span><span class='line'>        <span class='k'>catch</span> <span class='o'>(</span><span class='n'>JSONException</span> <span class='n'>e</span><span class='o'>)</span> <span class='o'>{</span> <span class='c1'>// do nothing } </span>
+</span><span class='line'> <span class='o'>}</span> <span class='o'>);</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>Note that this solution is limited for the following reasons:</p>
+
+<ul>
+<li>It&#8217;s forbidden to do Java reflection in the GWT client. So you can&#8217;tinstantiate a JavaBean from a Json object in a generic way.I would have liked to add a type field in my Json data representationand have my Java code instantiate a bean.</li>
+
+<li>Gwt client limits usage of J2SE 1.4.2 to collection&#8217;s API and some java.lang classes. See <a href='http://code.google.com/webtoolkit/documentation/com.google.gwt.doc.DeveloperGuide.Fundamentals.JavaToJavaScriptCompiler.JavaRuntimeSupport.html'>runtime library support</a></li>
+</ul></div>
   
   
 
@@ -142,7 +216,57 @@
   </header>
 
 
-  <div class="entry-content"><p>Well after almost 6 months of silence, here&#8217;s a maven quick tipif you need to add a dependency on a library without adding ityour local maven repository.Define the dependency scope as system and the path to your library:<pre lang='xml'><dependency><groupid>weblogic</groupid><artifactid>weblogic</artifactid><version>8.1.4</version><scope>system</scope><systempath>${weblogic.home}/server/lib/weblogic.jar</systempath></dependency></pre>Then, either declare the weblogic.home property in your pom<pre lang='xml'><properties>      <weblogic.home>c:/bea/weblogic81</weblogic.home></properties></pre>or add it to your settings.xml file by adding it to a default profile:<pre lang='xml'><profile>     <id>dev</id>     <properties>        <weblogic.home>C:/bea/weblogic81</weblogic.home>     </properties></profile><activeprofiles>    <activeprofile>dev</activeprofile></activeprofiles></pre>I am not yet fully committed to maven but it really shines for kickstartingJ2EE projects with artifacts and easily downloadable dependencies libraries.</p></div>
+  <div class="entry-content"><p>Well after almost 6 months of silence, here&#8217;s a maven quick tipif you need to add a dependency on a library without adding ityour local maven repository.Define the dependency scope as system and the path to your library:</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;dependency&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;groupid&gt;</span>weblogic<span class='nt'>&lt;/groupid&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;artifactid&gt;</span>weblogic<span class='nt'>&lt;/artifactid&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;version&gt;</span>8.1.4<span class='nt'>&lt;/version&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;scope&gt;</span>system<span class='nt'>&lt;/scope&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;systempath&gt;</span>
+</span><span class='line'>		${weblogic.home}/server/lib/weblogic.jar
+</span><span class='line'>	<span class='nt'>&lt;/systempath&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/dependency&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>Then, either declare the weblogic.home property in your pom :</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;properties&gt;</span>
+</span><span class='line'>      <span class='nt'>&lt;weblogic.home&gt;</span>c:/bea/weblogic81<span class='nt'>&lt;/weblogic.home&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/properties&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>or add it to your settings.xml file by adding it to a default profile:</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;profile&gt;</span>
+</span><span class='line'>     <span class='nt'>&lt;id&gt;</span>dev<span class='nt'>&lt;/id&gt;</span>
+</span><span class='line'>     <span class='nt'>&lt;properties&gt;</span>
+</span><span class='line'>        <span class='nt'>&lt;weblogic.home&gt;</span>C:/bea/weblogic81<span class='nt'>&lt;/weblogic.home&gt;</span>
+</span><span class='line'>     <span class='nt'>&lt;/properties&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/profile&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class='nt'>&lt;activeprofiles&gt;</span>
+</span><span class='line'>    <span class='nt'>&lt;activeprofile&gt;</span>dev<span class='nt'>&lt;/activeprofile&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/activeprofiles&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>I am not yet fully committed to maven but it really shines for kickstartingJ2EE projects with artifacts and easily downloadable dependencies libraries.</p></div>
   
   
 
@@ -179,7 +303,46 @@
   </header>
 
 
-  <div class="entry-content"><p>With <a href='http://lingo.codehaus.org/'>Lingo</a> from codeHaus, Spring remoting can be extended to support JMS.Here&#8217;s a great article on <a href='http://www.jroller.com/page/sjivan?entry=asynchronous_calls_and_callbacks_using'>Saniv Jivan&#8217;s blog</a> that shows some of its capabilities (synchronous calls over JMS and asynchronous callbacks)One feature really seducing is asynchronous callbacks over JMSwith POJOS (without a single line of JMS code).The Lingo site does not provide much documentation on itso thanks for the author of this nice article.We applied this technique for our build system to distribute loadon different machines to speed up the process (we only have mono probuild machines) and gets informed when tasks are done via callbacks.We used Spring 2.0M4 and ActiveMQ 3.2.2 in standalone mode.Note that I had troubles to make it run with Websphere MQ 5.3First, recent MQ JMS 1.1 compliant Jars must be used anda misinterpretation of the JMS specs by Websphere seems to breakthe Lingo Spring JMS service exporter see<a href='http://opensource.atlassian.com/projects/spring/browse/SPR-1324'>http://opensource.atlassian.com/projects/spring/browse/SPR-1324</a>which is for JMS templates but can also be applied to lingo.Here&#8217;s the diff of org.logicblaze.lingo.jms.JmsServiceExporter between unpatched and patched version for Websphere MQ:<pre lang='text'>diff -aur lingo-1.1/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java lingo-1.1-patch/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java--- lingo-1.1/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java 2006-06-13 13:45:12.716722400 +0200+++ lingo-1.1-patch/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java2006-06-13 13:44:49.899847100 +0200@@ -180,7 +180,7 @@}else {-            return session.createConsumer(destination, messageSelector, noLocal);+            return session.createConsumer(destination, messageSelector);}}</pre></p></div>
+  <div class="entry-content"><p>With <a href='http://lingo.codehaus.org/'>Lingo</a> from codeHaus, Spring remoting can be extended to support JMS.Here&#8217;s a great article on <a href='http://www.jroller.com/page/sjivan?entry=asynchronous_calls_and_callbacks_using'>Saniv Jivan&#8217;s blog</a> that shows some of its capabilities (synchronous calls over JMS and asynchronous callbacks).</p>
+
+<p>One feature really seducing is asynchronous callbacks over JMSwith POJOS (without a single line of JMS code).The Lingo site does not provide much documentation on itso thanks for the author of this nice article.</p>
+
+<p>We applied this technique for our build system to distribute loadon different machines to speed up the process (we only have mono processor build machines) and gets informed when tasks are done via callbacks.We used Spring 2.0M4 and ActiveMQ 3.2.2 in standalone mode.</p>
+
+<p>Note that I had troubles to make it run with Websphere MQ 5.3First, recent MQ JMS 1.1 compliant Jars must be used anda misinterpretation of the JMS specs by Websphere seems to breakthe Lingo Spring JMS service exporter see<a href='http://opensource.atlassian.com/projects/spring/browse/SPR-1324'>http://opensource.atlassian.com/projects/spring/browse/SPR-1324</a>which is for JMS templates but can also be applied to lingo.</p>
+
+<p>Here&#8217;s the diff of org.logicblaze.lingo.jms.JmsServiceExporter between unpatched and patched version for Websphere MQ:</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>diff -aur lingo-1.1/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java li
+</span><span class='line'>ngo-1.1-patch/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java
+</span><span class='line'>--- lingo-1.1/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java 2006-06-
+</span><span class='line'>13 13:45:12.716722400 +0200
+</span><span class='line'>+++ lingo-1.1-patch/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java200
+</span><span class='line'>6-06-13 13:44:49.899847100 +0200
+</span><span class='line'>@@ -180,7 +180,7 @@
+</span><span class='line'>
+</span><span class='line'>}
+</span><span class='line'>else {
+</span><span class='line'>-            return session.createConsumer(destination, messageSelector, noLocal
+</span><span class='line'>);
+</span><span class='line'>+            return session.createConsumer(destination, messageSelector);
+</span><span class='line'>}
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure></div>
   
   
 
@@ -216,16 +379,46 @@
   </header>
 
 
-  <div class="entry-content"><p>Some VOIP softphones like X-lite rely on <a href='http://en.wikipedia.org/wiki/SIP'>SIP</a> (connection) and <a href='http://en.wikipedia.org/wiki/Real-time_Transport_Protocol'>RTP</a> (voice) protocols which both work on top of UDP.In previous posts (<a href='http://www.jroller.com/page/ldewavrin/20050310'>1</a> and <a href='http://www.jroller.com/page/ldewavrin/20041029'>2</a>), I explained how to create a tunnel between a machine in a corporate networkand an external machine (like your home machine). The solution was based on SOCKScapabilities of a ssh tunnel which can behave like a Socks proxy server (-D optionof openssh).With recent versions of openSSH, SOCKSv5 is even supported and therefore it becomespossible to tunnel UDP. Unfortunately, I haven&#8217;t found any Socksv5 compliant VOIP softphone.To tunnel UDP over a TCP tunnel (a SSH tunnel) a combination of netcat and named pipescan be used (like explained <a href='http://zarb.org/~gc/html/udp-in-ssh-tunneling.html'>here</a>). The main disadvantage of this solution is that youhave to create a UDP to TCP pipe on one side of the tunnel and a TCP toUDP pipe on the other side for each remote port you have to access (5060 for SIPand 8000 for RTP by default).Another solution is to create a VPN over your SSH tunnel.I chose <a href='http://www.dewavrin.info/vtun.sourceforge.net'>vtun</a> for its ease of you use but you could use other VPN over SSL solutions like openvpn.Note that there aren&#8217;t any Windows client for vtun. Openvpn can have Windowsclient and can create ethernet bridges (bridging the 2 virtual interfaces of your VPN tunnel).Anyway with vtun you&#8217;ll be able to tunnel udp over a SSH tunnel. Beware thatcreating a VPN on top of a SSH tcp tunnel you expose your corporate network to attacks coming from your home network&#8230;I won&#8217;t detail here all the steps to create the solutions but only give an overviewof each step and refer to links:- 1) Configure your SSH daemon on your home machine. Use xinetd possiblyto forward connections on port 443 to port 22. - 2) Use corkscrew and ssh to establish a tunnel between your workstation at workand your home machine through your office proxy and firewall (on local and remote port 5000 in the following example). <pre>ssh -F ~/.bin/config -g -N -L 5000:localhost:5000 foo@home</pre>- 2bis) If your corporate proxy requires NTLM authentication you can use<a href='http://sourceforge.net/projects/ntlmaps/'>NTLM maps</a>and connect corkscrew to the listen port of NTML maps.</p>
+  <div class="entry-content"><p>Some VOIP softphones like X-lite rely on <a href='http://en.wikipedia.org/wiki/SIP'>SIP</a> (connection) and <a href='http://en.wikipedia.org/wiki/Real-time_Transport_Protocol'>RTP</a> (voice) protocols which both work on top of UDP.</p>
+
+<p>In previous posts (<a href='http://www.jroller.com/page/ldewavrin/20050310'>1</a> and <a href='http://www.jroller.com/page/ldewavrin/20041029'>2</a>), I explained how to create a tunnel between a machine in a corporate networkand an external machine (like your home machine). The solution was based on SOCKS capabilities of a ssh tunnel which can behave like a Socks proxy server (-D optionof openssh).</p>
+
+<p>With recent versions of openSSH, SOCKSv5 is even supported and therefore it becomespossible to tunnel UDP. Unfortunately, I haven&#8217;t found any Socksv5 compliant VOIP softphone.</p>
+
+<p>To tunnel UDP over a TCP tunnel (a SSH tunnel) a combination of netcat and named pipescan be used (like explained <a href='http://zarb.org/~gc/html/udp-in-ssh-tunneling.html'>here</a>). The main disadvantage of this solution is that youhave to create a UDP to TCP pipe on one side of the tunnel and a TCP to UDP pipe on the other side for each remote port you have to access (5060 for SIPand 8000 for RTP by default).</p>
+
+<p>Another solution is to create a VPN over your SSH tunnel.I chose <a href='http://vtun.sourceforge.net'>vtun</a> for its ease of you use but you could use other VPN over SSL solutions like openvpn.Note that there aren&#8217;t any Windows client for vtun. Openvpn can have Windows client and can create ethernet bridges (bridging the 2 virtual interfaces of your VPN tunnel.</p>
+
+<p>Anyway with vtun you&#8217;ll be able to tunnel udp over a SSH tunnel. Beware that creating a VPN on top of a SSH tcp tunnel you expose your corporate network to attacks coming from your home network&#8230;I won&#8217;t detail here all the steps to create the solutions but only give an overviewof each step and refer to links:</p>
 
 <ul>
-<li>3) Configure and run vtun server on your home machine (See <a href='http://www.linuxjournal.com/article/6675'>this</a>).</li>
+<li>
+<p>1) Configure your SSH daemon on your home machine. Use xinetd possiblyto forward connections on port 443 to port 22.</p>
+</li>
 
-<li>4) Also, configure and run vtun client on a Linux machine inside your corporate network.</li>
+<li>
+<p>2) Use corkscrew and ssh to establish a tunnel between your workstation at workand your home machine through your office proxy and firewall (on local and remote port 5000 in the following example). <pre>ssh -F ~/.bin/config -g -N -L 5000:localhost:5000 foo@home</pre></p>
+</li>
 
-<li>5) Configure routes properly to access the SIP proxy through your VPN (<a href='http://www.asterisk.org/'>asterisk server</a> at homeor Internet SIP server).</li>
+<li>
+<p>2bis) If your corporate proxy requires NTLM authentication you can use <a href='http://sourceforge.net/projects/ntlmaps/'>NTLM maps</a> and connect corkscrew to the listen port of NTML maps.</p>
+</li>
 
-<li>6) Just configure your SIP phone as if you had direct access to the server (if you don&#8217;t nat).<img alt='' src='http://www.jroller.com/resources/l/ldewavrin/xlite.JPG' /></li>
+<li>
+<p>3) Configure and run vtun server on your home machine (See <a href='http://www.linuxjournal.com/article/6675'>this</a>).</p>
+</li>
+
+<li>
+<p>4) Also, configure and run vtun client on a Linux machine inside your corporate network.</p>
+</li>
+
+<li>
+<p>5) Configure routes properly to access the SIP proxy through your VPN (<a href='http://www.asterisk.org/'>asterisk server</a> at homeor Internet SIP server).</p>
+</li>
+
+<li>
+<p>6) Just configure your SIP phone as if you had direct access to the server (if you don&#8217;t nat).<img alt='' src='http://www.jroller.com/resources/l/ldewavrin/xlite.JPG' /></p>
+</li>
 </ul></div>
   
   
@@ -300,8 +493,209 @@
   </header>
 
 
-  <div class="entry-content"><p>With Spring and a bunch of AOP I&#8217;ll show how it&#8217;s easy to add protectionsof your business components and notify the view that the user is not authorizedto perform a specific action.This example relies on Spring 2.0 and Spring MVC for the presentation layer.Let&#8217;s take an example of a service that executes jobs whose class is named JobExecutorService.This service has methods to add jobs in a Job queue, remove a job from the queueor stop a running job. We would like to authorize only owners of a job to remove the job or stop it. The jobs are persistent (to recover from failure).<u>1) Defining the authorization aspect</u>Let&#8217;s define in Spring&#8217;s application context a Job authorization advice and inject it a Job DAO to access persistent jobs.<pre lang='xml'><bean class='security.JobAuthorizationAspect' id='jobAuthorizationAspect'>   <property name='jobDAO'>      <ref bean='jobDAO' />   </property></bean></pre>Here&#8217;s below the simplified code of the bean advice which is just a POJOwhich benefits from injection.When the user doesn&#8217;t own the Job an AuthorizationException is thrown.We&#8217;ll see later how to deal with the exception.<pre lang='java'>public class JobAuthorizationAspect {JobDAO jobDAO;protected static final Log LOG =LogFactory.getLog(JobAuthorizationAspect.class);public void setJobDAO(JobDAO jobDAO) {this.jobDAO= jobDAO;}public void checkForAuthorization(Job job) {boolean authorized = false;UserContext userCtx = ContextMgr.getUserContext();if (null != userCtx) {Job job = jobDAO.getJobById(job.getId());// If user launched Job, he's allowed to perform operations on itif ((job.getState() == Job.STATE.RUNNING || job.getState() == Job.STATE.STOPPED || job.getState() == job.getState().ENDED) &amp;&amp; job.getOwner().equals(userCtx.getPrincipal().getName())) authorized =true;}}else {LOG.warn("user context or job context have not been found");}if (! authorized ) {LOG.warn("user not authorized");throw new AuthorizationException("jobaction.notauthorized",new Object[]{},"this action is not allowed");}}</pre><u>N.B</u>I used Spring to bind user&#8217;s context (which stores user information) to the current Thread via a ThreadLocalto easily retrieve user&#8217;s data stored in memory and avoid being tied to the Servlet API. ContextMgr classhas a static method to retrieve user&#8217;s context.Actually binding is done with a Spring MVC interceptor on controllers in the Spring Web Application Context(you could also use a Servlet filter):<pre lang='xml'><bean class='org.springframework.web.servlet.handler.SimpleUrlHandlerMapping' id='authurlMapping'>   <property name='mappings'>      <props>      <prop key='/jobs.htm'>JobMultiActionController</prop>         <!-- Add additional URL mappings here -->      </props>   </property>   <property name='interceptors'>   <list>      <ref bean='ContextInterceptor' />   </list>   </property></bean></pre>The ContextInterceptor bean just retrieves user&#8217;s data from the HTTP sessionand binds it to the current thread<u>2) Declaring the poincuts</u>Then we add pointcuts to execute the aspect. Here the pointcuts are defined with AspectJ expressions<pre class='markdown-html-error' style='border: solid 3px red; background-color: pink'>REXML could not parse this XML/HTML: 
-&lt;pre lang=&quot;xml&quot;&gt;&lt;aop:config proxytargetclass=&quot;true&quot;&gt;&lt;aop:aspect id=&quot;beforeAdviceJobAuth&quot; ref=&quot;jobAuthorizationAspect&quot;&gt;&lt;aop:advicekind=&quot;before&quot;method=&quot;checkForAuthorization&quot; arg-names=&quot;job&quot;pointcut=&quot;(execution(* jobqueue.JobExecutorService.stopJob(..)) and args (job)) || ( execution(* jobqueue.JobExecutorService.removeJob(..)) and args(job)) &quot;/&gt;&lt;/aop:aspect&gt;&lt;/aop:config&gt;&lt;/pre&gt;</pre>So here we are weaving our jobAuthorizationAspect advice with the JobExecutorService bean (not detailed here).The proxyTargetClass attribute is here because the JobExecutorService is declared elsewehere in Spring&#8217;s applicationContext and injected and used directly in Spring MVC controllers not via its interfaces. But the bean&#8217;s class implements multiple interfaces (infrastructure interfaces like Observer )Spring&#8217;s default behaviour is when it detects that the class implements interfaces it to use Java dynamic proxies. So here we set this attribute to force CGLib proxying.The arg-names attribute is here to be as explicit as possible and make sure that our &#8220;before&#8221; advice is executed for the proper methods of JobExecutorService and that the Job argument is passed (by reference) to the &#8220;checkForAuthorization&#8221; method of our advice.<u>3) Dealing with the AuthorizationException</u>Spring has a mechanism that allows to intercept exceptions and deal with them.We could catch the error and redirects to a page displaying a generic authorization message,we&#8217;ll choose to extend this concept to return to the submitting view to display the message.Here&#8217;s the declaration of the AuthorizedExceptionResolver<pre lang='xml'><bean class='web.AuthorizedExceptionResolver' id='AuthorizedExceptionResolver'>  <property name='order'><value>1</value></property></bean></pre>And a simplified version of the code (we&#8217;ll suppose that all our controllersare SimpleFormController ). :&lt;pre lang=&#8221;java&#8221;&gt;public class RecoverableExceptionResolver implements HandlerExceptionResolver,Ordered,ApplicationContextAware {private int order;public ModelAndView resolveException(HttpServletRequest request,HttpServletResponse response,Object handler,Exception e) {if (e instanceof RecoverableException ) {Map&lt;Object,Object&gt; messages = new HashMap&lt;Object,Object&gt;();if (handler != null &amp;&amp; handler instanceof AbstractController ) { AbstractController controller = (AbstractController)handler; messages.put(&#8220;errormessage&#8221;,controller.getApplicationContext().getMessage(((AuthorizedException)e).getMessageKey(),&#8221;not authorized&#8221;,((AuthorizedException)e).getMessage(),request.getLocale()));request.setAttribute(&#8220;messages&#8221;,messages);}// If SimpleFormController return internally to its viewif (null != handler &amp;&amp; handler instanceof SimpleFormController) {return new ModelAndView(controller.getFormView());}}return null;}public int getOrder() {return order;}public void setOrder(int order) {this.order = order;}}&lt;/pre&gt;Here I made the assumption that the command (object that maps the HTTP submitted parameters)has been bound to user&#8217;s session in the controller (Spring has mechanism to do this)and that the form&#8217;s view first check that if the form&#8217;s command is in the user&#8217;s sessionit uses it to populate the form&#8217;s fields.We&#8217;ll also suppose that the controller&#8217;s form view has a box that displays messages whenfound in the request context under the messages attribute (like flash boxes of ROR).<u>Conclusion:</u>AOP is the perfect tool to protect business components in a non-intrusive way.Thanks to Spring MVC framework techniques we can create a very flexible and genericway to handle authorizations and report authorization exceptions in our web layer. (using many of the Java EE cool buzz technos)_N.B:_Sorry for my poor English&#8230;</p></div>
+  <div class="entry-content"><p>With Spring and a bunch of AOP I&#8217;ll show how it&#8217;s easy to add protectionsof your business components and notify the view that the user is not authorizedto perform a specific action.This example relies on Spring 2.0 and Spring MVC for the presentation layer.Let&#8217;s take an example of a service that executes jobs whose class is named JobExecutorService.This service has methods to add jobs in a Job queue, remove a job from the queueor stop a running job. We would like to authorize only owners of a job to remove the job or stop it. The jobs are persistent (to recover from failure).</p>
+<u>1) Defining the authorization aspect</u>
+<p>Let&#8217;s define in Spring&#8217;s application context a Job authorization advice and inject it a Job DAO to access persistent jobs.</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;bean</span> <span class='na'>id=</span><span class='s'>&quot;jobAuthorizationAspect&quot;</span> <span class='na'>class=</span><span class='s'>&quot;security.JobAuthorizationAspect&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;jobDAO&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;ref</span> <span class='na'>bean=</span><span class='s'>&quot;jobDAO&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/property&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/bean&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>Here&#8217;s below the simplified code of the bean advice which is just a POJOwhich benefits from injection.When the user doesn&#8217;t own the Job an AuthorizationException is thrown.We&#8217;ll see later how to deal with the exception.</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class='kd'>public</span> <span class='kd'>class</span> <span class='nc'>JobAuthorizationAspect</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'><span class='n'>JobDAO</span> <span class='n'>jobDAO</span><span class='o'>;</span>
+</span><span class='line'><span class='kd'>protected</span> <span class='kd'>static</span> <span class='kd'>final</span> <span class='n'>Log</span> <span class='n'>LOG</span> <span class='o'>=</span><span class='n'>LogFactory</span><span class='o'>.</span><span class='na'>getLog</span><span class='o'>(</span><span class='n'>JobAuthorizationAspect</span><span class='o'>.</span><span class='na'>class</span><span class='o'>);</span>
+</span><span class='line'>
+</span><span class='line'><span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>setJobDAO</span><span class='o'>(</span><span class='n'>JobDAO</span> <span class='n'>jobDAO</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='k'>this</span><span class='o'>.</span><span class='na'>jobDAO</span><span class='o'>=</span> <span class='n'>jobDAO</span><span class='o'>;</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>checkForAuthorization</span><span class='o'>(</span><span class='n'>Job</span> <span class='n'>job</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='kt'>boolean</span> <span class='n'>authorized</span> <span class='o'>=</span> <span class='kc'>false</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'><span class='n'>UserContext</span> <span class='n'>userCtx</span> <span class='o'>=</span> <span class='n'>ContextMgr</span><span class='o'>.</span><span class='na'>getUserContext</span><span class='o'>();</span>
+</span><span class='line'>
+</span><span class='line'><span class='k'>if</span> <span class='o'>(</span><span class='kc'>null</span> <span class='o'>!=</span> <span class='n'>userCtx</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='n'>Job</span> <span class='n'>job</span> <span class='o'>=</span> <span class='n'>jobDAO</span><span class='o'>.</span><span class='na'>getJobById</span><span class='o'>(</span><span class='n'>job</span><span class='o'>.</span><span class='na'>getId</span><span class='o'>());</span>
+</span><span class='line'><span class='c1'>// If user launched Job, he&#39;s allowed to perform operations on it</span>
+</span><span class='line'><span class='k'>if</span> <span class='o'>((</span><span class='n'>job</span><span class='o'>.</span><span class='na'>getState</span><span class='o'>()</span> <span class='o'>==</span> <span class='n'>Job</span><span class='o'>.</span><span class='na'>STATE</span><span class='o'>.</span><span class='na'>RUNNING</span> <span class='o'>||</span> <span class='n'>job</span><span class='o'>.</span><span class='na'>getState</span><span class='o'>()</span> <span class='o'>==</span> <span class='n'>Job</span><span class='o'>.</span><span class='na'>STATE</span><span class='o'>.</span><span class='na'>STOPPED</span> <span class='o'>||</span> <span class='n'>job</span><span class='o'>.</span><span class='na'>getState</span><span class='o'>()</span> <span class='o'>==</span> <span class='n'>job</span><span class='o'>.</span><span class='na'>getState</span><span class='o'>().</span><span class='na'>ENDED</span><span class='o'>)</span> <span class='o'>&amp;&amp;</span> <span class='n'>job</span><span class='o'>.</span><span class='na'>getOwner</span><span class='o'>().</span><span class='na'>equals</span><span class='o'>(</span><span class='n'>userCtx</span><span class='o'>.</span><span class='na'>getPrincipal</span><span class='o'>().</span><span class='na'>getName</span><span class='o'>()))</span> <span class='n'>authorized</span> <span class='o'>=</span><span class='kc'>true</span><span class='o'>;</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='k'>else</span> <span class='o'>{</span>
+</span><span class='line'><span class='n'>LOG</span><span class='o'>.</span><span class='na'>warn</span><span class='o'>(</span><span class='s'>&quot;user context or job context have not been found&quot;</span><span class='o'>);</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='k'>if</span> <span class='o'>(!</span> <span class='n'>authorized</span> <span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='n'>LOG</span><span class='o'>.</span><span class='na'>warn</span><span class='o'>(</span><span class='s'>&quot;user not authorized&quot;</span><span class='o'>);</span>
+</span><span class='line'><span class='k'>throw</span> <span class='k'>new</span> <span class='nf'>AuthorizationException</span><span class='o'>(</span><span class='s'>&quot;jobaction.notauthorized&quot;</span><span class='o'>,</span><span class='k'>new</span> <span class='n'>Object</span><span class='o'>[]{},</span><span class='s'>&quot;this action is not allowed&quot;</span><span class='o'>);</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='o'>}</span>
+</span></code></pre></td></tr></table></div></figure><u>N.B</u>
+<p>I used Spring to bind user&#8217;s context (which stores user information) to the current Thread via a ThreadLocal to easily retrieve user&#8217;s data stored in memory and avoid being tied to the Servlet API. ContextMgr classhas a static method to retrieve user&#8217;s context.Actually binding is done with a Spring MVC interceptor on controllers in the Spring Web Application Context(you could also use a Servlet filter):</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;bean</span> <span class='na'>id=</span><span class='s'>&quot;authurlMapping&quot;</span>
+</span><span class='line'><span class='na'>class=</span><span class='s'>&quot;org.springframework.web.servlet.handler.SimpleUrlHandlerMapping&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;mappings&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>      <span class='nt'>&lt;props&gt;</span>
+</span><span class='line'>      <span class='nt'>&lt;prop</span> <span class='na'>key=</span><span class='s'>&quot;/jobs.htm&quot;</span><span class='nt'>&gt;</span>JobMultiActionController<span class='nt'>&lt;/prop&gt;</span>
+</span><span class='line'>         <span class='c'>&lt;!-- Add additional URL mappings here --&gt;</span>
+</span><span class='line'>      <span class='nt'>&lt;/props&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;/property&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;interceptors&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;list&gt;</span>
+</span><span class='line'>      <span class='nt'>&lt;ref</span> <span class='na'>bean=</span><span class='s'>&quot;ContextInterceptor&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;/list&gt;</span>
+</span><span class='line'>   <span class='nt'>&lt;/property&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/bean&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>The ContextInterceptor bean just retrieves user’s data from the HTTP session and binds it to the current thread</p>
+<u>2) Declaring the poincuts</u>
+<p>Then we add pointcuts to execute the aspect. Here the pointcuts are defined with AspectJ expressions</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;aop:config</span> <span class='na'>proxyTargetClass=</span><span class='s'>&quot;true&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'><span class='nt'>&lt;aop:aspect</span> <span class='na'>id=</span><span class='s'>&quot;beforeAdviceJobAuth&quot;</span> <span class='na'>ref=</span><span class='s'>&quot;jobAuthorizationAspect&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'><span class='nt'>&lt;aop:advice</span>
+</span><span class='line'><span class='na'>kind=</span><span class='s'>&quot;before&quot;</span>
+</span><span class='line'><span class='na'>method=</span><span class='s'>&quot;checkForAuthorization&quot;</span> <span class='na'>arg-names=</span><span class='s'>&quot;job&quot;</span>
+</span><span class='line'><span class='na'>pointcut=</span><span class='s'>&quot;(execution(* jobqueue.JobExecutorService.stopJob(..)) and args (job)) || ( execution(* jobqueue.JobExecutorService.removeJob(..)) and args(job)) &quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/aop:aspect&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/aop:config&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>So here we are weaving our jobAuthorizationAspect advice with the JobExecutorService bean (not detailed here).The proxyTargetClass attribute is here because the JobExecutorService is declared elsewehere in Spring&#8217;s applicationContext and injected and used directly in Spring MVC controllers not via its interfaces. But the bean&#8217;s class implements multiple interfaces (infrastructure interfaces like Observer )Spring&#8217;s default behaviour is when it detects that the class implements interfaces it to use Java dynamic proxies. So here we set this attribute to force CGLib proxying.The arg-names attribute is here to be as explicit as possible and make sure that our &#8220;before&#8221; advice is executed for the proper methods of JobExecutorService and that the Job argument is passed (by reference) to the &#8220;checkForAuthorization&#8221; method of our advice.</p>
+<u>3) Dealing with the AuthorizationException</u>
+<p>Spring has a mechanism that allows to intercept exceptions and deal with them.We could catch the error and redirects to a page displaying a generic authorization message,we&#8217;ll choose to extend this concept to return to the submitting view to display the message.Here&#8217;s the declaration of the AuthorizedExceptionResolver</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;bean</span> <span class='na'>id=</span><span class='s'>&quot;AuthorizedExceptionResolver&quot;</span> <span class='na'>class=</span><span class='s'>&quot;web.AuthorizedExceptionResolver&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>  <span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;order&quot;</span><span class='nt'>&gt;&lt;value&gt;</span>1<span class='nt'>&lt;/value&gt;&lt;/property&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/bean&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>And a simplified version of the code (we&#8217;ll suppose that all our controllersare SimpleFormController ). :</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class='kd'>public</span> <span class='kd'>class</span> <span class='nc'>RecoverableExceptionResolver</span> <span class='kd'>implements</span> <span class='n'>HandlerExceptionResolver</span><span class='o'>,</span><span class='n'>Ordered</span><span class='o'>,</span><span class='n'>ApplicationContextAware</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'><span class='kd'>private</span> <span class='kt'>int</span> <span class='n'>order</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'><span class='kd'>public</span> <span class='n'>ModelAndView</span> <span class='nf'>resolveException</span><span class='o'>(</span><span class='n'>HttpServletRequest</span> <span class='n'>request</span><span class='o'>,</span><span class='n'>HttpServletResponse</span> <span class='n'>response</span><span class='o'>,</span><span class='n'>Object</span> <span class='n'>handler</span><span class='o'>,</span><span class='n'>Exception</span> <span class='n'>e</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'><span class='k'>if</span> <span class='o'>(</span><span class='n'>e</span> <span class='k'>instanceof</span> <span class='n'>RecoverableException</span> <span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'><span class='n'>Map</span><span class='o'>&lt;</span><span class='n'>Object</span><span class='o'>,</span><span class='n'>Object</span><span class='o'>&gt;</span> <span class='n'>messages</span> <span class='o'>=</span> <span class='k'>new</span> <span class='n'>HashMap</span><span class='o'>&lt;</span><span class='n'>Object</span><span class='o'>,</span><span class='n'>Object</span><span class='o'>&gt;();</span>
+</span><span class='line'><span class='k'>if</span> <span class='o'>(</span><span class='n'>handler</span> <span class='o'>!=</span> <span class='kc'>null</span> <span class='o'>&amp;&amp;</span> <span class='n'>handler</span> <span class='k'>instanceof</span> <span class='n'>AbstractController</span> <span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>   <span class='n'>AbstractController</span> <span class='n'>controller</span> <span class='o'>=</span> <span class='o'>(</span><span class='n'>AbstractController</span><span class='o'>)</span><span class='n'>handler</span><span class='o'>;</span>
+</span><span class='line'>   <span class='n'>messages</span><span class='o'>.</span><span class='na'>put</span><span class='o'>(</span><span class='s'>&quot;errormessage&quot;</span><span class='o'>,</span><span class='n'>controller</span><span class='o'>.</span><span class='na'>getApplicationContext</span><span class='o'>().</span><span class='na'>getMessage</span><span class='o'>(((</span><span class='n'>AuthorizedException</span><span class='o'>)</span><span class='n'>e</span><span class='o'>).</span><span class='na'>getMessageKey</span><span class='o'>(),</span><span class='s'>&quot;not authorized&quot;</span><span class='o'>,((</span><span class='n'>AuthorizedException</span><span class='o'>)</span><span class='n'>e</span><span class='o'>).</span><span class='na'>getMessage</span><span class='o'>(),</span><span class='n'>request</span><span class='o'>.</span><span class='na'>getLocale</span><span class='o'>()));</span>
+</span><span class='line'><span class='n'>request</span><span class='o'>.</span><span class='na'>setAttribute</span><span class='o'>(</span><span class='s'>&quot;messages&quot;</span><span class='o'>,</span><span class='n'>messages</span><span class='o'>);</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='c1'>// If SimpleFormController return internally to its view</span>
+</span><span class='line'><span class='k'>if</span> <span class='o'>(</span><span class='kc'>null</span> <span class='o'>!=</span> <span class='n'>handler</span> <span class='o'>&amp;&amp;</span> <span class='n'>handler</span> <span class='k'>instanceof</span> <span class='n'>SimpleFormController</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='k'>return</span> <span class='k'>new</span> <span class='nf'>ModelAndView</span><span class='o'>(</span><span class='n'>controller</span><span class='o'>.</span><span class='na'>getFormView</span><span class='o'>());</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='k'>return</span> <span class='kc'>null</span><span class='o'>;</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='kd'>public</span> <span class='kt'>int</span> <span class='nf'>getOrder</span><span class='o'>()</span> <span class='o'>{</span>
+</span><span class='line'><span class='k'>return</span> <span class='n'>order</span><span class='o'>;</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>setOrder</span><span class='o'>(</span><span class='kt'>int</span> <span class='n'>order</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'><span class='k'>this</span><span class='o'>.</span><span class='na'>order</span> <span class='o'>=</span> <span class='n'>order</span><span class='o'>;</span>
+</span><span class='line'><span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='o'>}</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>Here I made the assumption that the command (object that maps the HTTP submitted parameters)has been bound to user&#8217;s session in the controller (Spring has mechanism to do this)and that the form&#8217;s view first check that if the form&#8217;s command is in the user&#8217;s sessionit uses it to populate the form&#8217;s fields.We&#8217;ll also suppose that the controller&#8217;s form view has a box that displays messages whenfound in the request context under the messages attribute (like flash boxes of ROR).</p>
+<u>Conclusion:</u>
+<p>AOP is the perfect tool to protect business components in a non-intrusive way.Thanks to Spring MVC framework techniques we can create a very flexible and genericway to handle authorizations and report authorization exceptions in our web layer. (using many of the Java EE cool buzz technos)</p>
+
+<p><em>N.B:</em> Sorry for my poor English&#8230;</p></div>
   
   
 
@@ -338,18 +732,106 @@
   </header>
 
 
-  <div class="entry-content"><p>I have been responsible at my current job position of the build of our JavaEE application. We had to build 3 different flavours of the same application. When I decided which build tool to use, I chose Ant since only Maven 1.0 had been released and I disliked writing logic in Jelly. If I had to choose today I&#8217;d probably go with Maven 2 because it becomes a standard for industrializing builds on Java and I have just found <a href='http://www.agilocity.com/roller/page/wrast?entry=better_builds_with_maven_2'>a decent documentation</a> on it&#8230;Our main application is built as an EAR file and I had to support packaging for different application servers.We decided to externalize dependencies(&#60;dependencies&#62; element), compilation (&#60;javalibs&#62; element) and packaging information (&#60;application&#62; element) in an XML description file. Then with the help of a XSL file, we generate dynamically an Ant build file and execute it. We reused Ant &#60;fileset&#62; and &#60;zipfileset&#62; to describe location of files or directories.In the generation of the EAR, we used sensitive default behaviours to minimize configuration. Here are a few:- include dependencies (see element below) in the EAR unless scope is set to compile and add them to the MANIFEST.MF of each Java module.</p>
+  <div class="entry-content"><p>I have been responsible at my current job position of the build of our JavaEE application. We had to build 3 different flavours of the same application. When I decided which build tool to use, I chose Ant since only Maven 1.0 had been released and I disliked writing logic in Jelly. If I had to choose today I&#8217;d probably go with Maven 2 because it becomes a standard for industrializing builds on Java and I have just found <a href='http://www.agilocity.com/roller/page/wrast?entry=better_builds_with_maven_2'>a decent documentation</a> on it&#8230;</p>
+
+<p>Our main application is built as an EAR file and I had to support packaging for different application servers. We decided to externalize dependencies (&#60;dependencies&#62; element), compilation (&#60;javalibs&#62; element) and packaging information (&#60;application&#62; element) in an XML description file. Then with the help of a XSL file, we generate dynamically an Ant build file and execute it. We reused Ant &#60;fileset&#62; and &#60;zipfileset&#62; to describe location of files or directories.</p>
+
+<p>In the generation of the EAR, we used sensitive default behaviours to minimize configuration. Here are a few:</p>
 
 <ul>
+<li>include dependencies (see element below) in the EAR unless scope is set to compile and add them to the MANIFEST.MF of each Java module.</li>
+
 <li>add dependencies to the global CLASSPATH (there&#8217;s a compilation CLASSPATH for each targeted application server also)</li>
 
-<li>include generated libraries in the EAR unless distinclude is set to false and add them to the MANIFEST.MF of each Java module. If generated libraries arescoped to a given Java EE module they are added in the WEB-INF/lib for a web module or are overlaid with the final EJB jar for EJB modules. generated global libraries are also added to the global CLASSPATH for compilation The general strategy was to compile and build global (use by multiple Java EE modules) Jar files with the global Classpath and specific ones with the application server&#8217;s CLASSPATH and global CLASSPATH. This way global Jar files were compiled once for all the application servers.It had some limitations:- we only supported Java EE modules of type web or ejb</li>
+<li>include generated libraries in the EAR unless distinclude is set to false and add them to the MANIFEST.MF of each Java module. If generated libraries are scoped to a given Java EE module they are added in the WEB-INF/lib for a web module or are overlaid with the final EJB jar for EJB modules. Generated global libraries are also added to the global CLASSPATH for compilation.</li>
+</ul>
 
-<li>global compiled Jar files could not depend on a specifig Jar files</li>
+<p>The general strategy was to compile and build global (use by multiple Java EE modules) Jar files with the global Classpath and specific ones with the application server&#8217;s CLASSPATH and global CLASSPATH. This way global Jar files were compiled once for all the application servers.</p>
 
-<li>Compilation Classpath are not totally isolated for each Web module I like our approach since with a light XML description file we can now generate an EAR for many application servers. application.xml for the EAR and MANIFEST.MF for each Java modules are generated dynamically. Configuration is far less important than for a Maven&#8217;s Pom.xml. Ok we lack transitive dependencies, web site generations, synchronization with Eclipse but we didn&#8217;t really need them.Here&#8217;s how a build description file could look like:<pre class='markdown-html-error' style='border: solid 3px red; background-color: pink'>REXML could not parse this XML/HTML: 
-&lt;pre lang=&quot;xml&quot;&gt;</pre></li>
-</ul></div>
+<p>It had some limitations:</p>
+
+<ul>
+<li>We only supported Java EE modules of type web or ejb.</li>
+
+<li>Global compiled Jar files could not depend on a specifig Jar files.</li>
+
+<li>Compilation Classpath are not totally isolated for each Web module.</li>
+</ul>
+
+<p>I like our approach since with a light XML description file we can now generate an EAR for many application servers. application.xml for the EAR and MANIFEST.MF for each Java modules are generated dynamically. Configuration is far less important than for a Maven&#8217;s Pom.xml. Ok we lack transitive dependencies, web site generations, synchronization with Eclipse but we didn&#8217;t really need them.Here&#8217;s how a build description file could look like:</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='cp'>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+</span><span class='line'><span class='cp'>&lt;!DOCTYPE project [</span>
+</span><span class='line'><span class='cp'>	&lt;!ENTITY LIBDIR &quot;../lib&quot;&gt;</span>
+</span><span class='line'>	<span class='cp'>&lt;!ENTITY LIBDIR &quot;../src&quot;&gt;</span>
+</span><span class='line'>]&gt;
+</span><span class='line'><span class='nt'>&lt;project</span> <span class='na'>name=</span><span class='s'>&quot;myapp&quot;</span> <span class='na'>compilation=</span><span class='s'>&quot;shared&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;dependencies&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;fileset</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;LIBDIR;/log4j/&quot;</span> <span class='na'>includes=</span><span class='s'>&quot;log4j-1.2.8.jar&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;fileset</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;LIBDIR;/xml&quot;</span> <span class='na'>includes=</span><span class='s'>&quot;jdom.jar&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;fileset</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;LIBDIR;/weblogic/8.1&quot;</span> <span class='na'>includes=</span><span class='s'>&quot;webservices.jar&quot;</span> <span class='na'>scope=</span><span class='s'>&quot;compile&quot;</span> <span class='na'>target=</span><span class='s'>&quot;weblogic&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/dependencies&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;javalibs</span> <span class='na'>source=</span><span class='s'>&quot;1.4&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;javaproject</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;SRCDIR;/infra/&quot;</span> <span class='na'>includes=</span><span class='s'>&quot;core/**&quot;</span> <span class='na'>name=</span><span class='s'>&quot;infra&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;javaproject</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;SRCDIR;/ws&quot;</span> <span class='na'>name=</span><span class='s'>&quot;presentationws&quot;</span> <span class='na'>module=</span><span class='s'>&quot;presentationweb&quot;</span> <span class='na'>target=</span><span class='s'>&quot;weblogic&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;javaproject</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;SRCDIR;/wsaxis&quot;</span> <span class='na'>name=</span><span class='s'>&quot;presentationwsaxis&quot;</span> <span class='na'>module=</span><span class='s'>&quot;presentationweb&quot;</span> <span class='na'>target=</span><span class='s'>&quot;websphere&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;javaproject</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;SRCDIR;/wsclient&quot;</span> <span class='na'>name=</span><span class='s'>&quot;wsclient&quot;</span> <span class='na'>distinclude=</span><span class='s'>&quot;false&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;fileset</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;SRCDIR;/wsclient/config&quot;</span> <span class='na'>includes=</span><span class='s'>&quot;client-config.wsdd&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;/javaproject&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;javaproject</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;SRCDIR;/Application/WebClient/src&quot;</span> <span class='na'>name=</span><span class='s'>&quot;wsclient&quot;</span> <span class='na'>distinclude=</span><span class='s'>&quot;false&quot;</span> <span class='na'>sign=</span><span class='s'>&quot;true&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;attribute</span> <span class='na'>name=</span><span class='s'>&quot;Main-Class&quot;</span> <span class='na'>value=</span><span class='s'>&quot;wsclient.Main&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;attribute</span> <span class='na'>name=</span><span class='s'>&quot;Class-Path&quot;</span> <span class='na'>value=</span><span class='s'>&quot;commons-httpclient-3.0.jar commons-logging.jar jaxrpc.jar mail.jar saaj.jar wsdl4j.jar&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;/javaproject&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/javalibs&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;application</span> <span class='na'>target=</span><span class='s'>&quot;weblogic&quot;</span> <span class='na'>format=</span><span class='s'>&quot;ear&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;zipfileset</span> <span class='na'>prefix=</span><span class='s'>&quot;sql&quot;</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;SRCDIR;/db&quot;</span> <span class='na'>includes=</span><span class='s'>&quot;*.sql&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;module</span> <span class='na'>name=</span><span class='s'>&quot;presentationws&quot;</span> <span class='na'>type=</span><span class='s'>&quot;web&quot;</span> <span class='na'>context=</span><span class='s'>&quot;PresentationWeb&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;zipfileset</span> <span class='na'>prefix=</span><span class='s'>&quot;WEB-INF&quot;</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;SRCDIR;/config/PresentationWeb&quot;</span> <span class='na'>includes=</span><span class='s'>&quot;web.xml,weblogic.xml&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;/module&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/application&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;application</span> <span class='na'>target=</span><span class='s'>&quot;websphere&quot;</span> <span class='na'>format=</span><span class='s'>&quot;ear&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;zipfileset</span> <span class='na'>prefix=</span><span class='s'>&quot;sql&quot;</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;SRCDIR;/db&quot;</span> <span class='na'>includes=</span><span class='s'>&quot;*.sql&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;module</span> <span class='na'>name=</span><span class='s'>&quot;presentationws&quot;</span> <span class='na'>type=</span><span class='s'>&quot;web&quot;</span> <span class='na'>context=</span><span class='s'>&quot;PresentationWeb&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;zipfileset</span> <span class='na'>prefix=</span><span class='s'>&quot;WEB-INF&quot;</span> <span class='na'>dir=</span><span class='s'>&quot;&amp;amp;SRCDIR;/config/PresentationWeb&quot;</span> <span class='na'>includes=</span><span class='s'>&quot;web.xml,ibm*.xml&quot;</span><span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;/module&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/application&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/project&gt;</span>
+</span></code></pre></td></tr></table></div></figure></div>
   
   
 
@@ -386,7 +868,39 @@
   </header>
 
 
-  <div class="entry-content"><p>Hey great Sun and FreeBSD agreed on Java distribution and now J2SDK can get distributed with FreeBSD.No more get linux-compat =&#62; get a JDK =&#62; get Java sources =&#62; Compile and packageto run Java &#8220;natively&#8221; on FreeBSD (without Linux compatibility ).It took at least 6 hours on my slow home gateway.Also it seems to run much faster, see the results of my very serious test (2nd invokation of java -version)<pre lang='text'>java version "1.5.0-p2"Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0-p2-root_16_jan_2006_15_45)Java HotSpot(TM) Client VM (build 1.5.0-p2-root_16_jan_2006_15_45, mixed mode)real    0m3.232suser    0m1.679ssys     0m1.468sjava version "1.5.0"Java(TM) 2 Runtime Environment, Standard Edition (build diablo-1.5.0-b00)Java HotSpot(TM) Client VM (build diablo-1.5.0_06-b00, mixed mode)real    0m0.643suser    0m0.556ssys     0m0.070s</pre></p></div>
+  <div class="entry-content"><p>Hey, great ! Sun and FreeBSD agreed on Java distribution and now J2SDK can get distributed with FreeBSD. No more get linux-compat <span>=&gt; get a JDK =&gt; get Java sources =&gt;</span> Compile and package to run Java &#8220;natively&#8221; on FreeBSD (without Linux compatibility ).</p>
+
+<p>It took at least 6 hours on my slow home gateway. Also it seems to run much faster, see the results of my very serious test (2nd invokation of java -version)</p>
+<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>java version "1.5.0-p2"
+</span><span class='line'>Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0-p2-root_16_jan_2006_15_45)
+</span><span class='line'>Java HotSpot(TM) Client VM (build 1.5.0-p2-root_16_jan_2006_15_45, mixed mode)
+</span><span class='line'> 
+</span><span class='line'>real    0m3.232s
+</span><span class='line'>user    0m1.679s
+</span><span class='line'>sys     0m1.468s
+</span><span class='line'> 
+</span><span class='line'>java version "1.5.0"
+</span><span class='line'>Java(TM) 2 Runtime Environment, Standard Edition (build diablo-1.5.0-b00)
+</span><span class='line'>Java HotSpot(TM) Client VM (build diablo-1.5.0_06-b00, mixed mode)
+</span><span class='line'> 
+</span><span class='line'>real    0m0.643s
+</span><span class='line'>user    0m0.556s
+</span><span class='line'>sys     0m0.070s</span></code></pre></td></tr></table></div></figure></div>
   
   
 
@@ -423,7 +937,107 @@
   </header>
 
 
-  <div class="entry-content"><p>Crazy Bob posted on <a href='http://crazybob.org/2006/02/threadlocal-memory-leak.html'>ThreadLocal memory leaks</a>.This type of memory leak really annoys me because I see itvery often on Java EE servers and developers are not aware of it.The error is mostly annoying in development, testing environmentswhere the Java EE server is not restarted and the applicationsare just redeployed. Therefore, threads (of thread pools) are not recreated and hold references to old application classes.My advice is <strong>CLEAN YOUR THREADLOCALs</strong>Add a servlet filter, Web frameworkinterceptor or WS handler to set all ThreadLocal variables to null just beforereturning the response to the client. Lower level solutions should be preferredand turn out to be less risky.A dummy implementation (to give an idea) would be:A servlet filter:<pre lang='java'>public class ContextCleanerFilter implements Filter {private ContextCleaner ctxCleaner;public void init(FilterConfig filterConfig) {    // CtxCleaner instantiated directly boooh !!!ctxCleaner = new StaticContextCleaner(); }public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException  {    // Reset ThreadLocals before processing the requestif (ctxCleaner != null) ctxCleaner.cleanAll();chain.doFilter(request,response);// Reset ThreadLocals after processing the requestif (ctxCleaner != null) ctxCleaner.cleanAll();}public void destroy() {}}</pre>with a ContextCleaner Interface:<pre lang='java'>public interface ContextCleaner {public boolean cleanAll();}</pre>and a dummy implementation:<pre lang='java'>public class StaticContextCleaner implements ContextCleaner {public boolean cleanAll() {   UserSession.setSessionData(null);   return true;}}</pre>Where UserSession has static accessors to handle the ThreadLocal and is used by application code to store objects in a ThreadLocal instance:<pre lang='java'>public class UserSession {private static ThreadLocal m_session= new ThreadLocal();public static void setSessionData(SessionData sessionData){m_session.set(sessionData);}public static SessionData getSessionData(){return (SessionData)m_session.get();}}</pre>The problem with this implementation is that it only works with classes that you controland are aware that they use ThreadLocal variables. Maybe with reflection it&#8217;s possible to accessthe current Thread&#8217;s Map which stores ThreadLocal objects and set them to null one by one. Butit would be highly risky if your application server uses ThreadLocal for its own usage.For further information on ThreadLocal memory leaks see <a href='http://blog.arendsen.net/?p=18'>this link</a></p></div>
+  <div class="entry-content"><p>Crazy Bob posted on <a href='http://crazybob.org/2006/02/threadlocal-memory-leak.html'>ThreadLocal memory leaks</a>.This type of memory leak really annoys me because I see it very often on Java EE servers and developers are not aware of it.The error is mostly annoying in development, testing environmentswhere the Java EE server is not restarted and the applicationsare just redeployed. Therefore, threads (of thread pools) are not recreated and hold references to old application classes.</p>
+
+<p>My advice is <strong>CLEAN YOUR THREADLOCALs</strong></p>
+
+<p>Add a servlet filter, Web frameworkinterceptor or WS handler to set all ThreadLocal variables to null just beforereturning the response to the client. Lower level solutions should be preferred and turn out to be less risky. A dummy implementation (to give an idea) would be a servlet filter:</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class='kd'>public</span> <span class='kd'>class</span> <span class='nc'>ContextCleanerFilter</span> <span class='kd'>implements</span> <span class='n'>Filter</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'>	<span class='kd'>private</span> <span class='n'>ContextCleaner</span> <span class='n'>ctxCleaner</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'>	<span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>init</span><span class='o'>(</span><span class='n'>FilterConfig</span> <span class='n'>filterConfig</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>	    <span class='c1'>// CtxCleaner instantiated directly boooh !!!</span>
+</span><span class='line'>		<span class='n'>ctxCleaner</span> <span class='o'>=</span> <span class='k'>new</span> <span class='n'>StaticContextCleaner</span><span class='o'>();</span>
+</span><span class='line'>	 <span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'>	<span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>doFilter</span><span class='o'>(</span><span class='n'>ServletRequest</span> <span class='n'>request</span><span class='o'>,</span> <span class='n'>ServletResponse</span> <span class='n'>response</span><span class='o'>,</span> <span class='n'>FilterChain</span> <span class='n'>chain</span><span class='o'>)</span> <span class='kd'>throws</span> <span class='n'>IOException</span><span class='o'>,</span> <span class='n'>ServletException</span>  <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'>	    <span class='c1'>// Reset ThreadLocals before processing the request</span>
+</span><span class='line'>		<span class='k'>if</span> <span class='o'>(</span><span class='n'>ctxCleaner</span> <span class='o'>!=</span> <span class='kc'>null</span><span class='o'>)</span> <span class='n'>ctxCleaner</span><span class='o'>.</span><span class='na'>cleanAll</span><span class='o'>();</span>
+</span><span class='line'>		<span class='n'>chain</span><span class='o'>.</span><span class='na'>doFilter</span><span class='o'>(</span><span class='n'>request</span><span class='o'>,</span><span class='n'>response</span><span class='o'>);</span>
+</span><span class='line'>		<span class='c1'>// Reset ThreadLocals after processing the request</span>
+</span><span class='line'>		<span class='k'>if</span> <span class='o'>(</span><span class='n'>ctxCleaner</span> <span class='o'>!=</span> <span class='kc'>null</span><span class='o'>)</span> <span class='n'>ctxCleaner</span><span class='o'>.</span><span class='na'>cleanAll</span><span class='o'>();</span>
+</span><span class='line'>	<span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'>	<span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>destroy</span><span class='o'>()</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'>	<span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='o'>}</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>with a ContextCleaner Interface:</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class='kd'>public</span> <span class='kd'>interface</span> <span class='nc'>ContextCleaner</span> <span class='o'>{</span>
+</span><span class='line'>   <span class='kt'>boolean</span> <span class='nf'>cleanAll</span><span class='o'>();</span>
+</span><span class='line'><span class='o'>}</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>and a dummy implementation:</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class='kd'>public</span> <span class='kd'>class</span> <span class='nc'>StaticContextCleaner</span> <span class='kd'>implements</span> <span class='n'>ContextCleaner</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'>	<span class='kd'>public</span> <span class='kt'>boolean</span> <span class='nf'>cleanAll</span><span class='o'>()</span> <span class='o'>{</span>
+</span><span class='line'>	   <span class='n'>UserSession</span><span class='o'>.</span><span class='na'>setSessionData</span><span class='o'>(</span><span class='kc'>null</span><span class='o'>);</span>
+</span><span class='line'>	   <span class='k'>return</span> <span class='kc'>true</span><span class='o'>;</span>
+</span><span class='line'>	<span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'><span class='o'>}</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>Where UserSession has static accessors to handle the ThreadLocal and is used by application code to store objects in a ThreadLocal instance:</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class='kd'>public</span> <span class='kd'>class</span> <span class='nc'>UserSession</span> <span class='o'>{</span>
+</span><span class='line'>	<span class='kd'>private</span> <span class='kd'>static</span> <span class='n'>ThreadLocal</span> <span class='n'>m_session</span><span class='o'>=</span> <span class='k'>new</span> <span class='n'>ThreadLocal</span><span class='o'>();</span>
+</span><span class='line'>	<span class='kd'>public</span> <span class='kd'>static</span> <span class='kt'>void</span> <span class='nf'>setSessionData</span><span class='o'>(</span><span class='n'>SessionData</span> <span class='n'>sessionData</span><span class='o'>){</span>
+</span><span class='line'>		<span class='n'>m_session</span><span class='o'>.</span><span class='na'>set</span><span class='o'>(</span><span class='n'>sessionData</span><span class='o'>);</span>
+</span><span class='line'>	<span class='o'>}</span>
+</span><span class='line'>	<span class='kd'>public</span> <span class='kd'>static</span> <span class='n'>SessionData</span> <span class='nf'>getSessionData</span><span class='o'>(){</span>
+</span><span class='line'>		<span class='k'>return</span> <span class='o'>(</span><span class='n'>SessionData</span><span class='o'>)</span><span class='n'>m_session</span><span class='o'>.</span><span class='na'>get</span><span class='o'>();</span>
+</span><span class='line'>	<span class='o'>}</span>
+</span><span class='line'><span class='o'>}</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>The problem with this implementation is that it only works with classes that you controland are aware that they use ThreadLocal variables. Maybe with reflection it&#8217;s possible to accessthe current Thread&#8217;s Map which stores ThreadLocal objects and set them to null one by one. But it would be highly risky if your application server uses ThreadLocal for its own usage.</p>
+
+<p>For further information on ThreadLocal memory leaks see <a href='http://blog.arendsen.net/?p=18'>this link</a></p></div>
   
   
 
@@ -460,14 +1074,154 @@
   </header>
 
 
-  <div class="entry-content"><p>Here are tips when using Axis Web services through Apache- <strong>Gzip</strong> To enable gzip compression use the recommendations of the following blog entry. It consists in using <a href='jakarta.apache.org/commons/httpclient/'>Jakarta commons httpclient</a> and configuring your Axis stub to set gzip compression on. On Apache 2.0.X, mod_deflate module can be used and it&#8217;s pretty straightforward to enable gzip compression for input and output streams.&lt;pre lang=&#8221;text&#8221;&gt; &lt;Location /ws&gt;; SetOutputFilter DEFLATE SetInputFilter DEFLATE &lt;/pre&gt;Gzip can be enabled by Mime-type but it didn&#8217;t seem to work for me&#8230; Enabling gzip compression is only advised when you have &#8220;large&#8221; messages (100 Kbytes). Benchmark it.</p>
+  <div class="entry-content"><p>Here are tips when using Axis Web services through Apache:</p>
 
 <ul>
-<li><strong>Preserve Host</strong>. When the WSDL is generated via Axis servlet, the <em>Host</em> HTTP header is used to build the URL of WS endpoints in the WSDL. So if you are using mod_proxy to forward HTTP request to a servlet container don&#8217;t forget to add this instruction.<pre lang='text'>  ProxyPreserveHost On</pre>Here&#8217;s a sample configuration (mod_proxy, mod_proxy_http must be enabled).<pre lang='text'>  # Configure mod_proxy as a reverse proxy only  ProxyRequests Off  # To preserve HOST HTTP/1.1 header  ProxyPreserveHost On     ProxyPass http://j2eeserver:80/ws     ProxyPassReverse http://j2eeserver:80/ws     SetOutputFilter DEFLATE     SetInputFilter DEFLATE</pre></li>
+<li><strong>Gzip</strong> To enable gzip compression use the recommendations of the following blog entry. It consists in using <a href='jakarta.apache.org/commons/httpclient/'>Jakarta commons httpclient</a> and configuring your Axis stub to set gzip compression on. On Apache 2.0.X, mod_deflate module can be used and it&#8217;s pretty straightforward to enable gzip compression for input and output streams.</li>
+</ul>
+<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;Location /ws>;
+</span><span class='line'> SetOutputFilter DEFLATE
+</span><span class='line'> SetInputFilter DEFLATE
+</span><span class='line'>&lt;/Location></span></code></pre></td></tr></table></div></figure>
+<p>Gzip can be enabled by Mime-type but it didn&#8217;t seem to work for me&#8230; Enabling gzip compression is only advised when you have &#8220;large&#8221; messages (100 Kbytes). Benchmark it.</p>
 
-<li><strong>Dealing with SOAP with attachments</strong>. mod_proxy can be used in front of any servlet container but when the Web containers are clustered it&#8217;s better to use the relative Apache module of these containers (mod_jk for Tomcat or mod_wl_20 for Weblogic). The problem is that some modules don&#8217;t handle well HTTP chuncked-encoding transfer type. Chunck-encoding is used by default by <a href='http://www.dewavrin.info/wp-admin/jakarta.apache.org/commons/httpclient/'>Jakarta commons httpclient</a> library (see <a href='http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html'>this RFC description</a> of chunck-encoding). If you do SOAP with attachments with a Mime-Multipart HTTP request, the proxy alters the HTTP headers of the request and Axis doesn&#8217;t handle it well. The only solution for me has been to use the latest mod_proxy version.Here&#8217;s a sample request:<pre lang='text'>POST /ws/Call HTTP/1.1Content-Type: multipart/related; type="text/xml"; start=""; boundary="----=_Part_1_29493424.1136228652812"SOAPAction: ""User-Agent: Axis/1.3Host: localhost:81Transfer-Encoding: chunked542------=_Part_1_29493424.1136228652812Content-Type: text/xml; charset=UTF-8Content-Transfer-Encoding: binaryContent-Id: me31------=_Part_1_29493424.1136228652812Content-Type: text/xmlContent-Transfer-Encoding: binaryContent-Id: ------=_Part_1_29493424.1136228652812--</pre>And here are the altered HTTP headers (behind the Weblogic mod_wl_20 proxy). The Content-length header is missing. The request is not chuncked encoded anymore and it makes Axis unable to find the Mime part of the SOAP-Enveloppe and the Mime part of the attachment.<pre lang='text'>POST /ws/Call HTTP/1.1Host: localhost:8081Content-Type: multipart/related; type="text/xml"; start=""; boundary="----=_Part_1_810652.1136228287250"SOAPAction: ""User-Agent: Axis/1.3Max-Forwards: 10X-Forwarded-For: 192.168.0.1X-Forwarded-Host: localhost:81X-Forwarded-Server: gateway</pre> <u>**About Weblogic module for Apache**</u>I wish BEA could opensource their proxy module for Apache. In front of a Weblogic cluster it&#8217;s the only module for Apache that can be used because the module keeps a list of alive members of the cluster (by connecting to one of the cluster members). The list of the cluster members is returned to the mod_weblogic module in an encoded form. See the X-Weblogic-Cluster-List header below.<pre lang='text'>X-WebLogic-Cluster-Hash: 4VGHN1gZDEo+SVsK2yjMU+4La3wX-Powered-By: Servlet/2.4 JSP/2.0X-WebLogic-Cluster-List: 1468479224!-1407317905!7002!-1|648190806!-1407317905!7003!-1</pre>I haven&#8217;t figured out what the X-Weblogic-Cluster-Hash is and how it&#8217;s generated (=&#62; a decompilation of Weblogic classes) should do it but in the X-Weblogic-Cluster-List you can see the inversed IP addresses and port of the cluster members in numerical format. Here &#8216;s a class to retrieve the IP address from the inversed numerical format.Try: GetIP 1407317905<pre class='markdown-html-error' style='border: solid 3px red; background-color: pink'>REXML could not parse this XML/HTML: 
-&lt;pre lang=&quot;java&quot;&gt;public class GetIP {  public static void main(String[] args) throws Exception {    long a= Long.parseLong(args[0])  ;    long b = ~a;    StringBuffer ip=new StringBuffer();    for (int i=1;i</pre></li>
-</ul></div>
+<ul>
+<li><strong>Preserve Host</strong> When the WSDL is generated via Axis servlet, the <em>Host</em> HTTP header is used to build the URL of WS endpoints in the WSDL. So if you are using mod_proxy to forward HTTP request to a servlet container don&#8217;t forget to add this instruction.</li>
+</ul>
+<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ProxyPreserveHost On</span></code></pre></td></tr></table></div></figure>
+<p>Here&#8217;s a sample configuration (mod_proxy, mod_proxy_http must be enabled).</p>
+<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Configure mod_proxy as a reverse proxy only
+</span><span class='line'>ProxyRequests Off
+</span><span class='line'># To preserve HOST HTTP/1.1 header
+</span><span class='line'>ProxyPreserveHost On
+</span><span class='line'>
+</span><span class='line'>ProxyPass http://j2eeserver:80/ws
+</span><span class='line'>ProxyPassReverse http://j2eeserver:80/ws
+</span><span class='line'>SetOutputFilter DEFLATE
+</span><span class='line'>SetInputFilter DEFLATE</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li><strong>Dealing with SOAP with attachments</strong>. mod_proxy can be used in front of any servlet container but when the Web containers are clustered it&#8217;s better to use the relative Apache module of these containers (mod_jk for Tomcat or mod_wl_20 for Weblogic). The problem is that some modules don&#8217;t handle well HTTP chuncked-encoding transfer type. Chunck-encoding is used by default by <a href='http://www.dewavrin.info/wp-admin/jakarta.apache.org/commons/httpclient/'>Jakarta commons httpclient</a> library (see <a href='http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html'>this RFC description</a> of chunck-encoding). If you do SOAP with attachments with a Mime-Multipart HTTP request, the proxy alters the HTTP headers of the request and Axis doesn&#8217;t handle it well. The only solution for me has been to use the latest mod_proxy version.Here&#8217;s a sample request:</li>
+</ul>
+<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>POST /ws/Call HTTP/1.1
+</span><span class='line'>Content-Type: multipart/related; type="text/xml"; start=""; 	boundary="----=_Part_1_29493424.1136228652812"
+</span><span class='line'>SOAPAction: ""
+</span><span class='line'>User-Agent: Axis/1.3
+</span><span class='line'>Host: localhost:81
+</span><span class='line'>Transfer-Encoding: chunked
+</span><span class='line'> 
+</span><span class='line'>542
+</span><span class='line'> 
+</span><span class='line'>------=_Part_1_29493424.1136228652812
+</span><span class='line'>Content-Type: text/xml; charset=UTF-8
+</span><span class='line'>Content-Transfer-Encoding: binary
+</span><span class='line'>Content-Id: 
+</span><span class='line'> 
+</span><span class='line'>me31
+</span><span class='line'>------=_Part_1_29493424.1136228652812
+</span><span class='line'>Content-Type: text/xml
+</span><span class='line'>Content-Transfer-Encoding: binary
+</span><span class='line'>Content-Id: 
+</span><span class='line'> 
+</span><span class='line'>------=_Part_1_29493424.1136228652812--</span></code></pre></td></tr></table></div></figure>
+<p>And here are the altered HTTP headers (behind the Weblogic mod_wl_20 proxy). The Content-length header is missing. The request is not chuncked encoded anymore and it makes Axis unable to find the Mime part of the SOAP-Enveloppe and the Mime part of the attachment.</p>
+<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>POST /ws/Call HTTP/1.1
+</span><span class='line'>Host: localhost:8081
+</span><span class='line'>Content-Type: multipart/related; type="text/xml"; start=""; 	boundary="----=_Part_1_810652.1136228287250"
+</span><span class='line'>SOAPAction: ""
+</span><span class='line'>User-Agent: Axis/1.3
+</span><span class='line'>Max-Forwards: 10
+</span><span class='line'>X-Forwarded-For: 192.168.0.1
+</span><span class='line'>X-Forwarded-Host: localhost:81
+</span><span class='line'>X-Forwarded-Server: gateway</span></code></pre></td></tr></table></div></figure><u>**About Weblogic module for Apache**</u>
+<p>I wish BEA could opensource their proxy module for Apache. In front of a Weblogic cluster it&#8217;s the only module for Apache that can be used because the module keeps a list of alive members of the cluster (by connecting to one of the cluster members). The list of the cluster members is returned to the mod_weblogic module in an encoded form. See the X-Weblogic-Cluster-List header below.</p>
+<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>X-WebLogic-Cluster-Hash: 4VGHN1gZDEo+SVsK2yjMU+4La3w
+</span><span class='line'>X-Powered-By: Servlet/2.4 JSP/2.0
+</span><span class='line'>X-WebLogic-Cluster-List: 1468479224!-1407317905!7002!-1|648190806!-1407317905!7003!-1</span></code></pre></td></tr></table></div></figure>
+<p>I haven&#8217;t figured out what the X-Weblogic-Cluster-Hash is and how it&#8217;s generated (=&#62; a decompilation of Weblogic classes) should do it but in the X-Weblogic-Cluster-List you can see the inversed IP addresses and port of the cluster members in numerical format. Here &#8216;s a class to retrieve the IP address from the inversed numerical format. Try: GetIP 1407317905</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class='kd'>public</span> <span class='kd'>class</span> <span class='nc'>GetIP</span> <span class='o'>{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class='kd'>public</span> <span class='kd'>static</span> <span class='kt'>void</span> <span class='nf'>main</span><span class='o'>(</span><span class='n'>String</span><span class='o'>[]</span> <span class='n'>args</span><span class='o'>)</span> <span class='kd'>throws</span> <span class='n'>Exception</span> <span class='o'>{</span>
+</span><span class='line'>    <span class='kt'>long</span> <span class='n'>a</span><span class='o'>=</span> <span class='n'>Long</span><span class='o'>.</span><span class='na'>parseLong</span><span class='o'>(</span><span class='n'>args</span><span class='o'>[</span><span class='mi'>0</span><span class='o'>])</span>  <span class='o'>;</span>
+</span><span class='line'>    <span class='kt'>long</span> <span class='n'>b</span> <span class='o'>=</span> <span class='o'>~</span><span class='n'>a</span><span class='o'>;</span>
+</span><span class='line'>    <span class='n'>StringBuffer</span> <span class='n'>ip</span><span class='o'>=</span><span class='k'>new</span> <span class='n'>StringBuffer</span><span class='o'>();</span>
+</span><span class='line'>    <span class='k'>for</span> <span class='o'>(</span><span class='kt'>int</span> <span class='n'>i</span><span class='o'>=</span><span class='mi'>1</span><span class='o'>;</span><span class='n'>i</span><span class='o'>&lt;=</span><span class='mi'>4</span><span class='o'>;</span><span class='n'>i</span><span class='o'>++)</span> <span class='o'>{</span>
+</span><span class='line'>       <span class='kt'>long</span> <span class='n'>c</span><span class='o'>=</span><span class='n'>b</span><span class='o'>&gt;&gt;(</span><span class='mi'>8</span><span class='o'>*(</span><span class='mi'>4</span><span class='o'>-</span><span class='n'>i</span><span class='o'>));</span>
+</span><span class='line'>       <span class='n'>c</span> <span class='o'>=</span> <span class='n'>c</span> <span class='o'>&amp;</span> <span class='mi'>255</span><span class='o'>;</span>
+</span><span class='line'>       <span class='n'>ip</span><span class='o'>.</span><span class='na'>append</span><span class='o'>(</span><span class='n'>Long</span><span class='o'>.</span><span class='na'>toString</span><span class='o'>(</span><span class='n'>i</span><span class='o'>==</span><span class='mi'>4</span><span class='o'>?</span><span class='n'>c</span><span class='o'>+</span><span class='mi'>1</span><span class='o'>:</span><span class='n'>c</span><span class='o'>));</span>
+</span><span class='line'>       <span class='n'>ip</span><span class='o'>.</span><span class='na'>append</span><span class='o'>(</span><span class='s'>&quot;.&quot;</span><span class='o'>);</span>
+</span><span class='line'>    <span class='o'>}</span>
+</span><span class='line'>    <span class='n'>System</span><span class='o'>.</span><span class='na'>out</span><span class='o'>.</span><span class='na'>println</span><span class='o'>(</span><span class='n'>ip</span><span class='o'>.</span><span class='na'>substring</span><span class='o'>(</span><span class='mi'>0</span><span class='o'>,</span><span class='n'>ip</span><span class='o'>.</span><span class='na'>length</span><span class='o'>()-</span><span class='mi'>1</span><span class='o'>));</span>
+</span><span class='line'>
+</span><span class='line'>  <span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class='o'>}</span>
+</span></code></pre></td></tr></table></div></figure></div>
   
   
 
@@ -533,6 +1287,7 @@
 
 
 
+<section><h1>Tags</h1><p><a href="/tags/ant" title="Postings tagged ant" style="font-size: 11.0px; line-height:11.0px">ant</a> <a href="/tags/aop" title="Postings tagged aop" style="font-size: 11.0px; line-height:11.0px">aop</a> <a href="/tags/aspectj" title="Postings tagged aspectj" style="font-size: 11.0px; line-height:11.0px">aspectj</a> <a href="/tags/asterisk" title="Postings tagged asterisk" style="font-size: 10.5px; line-height:10.5px">asterisk</a> <a href="/tags/axis" title="Postings tagged axis" style="font-size: 10.5px; line-height:10.5px">axis</a> <a href="/tags/blog" title="Postings tagged blog" style="font-size: 10.5px; line-height:10.5px">blog</a> <a href="/tags/eclipse" title="Postings tagged eclipse" style="font-size: 11.0px; line-height:11.0px">eclipse</a> <a href="/tags/ejb" title="Postings tagged ejb" style="font-size: 10.5px; line-height:10.5px">ejb</a> <a href="/tags/firewall" title="Postings tagged firewall" style="font-size: 12.5px; line-height:12.5px">firewall</a> <a href="/tags/freebsd" title="Postings tagged freebsd" style="font-size: 10.5px; line-height:10.5px">freebsd</a> <a href="/tags/grails" title="Postings tagged grails" style="font-size: 10.5px; line-height:10.5px">grails</a> <a href="/tags/groovy" title="Postings tagged groovy" style="font-size: 10.5px; line-height:10.5px">groovy</a> <a href="/tags/gwt" title="Postings tagged gwt" style="font-size: 10.5px; line-height:10.5px">gwt</a> <a href="/tags/htmlunit" title="Postings tagged htmlunit" style="font-size: 10.5px; line-height:10.5px">htmlunit</a> <a href="/tags/jBPM" title="Postings tagged jBPM" style="font-size: 11.0px; line-height:11.0px">jBPM</a> <a href="/tags/java" title="Postings tagged java" style="font-size: 12.5px; line-height:12.5px">java</a> <a href="/tags/jaxb" title="Postings tagged jaxb" style="font-size: 10.5px; line-height:10.5px">jaxb</a> <a href="/tags/jdbc" title="Postings tagged jdbc" style="font-size: 11.0px; line-height:11.0px">jdbc</a> <a href="/tags/jibx" title="Postings tagged jibx" style="font-size: 10.5px; line-height:10.5px">jibx</a> <a href="/tags/jms" title="Postings tagged jms" style="font-size: 10.5px; line-height:10.5px">jms</a> <a href="/tags/jmx" title="Postings tagged jmx" style="font-size: 10.5px; line-height:10.5px">jmx</a> <a href="/tags/jpa" title="Postings tagged jpa" style="font-size: 10.5px; line-height:10.5px">jpa</a> <a href="/tags/jrockit" title="Postings tagged jrockit" style="font-size: 10.5px; line-height:10.5px">jrockit</a> <a href="/tags/jsf" title="Postings tagged jsf" style="font-size: 10.5px; line-height:10.5px">jsf</a> <a href="/tags/jta" title="Postings tagged jta" style="font-size: 10.5px; line-height:10.5px">jta</a> <a href="/tags/ldap" title="Postings tagged ldap" style="font-size: 10.5px; line-height:10.5px">ldap</a> <a href="/tags/lingo" title="Postings tagged lingo" style="font-size: 10.5px; line-height:10.5px">lingo</a> <a href="/tags/maven" title="Postings tagged maven" style="font-size: 13.0px; line-height:13.0px">maven</a> <a href="/tags/misc" title="Postings tagged misc" style="font-size: 13.0px; line-height:13.0px">misc</a> <a href="/tags/osgi" title="Postings tagged osgi" style="font-size: 10.5px; line-height:10.5px">osgi</a> <a href="/tags/quartz" title="Postings tagged quartz" style="font-size: 10.5px; line-height:10.5px">quartz</a> <a href="/tags/rails" title="Postings tagged rails" style="font-size: 10.5px; line-height:10.5px">rails</a> <a href="/tags/ruby" title="Postings tagged ruby" style="font-size: 10.5px; line-height:10.5px">ruby</a> <a href="/tags/seam" title="Postings tagged seam" style="font-size: 12.0px; line-height:12.0px">seam</a> <a href="/tags/security" title="Postings tagged security" style="font-size: 12.0px; line-height:12.0px">security</a> <a href="/tags/snmp" title="Postings tagged snmp" style="font-size: 10.5px; line-height:10.5px">snmp</a> <a href="/tags/spring" title="Postings tagged spring" style="font-size: 14.5px; line-height:14.5px">spring</a> <a href="/tags/subversion" title="Postings tagged subversion" style="font-size: 10.5px; line-height:10.5px">subversion</a> <a href="/tags/swing" title="Postings tagged swing" style="font-size: 10.5px; line-height:10.5px">swing</a> <a href="/tags/tomcat" title="Postings tagged tomcat" style="font-size: 11.0px; line-height:11.0px">tomcat</a> <a href="/tags/tuning" title="Postings tagged tuning" style="font-size: 10.5px; line-height:10.5px">tuning</a> <a href="/tags/voip" title="Postings tagged voip" style="font-size: 10.5px; line-height:10.5px">voip</a> <a href="/tags/vpn" title="Postings tagged vpn" style="font-size: 10.5px; line-height:10.5px">vpn</a> <a href="/tags/web2.0-ria" title="Postings tagged web2.0-ria" style="font-size: 10.5px; line-height:10.5px">web2.0-ria</a> <a href="/tags/weblogic" title="Postings tagged weblogic" style="font-size: 20.0px; line-height:20.0px">weblogic</a> <a href="/tags/webservices" title="Postings tagged webservices" style="font-size: 10.5px; line-height:10.5px">webservices</a> <a href="/tags/websphere" title="Postings tagged websphere" style="font-size: 10.5px; line-height:10.5px">websphere</a> <a href="/tags/xfire" title="Postings tagged xfire" style="font-size: 10.5px; line-height:10.5px">xfire</a> <a href="/tags/xpath" title="Postings tagged xpath" style="font-size: 10.5px; line-height:10.5px">xpath</a> </p></section>
 <section>
   <h1>Visitors</h1>
   <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
@@ -540,9 +1295,6 @@
 </section>
 
   
-<div id="tag-cloud">
-  {&#8220;safe&#8221;=>false, &#8220;auto&#8221;=>false, &#8220;server&#8221;=>false, &#8220;server_port&#8221;=>4000, &#8220;source&#8221;=>&#8221;source&#8221;, &#8220;destination&#8221;=>&#8221;public&#8221;, &#8220;plugins&#8221;=>&#8221;plugins&#8221;, &#8220;future&#8221;=>true, &#8220;lsi&#8221;=>false, &#8220;pygments&#8221;=>false, &#8220;markdown&#8221;=>&#8221;maruku&#8221;, &#8220;permalink&#8221;=>&#8221;/blog/:year/:month/:day/:title/&#8221;, &#8220;markdown_ext&#8221;=>&#8221;markdown,mkd,mkdn,md&#8221;, &#8220;textile_ext&#8221;=>&#8221;textile&#8221;, &#8220;maruku&#8221;=>{&#8220;use_tex&#8221;=>false, &#8220;use_divs&#8221;=>false, &#8220;png_engine&#8221;=>&#8221;blahtex&#8221;, &#8220;png_dir&#8221;=>&#8221;images/latex&#8221;, &#8220;png_url&#8221;=>&#8221;/images/latex&#8221;}, &#8220;rdiscount&#8221;=>{&#8220;extensions&#8221;=>[]}, &#8220;redcarpet&#8221;=>{&#8220;extensions&#8221;=>[]}, &#8220;kramdown&#8221;=>{&#8220;auto_ids&#8221;=>true, &#8220;footnote_nr&#8221;=>1, &#8220;entity_output&#8221;=>&#8221;as_char&#8221;, &#8220;toc_levels&#8221;=>&#8221;1..6&#8221;, &#8220;use_coderay&#8221;=>false, &#8220;coderay&#8221;=>{&#8220;coderay_wrap&#8221;=>&#8221;div&#8221;, &#8220;coderay_line_numbers&#8221;=>&#8221;inline&#8221;, &#8220;coderay_line_number_start&#8221;=>1, &#8220;coderay_tab_width&#8221;=>4, &#8220;coderay_bold_every&#8221;=>10, &#8220;coderay_css&#8221;=>&#8221;style&#8221;}}, &#8220;url&#8221;=>&#8221;http://lucdew.github.com&#8221;, &#8220;title&#8221;=>&#8221;Luc Dewavrin&#8217;s website&#8221;, &#8220;subtitle&#8221;=>nil, &#8220;author&#8221;=>&#8221;Luc Dewavrin&#8221;, &#8220;simple_search&#8221;=>&#8221;http://google.com/search&#8221;, &#8220;description&#8221;=>nil, &#8220;date_format&#8221;=>&#8221;ordinal&#8221;, &#8220;subscribe_rss&#8221;=>&#8221;/atom.xml&#8221;, &#8220;subscribe_email&#8221;=>nil, &#8220;email&#8221;=>nil, &#8220;root&#8221;=>&#8221;/&#8221;, &#8220;code_dir&#8221;=>&#8221;downloads/code&#8221;, &#8220;category_dir&#8221;=>&#8221;blog/categories&#8221;, &#8220;paginate&#8221;=>10, &#8220;pagination_dir&#8221;=>&#8221;blog&#8221;, &#8220;recent_posts&#8221;=>5, &#8220;excerpt_link&#8221;=>&#8221;Read on &rarr;&#8221;, &#8220;titlecase&#8221;=>true, &#8220;default_asides&#8221;=>[&#8220;asides/recent_posts.html&#8221;, &#8220;asides/github.html&#8221;, &#8220;asides/twitter.html&#8221;, &#8220;asides/delicious.html&#8221;, &#8220;asides/pinboard.html&#8221;, &#8220;asides/googleplus.html&#8221;, &#8220;custom/asides/clustrmap.html&#8221;], &#8220;github_user&#8221;=>nil, &#8220;github_repo_count&#8221;=>0, &#8220;github_show_profile_link&#8221;=>true, &#8220;github_skip_forks&#8221;=>true, &#8220;twitter_user&#8221;=>&#8221;lucdew&#8221;, &#8220;twitter_tweet_count&#8221;=>4, &#8220;twitter_show_replies&#8221;=>false, &#8220;twitter_follow_button&#8221;=>true, &#8220;twitter_show_follower_count&#8221;=>false, &#8220;twitter_tweet_button&#8221;=>true, &#8220;google_plus_one&#8221;=>false, &#8220;google_plus_one_size&#8221;=>&#8221;medium&#8221;, &#8220;googleplus_user&#8221;=>nil, &#8220;googleplus_hidden&#8221;=>false, &#8220;pinboard_user&#8221;=>nil, &#8220;pinboard_count&#8221;=>3, &#8220;delicious_user&#8221;=>nil, &#8220;delicious_count&#8221;=>3, &#8220;disqus_short_name&#8221;=>&#8221;lucdewavrinsblog&#8221;, &#8220;disqus_show_comment_count&#8221;=>true, &#8220;google_analytics_tracking_id&#8221;=>&#8221;UA-1239956-1&#8221;, &#8220;facebook_like&#8221;=>false, &#8220;tag_page_layout&#8221;=>&#8221;tag_page&#8221;, &#8220;tag_page_dir&#8221;=>&#8221;tag&#8221;, &#8220;time&#8221;=>2012-01-01 10:43:01 -0500, &#8220;posts&#8221;=>[<Post: /blog/2009/09/16/last-post>, <Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/04/20/acquisition-de-sun-par-oracle>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/12/jboss-resources>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/10/22/jaxb-bug-527>, <Post: /blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/08/27/switched-to-french-canadian-keyboard>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2008/01/16/it-consolidation>, <Post: /blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list>, <Post: /blog/2007/12/30/would-you-blog-about-my-song>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/12/24/my-top-10-blogs>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/11/05/seam-20-released>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>, <Post: /blog/2006/12/18/gwt-client-with-rails-backend-integration-tip-2>, <Post: /blog/2006/11/27/maven-quick-tip-adding-a-local-dependency>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/05/25/use-your-voip-softphone-work-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>, <Post: /blog/2006/04/06/leverage-ant-xml-nature-2>, <Post: /blog/2006/04/06/java-on-freebsd-2>, <Post: /blog/2006/02/28/memory-leaks-2>, <Post: /blog/2006/02/20/axis-through-apache-httpd-quick-tips-2>, <Post: /blog/2006/02/17/is-ruby-ready-for-enterprise-2>, <Post: /blog/2006/01/17/2005-review>, <Post: /blog/2005/12/24/article-on-spring-and-aop-2>, <Post: /blog/2005/10/25/persistent-quartz-jobs-with-spring-2>, <Post: /blog/2005/09/17/programmatic-authentication-in-tomcat>, <Post: /blog/2005/09/17/memory-leaks-hunting-articles-2>, <Post: /blog/2005/08/02/tomcat-active-directory-realm-2>, <Post: /blog/2005/07/25/weblogic-server-90-released-2>, <Post: /blog/2005/06/28/feelings-after-1st-swing-app-development-2>, <Post: /blog/2005/06/20/paris-air-show-2005-2>, <Post: /blog/2005/05/10/enable-logging-for-jdbcs-thin-driver-in-weblogic>, <Post: /blog/2005/05/07/hacked-or-not>, <Post: /blog/2005/05/04/weblogic-ssl-with-openssl>, <Post: /blog/2005/04/11/weblogic-prepared-statement-caching-2>, <Post: /blog/2005/04/01/weblogic-impossible-to-load-other-jmx-classes>, <Post: /blog/2005/03/30/interesting-article-about-weblogic-entity-ejb-clustering>, <Post: /blog/2005/03/23/websphered>, <Post: /blog/2005/03/10/passing-through-corporate-firewall-part2-2>, <Post: /blog/2005/03/06/proxying-weblogic-snmp-agent>, <Post: /blog/2005/02/22/weblogic-and-active-directory-authentication>, <Post: /blog/2004/12/24/presentation-slides-of-weblogic-server-90-2>, <Post: /blog/2004/12/16/jrockit-rocks-on-ia64>, <Post: /blog/2004/12/15/wls-90-beta-is-out-2>, <Post: /blog/2004/10/29/passing-through-corporate-firewall>, <Post: /blog/2004/10/29/broadcasting-music-with-itunes-on-your-corporate-network>, <Post: /blog/2004/09/28/weblogic-server-9>, <Post: /blog/2004/08/30/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell>, <Post: /blog/2004/08/19/weblogic-ant-tasks-2>, <Post: /blog/2004/08/19/boost-eclipse-performance-under-windows>, <Post: /blog/2004/07/18/weblogic-81-sp3-is-out-2>, <Post: /blog/2004/07/18/french-national-day-photos>, <Post: /blog/2004/07/17/weblog-opened-2>, <Post: /blog/2004/07/17/openssl-and-weblogic-howto-2>, <Post: /blog/2004/04/14/luc-dewvrin>], &#8220;pages&#8221;=>[#<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="atom.xml">], &#8220;html_pages&#8221;=>[#<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">, #<Jekyll:Page @name="index.html">], &#8220;categories&#8221;=>{&#8220;general&#8221;=>[<Post: /blog/2009/09/16/last-post>, <Post: /blog/2009/04/20/acquisition-de-sun-par-oracle>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2007/12/24/my-top-10-blogs>, <Post: /blog/2006/05/25/use-your-voip-softphone-work-2>, <Post: /blog/2006/04/06/leverage-ant-xml-nature-2>, <Post: /blog/2006/02/17/is-ruby-ready-for-enterprise-2>, <Post: /blog/2005/06/20/paris-air-show-2005-2>, <Post: /blog/2005/05/07/hacked-or-not>, <Post: /blog/2005/03/10/passing-through-corporate-firewall-part2-2>, <Post: /blog/2004/10/29/broadcasting-music-with-itunes-on-your-corporate-network>, <Post: /blog/2004/09/28/weblogic-server-9>, <Post: /blog/2004/07/18/french-national-day-photos>, <Post: /blog/2004/07/17/weblog-opened-2>, <Post: /blog/2004/04/14/luc-dewvrin>], &#8220;weblogic&#8221;=>[<Post: /blog/2005/09/17/memory-leaks-hunting-articles-2>, <Post: /blog/2005/07/25/weblogic-server-90-released-2>, <Post: /blog/2005/05/10/enable-logging-for-jdbcs-thin-driver-in-weblogic>, <Post: /blog/2005/04/11/weblogic-prepared-statement-caching-2>, <Post: /blog/2005/04/01/weblogic-impossible-to-load-other-jmx-classes>, <Post: /blog/2005/03/30/interesting-article-about-weblogic-entity-ejb-clustering>, <Post: /blog/2005/03/06/proxying-weblogic-snmp-agent>, <Post: /blog/2005/02/22/weblogic-and-active-directory-authentication>, <Post: /blog/2004/12/24/presentation-slides-of-weblogic-server-90-2>, <Post: /blog/2004/12/16/jrockit-rocks-on-ia64>, <Post: /blog/2004/12/15/wls-90-beta-is-out-2>, <Post: /blog/2004/08/30/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell>, <Post: /blog/2004/08/19/weblogic-ant-tasks-2>, <Post: /blog/2004/07/18/weblogic-81-sp3-is-out-2>, <Post: /blog/2004/07/17/openssl-and-weblogic-howto-2>], &#8220;java&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/12/jboss-resources>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/10/22/jaxb-bug-527>, <Post: /blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/11/05/seam-20-released>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>, <Post: /blog/2006/12/18/gwt-client-with-rails-backend-integration-tip-2>, <Post: /blog/2006/11/27/maven-quick-tip-adding-a-local-dependency>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>, <Post: /blog/2006/04/06/java-on-freebsd-2>, <Post: /blog/2006/02/28/memory-leaks-2>, <Post: /blog/2006/02/20/axis-through-apache-httpd-quick-tips-2>, <Post: /blog/2006/01/17/2005-review>, <Post: /blog/2005/12/24/article-on-spring-and-aop-2>, <Post: /blog/2005/10/25/persistent-quartz-jobs-with-spring-2>, <Post: /blog/2005/09/17/programmatic-authentication-in-tomcat>, <Post: /blog/2005/08/02/tomcat-active-directory-realm-2>, <Post: /blog/2005/06/28/feelings-after-1st-swing-app-development-2>, <Post: /blog/2005/03/23/websphered>, <Post: /blog/2004/10/29/passing-through-corporate-firewall>, <Post: /blog/2004/08/19/boost-eclipse-performance-under-windows>], &#8220;uncategorized&#8221;=>[<Post: /blog/2007/12/30/would-you-blog-about-my-song>, <Post: /blog/2005/05/04/weblogic-ssl-with-openssl>], &#8220;tech&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>, <Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>, <Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2009/02/17/economic-downturn-and-impact-on-javabloggers>, <Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/09/21/changement-de-licence-spring>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2008/08/27/switched-to-french-canadian-keyboard>, <Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2008/05/12/hp-about-to-buy-eds>, <Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2008/01/16/it-consolidation>, <Post: /blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list>, <Post: /blog/2007/12/26/htmlunit-kudos>, <Post: /blog/2007/11/16/a-jbpm-review>, <Post: /blog/2007/08/27/create-your-own-logger-annotation>, <Post: /blog/2007/07/24/impressive-jboss-tools-on-eclipse-europa>, <Post: /blog/2007/06/05/ants-regexp-task-in-a-maven-pom-file>, <Post: /blog/2007/06/04/a-groovy-use-case>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2007/01/03/what-i-learnt-today-or-my-ignorance-revealed-to-the-world>]}, &#8220;tags&#8221;=>{&#8220;ant&#8221;=>[<Post: /blog/2006/04/06/leverage-ant-xml-nature-2>], &#8220;aop&#8221;=>[<Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;aspectj&#8221;=>[<Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;spring&#8221;=>[<Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>, <Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>, <Post: /blog/2006/04/21/spring-aop-and-mvc-authorization-2>], &#8220;maven&#8221;=>[<Post: /blog/2009/02/07/some-maven-tips>, <Post: /blog/2008/06/02/stat-your-commits>, <Post: /blog/2007/02/05/xfire-with-jbix>, <Post: /blog/2006/04/27/maven-spring-20-pom-in-repositories-2>], &#8220;asterisk&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;voip&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;vpn&#8221;=>[<Post: /blog/2006/05/25/use-your-voip-softphone-work-2>], &#8220;jms&#8221;=>[<Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>], &#8220;lingo&#8221;=>[<Post: /blog/2006/06/13/spring-and-lingo-easy-jms-2>], &#8220;jibx&#8221;=>[<Post: /blog/2007/02/05/xfire-with-jbix>], &#8220;xfire&#8221;=>[<Post: /blog/2007/02/05/xfire-with-jbix>], &#8220;seam&#8221;=>[<Post: /blog/2009/03/30/seam-usage-in-production>, <Post: /blog/2008/09/01/some-common-jsf-pitfalls>, <Post: /blog/2007/11/05/seam-20-released>], &#8220;jBPM&#8221;=>[<Post: /blog/2008/01/17/opensource-java-bpm-compared>, <Post: /blog/2007/11/16/a-jbpm-review>], &#8220;blog&#8221;=>[<Post: /blog/2007/12/24/my-top-10-blogs>], &#8220;htmlunit&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;java&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;xpath&#8221;=>[<Post: /blog/2007/12/26/htmlunit-kudos>], &#8220;web2.0-ria&#8221;=>[<Post: /blog/2007/12/30/would-you-blog-about-my-song>], &#8220;subversion&#8221;=>[<Post: /blog/2008/06/02/stat-your-commits>], &#8220;jpa&#8221;=>[<Post: /blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes>], &#8220;jsf&#8221;=>[<Post: /blog/2008/09/01/some-common-jsf-pitfalls>], &#8220;jaxb&#8221;=>[<Post: /blog/2008/10/22/jaxb-bug-527>], &#8220;grails&#8221;=>[<Post: /blog/2009/04/27/mimic-facelet-layouts-in-grails>], &#8220;osgi&#8221;=>[<Post: /blog/2009/05/05/osgi-survey>]}}
-</div>
 </aside>
 
     </div>

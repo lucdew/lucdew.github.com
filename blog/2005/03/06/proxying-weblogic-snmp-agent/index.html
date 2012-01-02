@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Proxying Weblogic SNMP Agent - Luc Dewavrin's website</title>
+  <title>Proxying Weblogic SNMP Agent - Luc Dewavrin website</title>
   <meta name="author" content="Luc Dewavrin">
 
   
@@ -24,7 +24,7 @@
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin website" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -47,7 +47,7 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  <h1><a href="/">Luc Dewavrin website</a></h1>
   
 </hgroup>
 
@@ -102,7 +102,38 @@
   </header>
 
 
-<div class="entry-content"><p>Today many middleware and back end enterprise systems embedtheir own SNMP agent (or at least send SNMP traps). SNMP agentsare polled by SNMP managers or enterprise monitoring systems likeTivoli Netview or HP Openview.<a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> offers the ablity to proxy the OS SNMP agent and other SNMP agents butgenerally it&#8217;s better to use the OS&#8217;s SNMP agent asa proxy for all applications SNMP agents hosted on your machine.(Mostly because if the OS SNMP agent fails it&#8217;s likely that the machine isdown and all its applications also ;-) whereas if <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent fails the OSmight still be alive )In order to achieve this goal on Linux/Unix, you can use the <a href='http://www.net-snmp.org/'>net-snmp</a>(a.k.a ucd-snmp) to proxy SNMP requests to <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server&#8217;s SNMP agent.And it&#8217;s pretty straightforwardThe <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> domain is composed here of 2 <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> servers one administrationserver adminserver and 1 managed server ejbserver on the hostname machine. The <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent runs on port1610 of the administration server and is allowed to received requests and send traps for the weblogicpublic community.Here&#8217;s the <a href='http://www.net-snmp.org/docs/man/snmpd.conf.html'>net-snmp snmpd.conf</a> I used:<pre lang='text' line='1'>syslocation  "SunOS hostname 5.8 Generic_108528-16 sun4u sparc SUNW,Sun-Fire-480R"syscontact  "Root "rocommunity publicrocommunity weblogicpublicrouser myuser noauthproxy -v 1 -c weblogicpublic hostname:1610 .1.3.6.1.4.1.140proxy -Cn adminserver -v 1 -c weblogicpublic@adminserver hostname:1610 .1.3.6.1.4.1.140proxy -Cn ejbserver -v 1 -c weblogicpublic@ejbserver hostname:1610 .1.3.6.1.4.1.140</pre>Line 4: we authorize the weblogicpublic community to perform SNMP polling requests.Line 6: by default SNMP requests are forwarded to <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent without context for all requests that concern the <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server MIB (starting with .1.3.6.1.4.1.140 OID)Line 7: a context is configured to address the adminserver <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> serverLine 8: same as above for the ejbserverDon&#8217;t forget to add the <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a>&#8217;s MIB in the net-snmp MIB repository and you&#8217;re done.</p></div>
+<div class="entry-content"><p>Today many middleware and back end enterprise systems embedtheir own SNMP agent (or at least send SNMP traps). SNMP agentsare polled by SNMP managers or enterprise monitoring systems likeTivoli Netview or HP Openview.</p>
+
+<p><a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> offers the ablity to proxy the OS SNMP agent and other SNMP agents butgenerally it&#8217;s better to use the OS&#8217;s SNMP agent asa proxy for all applications SNMP agents hosted on your machine.(Mostly because if the OS SNMP agent fails it&#8217;s likely that the machine isdown and all its applications also ;-) whereas if <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent fails the OSmight still be alive).</p>
+
+<p>In order to achieve this goal on Linux/Unix, you can use the <a href='http://www.net-snmp.org/'>net-snmp</a>(a.k.a ucd-snmp) to proxy SNMP requests to <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server&#8217;s SNMP agent.And it&#8217;s pretty straightforward.</p>
+
+<p>The <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> domain is composed here of 2 <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> servers one administrationserver adminserver and 1 managed server ejbserver on the hostname machine. The <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent runs on port1610 of the administration server and is allowed to received requests and send traps for the weblogicpublic community.</p>
+
+<p>Here&#8217;s the <a href='http://www.net-snmp.org/docs/man/snmpd.conf.html'>net-snmp snmpd.conf</a> I used:</p>
+<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>syslocation  "SunOS hostname 5.8 Generic_108528-16 sun4u sparc SUNW,Sun-Fire-480R"
+</span><span class='line'>syscontact  "Root "
+</span><span class='line'>rocommunity public
+</span><span class='line'>rocommunity weblogicpublic
+</span><span class='line'>rouser myuser noauth
+</span><span class='line'>proxy -v 1 -c weblogicpublic hostname:1610 .1.3.6.1.4.1.140
+</span><span class='line'>proxy -Cn adminserver -v 1 -c weblogicpublic@adminserver hostname:1610 .1.3.6.1.4.1.140
+</span><span class='line'>proxy -Cn ejbserver -v 1 -c weblogicpublic@ejbserver hostname:1610 .1.3.6.1.4.1.140</span></code></pre></td></tr></table></div></figure>
+<p>Line 4: we authorize the weblogicpublic community to perform SNMP polling requests.</p>
+
+<p>Line 6: by default SNMP requests are forwarded to <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> SNMP agent without context for all requests that concern the <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server MIB (starting with .1.3.6.1.4.1.140 OID)</p>
+
+<p>Line 7: a context is configured to address the adminserver <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a> server</p>
+
+<p>Line 8: same as above for the ejbserverDon&#8217;t forget to add the <a href='http://edocs.bea.com/wls/docs81/notes/issues.html' title='Known issues'>Weblogic</a>&#8217;s MIB in the net-snmp MIB repository and you&#8217;re done.</p></div>
 
 
   <footer>
@@ -207,6 +238,7 @@
 
 
 
+<section><h1>Tags</h1><p><a href="/tags/ant" title="Postings tagged ant" style="font-size: 11.0px; line-height:11.0px">ant</a> <a href="/tags/aop" title="Postings tagged aop" style="font-size: 11.0px; line-height:11.0px">aop</a> <a href="/tags/aspectj" title="Postings tagged aspectj" style="font-size: 11.0px; line-height:11.0px">aspectj</a> <a href="/tags/asterisk" title="Postings tagged asterisk" style="font-size: 10.5px; line-height:10.5px">asterisk</a> <a href="/tags/axis" title="Postings tagged axis" style="font-size: 10.5px; line-height:10.5px">axis</a> <a href="/tags/blog" title="Postings tagged blog" style="font-size: 10.5px; line-height:10.5px">blog</a> <a href="/tags/eclipse" title="Postings tagged eclipse" style="font-size: 11.0px; line-height:11.0px">eclipse</a> <a href="/tags/ejb" title="Postings tagged ejb" style="font-size: 10.5px; line-height:10.5px">ejb</a> <a href="/tags/firewall" title="Postings tagged firewall" style="font-size: 12.5px; line-height:12.5px">firewall</a> <a href="/tags/freebsd" title="Postings tagged freebsd" style="font-size: 10.5px; line-height:10.5px">freebsd</a> <a href="/tags/grails" title="Postings tagged grails" style="font-size: 10.5px; line-height:10.5px">grails</a> <a href="/tags/groovy" title="Postings tagged groovy" style="font-size: 10.5px; line-height:10.5px">groovy</a> <a href="/tags/gwt" title="Postings tagged gwt" style="font-size: 10.5px; line-height:10.5px">gwt</a> <a href="/tags/htmlunit" title="Postings tagged htmlunit" style="font-size: 10.5px; line-height:10.5px">htmlunit</a> <a href="/tags/jBPM" title="Postings tagged jBPM" style="font-size: 11.0px; line-height:11.0px">jBPM</a> <a href="/tags/java" title="Postings tagged java" style="font-size: 12.5px; line-height:12.5px">java</a> <a href="/tags/jaxb" title="Postings tagged jaxb" style="font-size: 10.5px; line-height:10.5px">jaxb</a> <a href="/tags/jdbc" title="Postings tagged jdbc" style="font-size: 11.0px; line-height:11.0px">jdbc</a> <a href="/tags/jibx" title="Postings tagged jibx" style="font-size: 10.5px; line-height:10.5px">jibx</a> <a href="/tags/jms" title="Postings tagged jms" style="font-size: 10.5px; line-height:10.5px">jms</a> <a href="/tags/jmx" title="Postings tagged jmx" style="font-size: 10.5px; line-height:10.5px">jmx</a> <a href="/tags/jpa" title="Postings tagged jpa" style="font-size: 10.5px; line-height:10.5px">jpa</a> <a href="/tags/jrockit" title="Postings tagged jrockit" style="font-size: 10.5px; line-height:10.5px">jrockit</a> <a href="/tags/jsf" title="Postings tagged jsf" style="font-size: 10.5px; line-height:10.5px">jsf</a> <a href="/tags/jta" title="Postings tagged jta" style="font-size: 10.5px; line-height:10.5px">jta</a> <a href="/tags/ldap" title="Postings tagged ldap" style="font-size: 10.5px; line-height:10.5px">ldap</a> <a href="/tags/lingo" title="Postings tagged lingo" style="font-size: 10.5px; line-height:10.5px">lingo</a> <a href="/tags/maven" title="Postings tagged maven" style="font-size: 13.0px; line-height:13.0px">maven</a> <a href="/tags/misc" title="Postings tagged misc" style="font-size: 13.0px; line-height:13.0px">misc</a> <a href="/tags/osgi" title="Postings tagged osgi" style="font-size: 10.5px; line-height:10.5px">osgi</a> <a href="/tags/quartz" title="Postings tagged quartz" style="font-size: 10.5px; line-height:10.5px">quartz</a> <a href="/tags/rails" title="Postings tagged rails" style="font-size: 10.5px; line-height:10.5px">rails</a> <a href="/tags/ruby" title="Postings tagged ruby" style="font-size: 10.5px; line-height:10.5px">ruby</a> <a href="/tags/seam" title="Postings tagged seam" style="font-size: 12.0px; line-height:12.0px">seam</a> <a href="/tags/security" title="Postings tagged security" style="font-size: 12.0px; line-height:12.0px">security</a> <a href="/tags/snmp" title="Postings tagged snmp" style="font-size: 10.5px; line-height:10.5px">snmp</a> <a href="/tags/spring" title="Postings tagged spring" style="font-size: 14.5px; line-height:14.5px">spring</a> <a href="/tags/subversion" title="Postings tagged subversion" style="font-size: 10.5px; line-height:10.5px">subversion</a> <a href="/tags/swing" title="Postings tagged swing" style="font-size: 10.5px; line-height:10.5px">swing</a> <a href="/tags/tomcat" title="Postings tagged tomcat" style="font-size: 11.0px; line-height:11.0px">tomcat</a> <a href="/tags/tuning" title="Postings tagged tuning" style="font-size: 10.5px; line-height:10.5px">tuning</a> <a href="/tags/voip" title="Postings tagged voip" style="font-size: 10.5px; line-height:10.5px">voip</a> <a href="/tags/vpn" title="Postings tagged vpn" style="font-size: 10.5px; line-height:10.5px">vpn</a> <a href="/tags/web2.0-ria" title="Postings tagged web2.0-ria" style="font-size: 10.5px; line-height:10.5px">web2.0-ria</a> <a href="/tags/weblogic" title="Postings tagged weblogic" style="font-size: 20.0px; line-height:20.0px">weblogic</a> <a href="/tags/webservices" title="Postings tagged webservices" style="font-size: 10.5px; line-height:10.5px">webservices</a> <a href="/tags/websphere" title="Postings tagged websphere" style="font-size: 10.5px; line-height:10.5px">websphere</a> <a href="/tags/xfire" title="Postings tagged xfire" style="font-size: 10.5px; line-height:10.5px">xfire</a> <a href="/tags/xpath" title="Postings tagged xpath" style="font-size: 10.5px; line-height:10.5px">xpath</a> </p></section>
 <section>
   <h1>Visitors</h1>
   <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>

@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Stat your commits - Luc Dewavrin's website</title>
+  <title>Stat your commits - Luc Dewavrin website</title>
   <meta name="author" content="Luc Dewavrin">
 
   
@@ -24,7 +24,7 @@
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's website" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin website" type="application/atom+xml">
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -47,7 +47,7 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">Luc Dewavrin's website</a></h1>
+  <h1><a href="/">Luc Dewavrin website</a></h1>
   
 </hgroup>
 
@@ -102,7 +102,79 @@
   </header>
 
 
-<div class="entry-content"><p>I recently discover the <a href='http://stat-scm.sourceforge.net/'>StatSCM</a> maven plugin and it made our team day . It gives useful information about your Subversion activity (it supports other SCM systems) giving precise developers activity information or file statistics. It also generates some nice charts. I found it very useful to monitor what the team members commit: for instance we discovered that a trainee was the developer of the month (ranked by LOC commited) because he commited some very large csv test files.First to enable it, configure the dependency and declare the report in the reports section of your maven parent pom file:<pre lang='xml'><pom><build><plugins><plugin>  <groupid>net.sf</groupid>  <artifactid>stat-scm</artifactid><dependencies><dependency><groupid>net.sf</groupid><artifactid>stat-svn</artifactid><version>0.4.0-StatSCM</version></dependency><dependency><groupid>org.apache.maven.reporting</groupid><artifactid>maven-reporting-impl</artifactid><version>2.0.4</version></dependency></dependencies></plugin></plugins></build><reporting><plugins><plugin><groupid>net.sf</groupid><artifactid>stat-scm</artifactid><configuration><excludes><exclude>**/*.csv</exclude></excludes></configuration></plugin></plugins></reporting></pom></pre>And here some charts produced, like the number of LOC commited by each developer:<a href='http://www.dewavrin.info/resources/loc.png'><img alt='Number of lines of code' src='http://www.dewavrin.info/resources/loc.png' /></a>The day commit activity:<a href='http://www.dewavrin.info/resources/commitsactivity.png'><img alt='Commits activity' src='http://www.dewavrin.info/resources/commitsactivity.png' /></a>Or the ration between files addition/modification:<a href='http://www.dewavrin.info/resources/activity.png'><img alt='' src='http://www.dewavrin.info/resources/activity.png' /></a></p></div>
+<div class="entry-content"><p>I recently discover the <a href='http://stat-scm.sourceforge.net/'>StatSCM</a> maven plugin and it made our team day . It gives useful information about your Subversion activity (it supports other SCM systems) giving precise developers activity information or file statistics. It also generates some nice charts. I found it very useful to monitor what the team members commit: for instance we discovered that a trainee was the developer of the month (ranked by LOC commited) because he commited some very large csv test files.First to enable it, configure the dependency and declare the report in the reports section of your maven parent pom file:</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;pom&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;build&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;plugins&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;plugin&gt;</span>
+</span><span class='line'>				<span class='nt'>&lt;groupid&gt;</span>net.sf<span class='nt'>&lt;/groupid&gt;</span>
+</span><span class='line'>				<span class='nt'>&lt;artifactid&gt;</span>stat-scm<span class='nt'>&lt;/artifactid&gt;</span>
+</span><span class='line'>				<span class='nt'>&lt;dependencies&gt;</span>
+</span><span class='line'>					<span class='nt'>&lt;dependency&gt;</span>
+</span><span class='line'>						<span class='nt'>&lt;groupid&gt;</span>net.sf<span class='nt'>&lt;/groupid&gt;</span>
+</span><span class='line'>						<span class='nt'>&lt;artifactid&gt;</span>stat-svn<span class='nt'>&lt;/artifactid&gt;</span>
+</span><span class='line'>						<span class='nt'>&lt;version&gt;</span>0.4.0-StatSCM<span class='nt'>&lt;/version&gt;</span>
+</span><span class='line'>					<span class='nt'>&lt;/dependency&gt;</span>
+</span><span class='line'>					<span class='nt'>&lt;dependency&gt;</span>
+</span><span class='line'>						<span class='nt'>&lt;groupid&gt;</span>org.apache.maven.reporting<span class='nt'>&lt;/groupid&gt;</span>
+</span><span class='line'>						<span class='nt'>&lt;artifactid&gt;</span>maven-reporting-impl<span class='nt'>&lt;/artifactid&gt;</span>
+</span><span class='line'>						<span class='nt'>&lt;version&gt;</span>2.0.4<span class='nt'>&lt;/version&gt;</span>
+</span><span class='line'>					<span class='nt'>&lt;/dependency&gt;</span>
+</span><span class='line'>				<span class='nt'>&lt;/dependencies&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;/plugin&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;/plugins&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/build&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;reporting&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;plugins&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;plugin&gt;</span>
+</span><span class='line'>				<span class='nt'>&lt;groupid&gt;</span>net.sf<span class='nt'>&lt;/groupid&gt;</span>
+</span><span class='line'>				<span class='nt'>&lt;artifactid&gt;</span>stat-scm<span class='nt'>&lt;/artifactid&gt;</span>
+</span><span class='line'>				<span class='nt'>&lt;configuration&gt;</span>
+</span><span class='line'>					<span class='nt'>&lt;excludes&gt;</span>
+</span><span class='line'>						<span class='nt'>&lt;exclude&gt;</span>**/*.csv<span class='nt'>&lt;/exclude&gt;</span>
+</span><span class='line'>					<span class='nt'>&lt;/excludes&gt;</span>
+</span><span class='line'>				<span class='nt'>&lt;/configuration&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;/plugin&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;/plugins&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/reporting&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/pom&gt;</span>	
+</span></code></pre></td></tr></table></div></figure>
+<p>And here some charts produced, like the number of LOC commited by each developer:<a href='http://www.dewavrin.info/resources/loc.png'><img alt='Number of lines of code' src='http://www.dewavrin.info/resources/loc.png' /></a>The day commit activity:<a href='http://www.dewavrin.info/resources/commitsactivity.png'><img alt='Commits activity' src='http://www.dewavrin.info/resources/commitsactivity.png' /></a>Or the ration between files addition/modification:<a href='http://www.dewavrin.info/resources/activity.png'><img alt='' src='http://www.dewavrin.info/resources/activity.png' /></a></p></div>
 
 
   <footer>
@@ -207,6 +279,7 @@
 
 
 
+<section><h1>Tags</h1><p><a href="/tags/ant" title="Postings tagged ant" style="font-size: 11.0px; line-height:11.0px">ant</a> <a href="/tags/aop" title="Postings tagged aop" style="font-size: 11.0px; line-height:11.0px">aop</a> <a href="/tags/aspectj" title="Postings tagged aspectj" style="font-size: 11.0px; line-height:11.0px">aspectj</a> <a href="/tags/asterisk" title="Postings tagged asterisk" style="font-size: 10.5px; line-height:10.5px">asterisk</a> <a href="/tags/axis" title="Postings tagged axis" style="font-size: 10.5px; line-height:10.5px">axis</a> <a href="/tags/blog" title="Postings tagged blog" style="font-size: 10.5px; line-height:10.5px">blog</a> <a href="/tags/eclipse" title="Postings tagged eclipse" style="font-size: 11.0px; line-height:11.0px">eclipse</a> <a href="/tags/ejb" title="Postings tagged ejb" style="font-size: 10.5px; line-height:10.5px">ejb</a> <a href="/tags/firewall" title="Postings tagged firewall" style="font-size: 12.5px; line-height:12.5px">firewall</a> <a href="/tags/freebsd" title="Postings tagged freebsd" style="font-size: 10.5px; line-height:10.5px">freebsd</a> <a href="/tags/grails" title="Postings tagged grails" style="font-size: 10.5px; line-height:10.5px">grails</a> <a href="/tags/groovy" title="Postings tagged groovy" style="font-size: 10.5px; line-height:10.5px">groovy</a> <a href="/tags/gwt" title="Postings tagged gwt" style="font-size: 10.5px; line-height:10.5px">gwt</a> <a href="/tags/htmlunit" title="Postings tagged htmlunit" style="font-size: 10.5px; line-height:10.5px">htmlunit</a> <a href="/tags/jBPM" title="Postings tagged jBPM" style="font-size: 11.0px; line-height:11.0px">jBPM</a> <a href="/tags/java" title="Postings tagged java" style="font-size: 12.5px; line-height:12.5px">java</a> <a href="/tags/jaxb" title="Postings tagged jaxb" style="font-size: 10.5px; line-height:10.5px">jaxb</a> <a href="/tags/jdbc" title="Postings tagged jdbc" style="font-size: 11.0px; line-height:11.0px">jdbc</a> <a href="/tags/jibx" title="Postings tagged jibx" style="font-size: 10.5px; line-height:10.5px">jibx</a> <a href="/tags/jms" title="Postings tagged jms" style="font-size: 10.5px; line-height:10.5px">jms</a> <a href="/tags/jmx" title="Postings tagged jmx" style="font-size: 10.5px; line-height:10.5px">jmx</a> <a href="/tags/jpa" title="Postings tagged jpa" style="font-size: 10.5px; line-height:10.5px">jpa</a> <a href="/tags/jrockit" title="Postings tagged jrockit" style="font-size: 10.5px; line-height:10.5px">jrockit</a> <a href="/tags/jsf" title="Postings tagged jsf" style="font-size: 10.5px; line-height:10.5px">jsf</a> <a href="/tags/jta" title="Postings tagged jta" style="font-size: 10.5px; line-height:10.5px">jta</a> <a href="/tags/ldap" title="Postings tagged ldap" style="font-size: 10.5px; line-height:10.5px">ldap</a> <a href="/tags/lingo" title="Postings tagged lingo" style="font-size: 10.5px; line-height:10.5px">lingo</a> <a href="/tags/maven" title="Postings tagged maven" style="font-size: 13.0px; line-height:13.0px">maven</a> <a href="/tags/misc" title="Postings tagged misc" style="font-size: 13.0px; line-height:13.0px">misc</a> <a href="/tags/osgi" title="Postings tagged osgi" style="font-size: 10.5px; line-height:10.5px">osgi</a> <a href="/tags/quartz" title="Postings tagged quartz" style="font-size: 10.5px; line-height:10.5px">quartz</a> <a href="/tags/rails" title="Postings tagged rails" style="font-size: 10.5px; line-height:10.5px">rails</a> <a href="/tags/ruby" title="Postings tagged ruby" style="font-size: 10.5px; line-height:10.5px">ruby</a> <a href="/tags/seam" title="Postings tagged seam" style="font-size: 12.0px; line-height:12.0px">seam</a> <a href="/tags/security" title="Postings tagged security" style="font-size: 12.0px; line-height:12.0px">security</a> <a href="/tags/snmp" title="Postings tagged snmp" style="font-size: 10.5px; line-height:10.5px">snmp</a> <a href="/tags/spring" title="Postings tagged spring" style="font-size: 14.5px; line-height:14.5px">spring</a> <a href="/tags/subversion" title="Postings tagged subversion" style="font-size: 10.5px; line-height:10.5px">subversion</a> <a href="/tags/swing" title="Postings tagged swing" style="font-size: 10.5px; line-height:10.5px">swing</a> <a href="/tags/tomcat" title="Postings tagged tomcat" style="font-size: 11.0px; line-height:11.0px">tomcat</a> <a href="/tags/tuning" title="Postings tagged tuning" style="font-size: 10.5px; line-height:10.5px">tuning</a> <a href="/tags/voip" title="Postings tagged voip" style="font-size: 10.5px; line-height:10.5px">voip</a> <a href="/tags/vpn" title="Postings tagged vpn" style="font-size: 10.5px; line-height:10.5px">vpn</a> <a href="/tags/web2.0-ria" title="Postings tagged web2.0-ria" style="font-size: 10.5px; line-height:10.5px">web2.0-ria</a> <a href="/tags/weblogic" title="Postings tagged weblogic" style="font-size: 20.0px; line-height:20.0px">weblogic</a> <a href="/tags/webservices" title="Postings tagged webservices" style="font-size: 10.5px; line-height:10.5px">webservices</a> <a href="/tags/websphere" title="Postings tagged websphere" style="font-size: 10.5px; line-height:10.5px">websphere</a> <a href="/tags/xfire" title="Postings tagged xfire" style="font-size: 10.5px; line-height:10.5px">xfire</a> <a href="/tags/xpath" title="Postings tagged xpath" style="font-size: 10.5px; line-height:10.5px">xpath</a> </p></section>
 <section>
   <h1>Visitors</h1>
   <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
