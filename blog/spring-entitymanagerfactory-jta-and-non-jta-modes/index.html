@@ -1,0 +1,463 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Spring entityManagerFactory in jta and non-jta modes - Luc Dewavrin's weblog</title>
+  <meta name="author" content="Luc Dewavrin">
+
+  
+  <meta name="description" content="This blog post is about using JPA with Spring in 2 contexts : production with a JTA transaction manager testing with transactions handled by jpa &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lucdew.github.com/blog/spring-entitymanagerfactory-jta-and-non-jta-modes">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's weblog" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-1239956-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Luc Dewavrin's weblog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lucdew.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Spring entityManagerFactory in Jta and Non-jta Modes</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-23T00:00:00-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>This blog post is about using JPA with Spring in 2 contexts :</p>
+
+<ul>
+<li>production with a JTA transaction manager</li>
+
+<li>testing with transactions handled by jpa transaction manager. It has been inspired by <a href='http://erich.soomsam.net/2007/04/24/spring-jpa-and-jta-with-hibernate-and-jotm/'>Erich Soomsam blog post</a>You can achieve such configuration with a PersistenceUnitPostProcessor having a single persistence.xml file and 2 Spring context files (1 for each environment).Since you are likely to have at least 2 different Spring dataSource definitions : 1 for production that performs a JNDI lookup to find a bound datasource and 1 for development that uses a local and Spring declared datasource backed by a JDBC connection pool (C3p0 or DBCP), place the entityManager declaration in the same file as the datasource declaration. Let&#8217;s say that the default persistence.xml use the non-jta datasource:</li>
+</ul>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;persistence</span> <span class='na'>xmlns=</span><span class='s'>&quot;http://java.sun.com/xml/ns/persistence&quot;</span>
+</span><span class='line'>	<span class='na'>xmlns:xsi=</span><span class='s'>&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+</span><span class='line'>	<span class='na'>xsi:schemalocation=</span><span class='s'>&quot;http://java.sun.com/xml/ns/persistence    http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd&quot;</span>
+</span><span class='line'>	<span class='na'>version=</span><span class='s'>&quot;1.0&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;persistence-unit</span> <span class='na'>transaction-type=</span><span class='s'>&quot;RESOURCE_LOCAL&quot;</span>
+</span><span class='line'>		<span class='na'>name=</span><span class='s'>&quot;seamphony&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;properties&gt;</span>     <span class='c'>&lt;!-- Scan for annotated classes and Hibernate mapping XML files --&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;property</span> <span class='na'>value=</span><span class='s'>&quot;class, hbm&quot;</span> <span class='na'>name=</span><span class='s'>&quot;hibernate.archive.autodetection&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;hibernate.dialect&quot;</span> <span class='na'>value=</span><span class='s'>&quot;org.hibernate.dialect.MySQLDialect&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;/properties&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/persistence-unit&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/persistence&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>Here&#8217;s how you can use Spring to post process the persistence unit and configure it for production (here with MySQL datasource and JBoss Transaction Manager):</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;bean</span>
+</span><span class='line'>	<span class='na'>class=</span><span class='s'>&quot;org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean&quot;</span>
+</span><span class='line'>	<span class='na'>id=</span><span class='s'>&quot;entityManagerFactory&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;property</span> <span class='na'>ref=</span><span class='s'>&quot;dataSource&quot;</span> <span class='na'>name=</span><span class='s'>&quot;dataSource&quot;</span><span class='nt'>&gt;&lt;/property&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;jpaVendorAdapter&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;bean</span> <span class='na'>class=</span><span class='s'>&quot;org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;property</span> <span class='na'>value=</span><span class='s'>&quot;MYSQL&quot;</span> <span class='na'>name=</span><span class='s'>&quot;database&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;property</span> <span class='na'>value=</span><span class='s'>&quot;true&quot;</span> <span class='na'>name=</span><span class='s'>&quot;showSql&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;property</span> <span class='na'>value=</span><span class='s'>&quot;org.hibernate.dialect.MySQLDialect&quot;</span> <span class='na'>name=</span><span class='s'>&quot;databasePlatform&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;/bean&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/property&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;jpaPropertyMap&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/bean&gt;</span>
+</span><span class='line'><span class='nt'>&lt;map&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;entry</span> <span class='na'>value=</span><span class='s'>&quot;org.hibernate.transaction.JBossTransactionManagerLookup&quot;</span>
+</span><span class='line'>		<span class='na'>key=</span><span class='s'>&quot;hibernate.transaction.manager_lookup_class&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;entry</span> <span class='na'>value=</span><span class='s'>&quot;true&quot;</span> <span class='na'>key=</span><span class='s'>&quot;hibernate.transaction.flush_before_completion&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;entry</span> <span class='na'>value=</span><span class='s'>&quot;true&quot;</span> <span class='na'>key=</span><span class='s'>&quot;hibernate.transaction.auto_close_session&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;entry</span> <span class='na'>value=</span><span class='s'>&quot;jta&quot;</span> <span class='na'>key=</span><span class='s'>&quot;hibernate.current_session_context_class&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;entry</span> <span class='na'>value=</span><span class='s'>&quot;auto&quot;</span> <span class='na'>key=</span><span class='s'>&quot;hibernate.connection.release_mode&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/entry&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/map&gt;</span>
+</span><span class='line'><span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;persistenceUnitPostProcessors&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;list&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;bean</span> <span class='na'>class=</span><span class='s'>&quot;JtaPersistenceUnitPostProcessor&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;property</span> <span class='na'>value=</span><span class='s'>&quot;true&quot;</span> <span class='na'>name=</span><span class='s'>&quot;jtaMode&quot;</span><span class='nt'>&gt;&lt;/property&gt;</span>
+</span><span class='line'>			<span class='nt'>&lt;property</span> <span class='na'>ref=</span><span class='s'>&quot;dataSource&quot;</span> <span class='na'>name=</span><span class='s'>&quot;jtaDataSource&quot;</span><span class='nt'>&gt;&lt;/property&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;/bean&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/list&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/property&gt;</span><span class='c'>&lt;!-- Datasource Lookup --&gt;</span>
+</span><span class='line'><span class='nt'>&lt;bean</span> <span class='na'>class=</span><span class='s'>&quot;org.springframework.jndi.JndiObjectFactoryBean&quot;</span> <span class='na'>id=</span><span class='s'>&quot;dataSource&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;resourceRef&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;value&gt;</span>false<span class='nt'>&lt;/value&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/property&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;property</span> <span class='na'>name=</span><span class='s'>&quot;jndiName&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>		<span class='nt'>&lt;value&gt;</span>java:/MyDS<span class='nt'>&lt;/value&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;/property&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/bean&gt;</span><span class='c'>&lt;!-- Transaction Manager --&gt;</span>
+</span><span class='line'><span class='nt'>&lt;bean</span> <span class='na'>class=</span><span class='s'>&quot;org.springframework.transaction.jta.JtaTransactionManager&quot;</span>
+</span><span class='line'>	<span class='na'>id=</span><span class='s'>&quot;transactionManager&quot;</span><span class='nt'>&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;property</span> <span class='na'>value=</span><span class='s'>&quot;java:/TransactionManager&quot;</span> <span class='na'>name=</span><span class='s'>&quot;transactionManagerName&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'>	<span class='nt'>&lt;property</span> <span class='na'>value=</span><span class='s'>&quot;false&quot;</span> <span class='na'>name=</span><span class='s'>&quot;autodetectUserTransaction&quot;</span> <span class='nt'>/&gt;</span>
+</span><span class='line'><span class='nt'>&lt;/bean&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>Here&#8217;s the class that reads the jta mode property and configure the transaction type accordingly:</p>
+<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class='kn'>import</span> <span class='nn'>javax.persistence.spi.PersistenceUnitTransactionType</span><span class='o'>;</span>
+</span><span class='line'><span class='kn'>import</span> <span class='nn'>javax.sql.DataSource</span><span class='o'>;</span>
+</span><span class='line'><span class='kn'>import</span> <span class='nn'>org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'><span class='kn'>import</span> <span class='nn'>org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'><span class='kd'>public</span> <span class='kd'>class</span> <span class='nc'>JtaPersistenceUnitPostProcessor</span> <span class='kd'>implements</span>
+</span><span class='line'>		<span class='n'>PersistenceUnitPostProcessor</span> <span class='o'>{</span>
+</span><span class='line'>	<span class='kd'>private</span> <span class='kt'>boolean</span> <span class='n'>jtaMode</span> <span class='o'>=</span> <span class='kc'>false</span><span class='o'>;</span>
+</span><span class='line'>	<span class='kd'>private</span> <span class='n'>DataSource</span> <span class='n'>jtaDataSource</span><span class='o'>;</span>
+</span><span class='line'>	<span class='kd'>private</span> <span class='n'>PersistenceUnitTransactionType</span> <span class='n'>transacType</span> <span class='o'>=</span> <span class='n'>PersistenceUnitTransactionType</span><span class='o'>.</span><span class='na'>RESOURCE_LOCAL</span><span class='o'>;</span>
+</span><span class='line'>
+</span><span class='line'>	<span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>postProcessPersistenceUnitInfo</span><span class='o'>(</span>
+</span><span class='line'>			<span class='n'>MutablePersistenceUnitInfo</span> <span class='n'>mutablePersistenceUnitInfo</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>		<span class='k'>if</span> <span class='o'>(</span><span class='n'>jtaMode</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>			<span class='n'>transacType</span> <span class='o'>=</span> <span class='n'>PersistenceUnitTransactionType</span><span class='o'>.</span><span class='na'>JTA</span><span class='o'>;</span>
+</span><span class='line'>			<span class='n'>mutablePersistenceUnitInfo</span>
+</span><span class='line'>					<span class='o'>.</span><span class='na'>setJtaDataSource</span><span class='o'>(</span><span class='k'>this</span><span class='o'>.</span><span class='na'>getJtaDataSource</span><span class='o'>());</span>
+</span><span class='line'>		<span class='o'>}</span>
+</span><span class='line'>		<span class='n'>mutablePersistenceUnitInfo</span><span class='o'>.</span><span class='na'>setTransactionType</span><span class='o'>(</span><span class='n'>transacType</span><span class='o'>);</span>
+</span><span class='line'>	<span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'>	<span class='kd'>public</span> <span class='kt'>boolean</span> <span class='nf'>isJtaMode</span><span class='o'>()</span> <span class='o'>{</span>
+</span><span class='line'>		<span class='k'>return</span> <span class='n'>jtaMode</span><span class='o'>;</span>
+</span><span class='line'>	<span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'>	<span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>setJtaMode</span><span class='o'>(</span><span class='kt'>boolean</span> <span class='n'>jtaMode</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>		<span class='k'>this</span><span class='o'>.</span><span class='na'>jtaMode</span> <span class='o'>=</span> <span class='n'>jtaMode</span><span class='o'>;</span>
+</span><span class='line'>	<span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'>	<span class='kd'>public</span> <span class='n'>DataSource</span> <span class='nf'>getJtaDataSource</span><span class='o'>()</span> <span class='o'>{</span>
+</span><span class='line'>		<span class='k'>return</span> <span class='n'>jtaDataSource</span><span class='o'>;</span>
+</span><span class='line'>	<span class='o'>}</span>
+</span><span class='line'>
+</span><span class='line'>	<span class='kd'>public</span> <span class='kt'>void</span> <span class='nf'>setJtaDataSource</span><span class='o'>(</span><span class='n'>DataSource</span> <span class='n'>jtaDataSource</span><span class='o'>)</span> <span class='o'>{</span>
+</span><span class='line'>		<span class='k'>this</span><span class='o'>.</span><span class='na'>jtaDataSource</span> <span class='o'>=</span> <span class='n'>jtaDataSource</span><span class='o'>;</span>
+</span><span class='line'>	<span class='o'>}</span>
+</span><span class='line'><span class='o'>}</span>
+</span></code></pre></td></tr></table></div></figure>
+<p>Spring really helps tuning your persistence unit for different environments. It could be achieved by a custom build task that could alter the persistence.xml file but since this example assumes that Spring is already used, it can be avoided.</p></div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Luc Dewavrin</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-06-23T00:00:00-04:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2008</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/general/'>general</a>, <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/tech/'>tech</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lucdew.github.com/blog/spring-entitymanagerfactory-jta-and-non-jta-modes/" data-via="lucdew" data-counturl="http://lucdew.github.com/blog/spring-entitymanagerfactory-jta-and-non-jta-modes/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/stat-your-commits/" title="Previous Post: Stat your commits">&laquo; Stat your commits</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/switched-to-french-canadian-keyboard/" title="next Post: Switched to french canadian keyboard">Switched to french canadian keyboard &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/last-post/">Last Post</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/osgi-survey/">OSGI survey</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/seam-usage-in-production/">Seam usage in production</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("lucdew", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/lucdew" class="twitter-follow-button" data-show-count="false">Follow @lucdew</a>
+  
+</section>
+
+
+
+
+<section><h1>Tags</h1><p><a href="/tags/ant" title="Postings tagged ant" style="font-size: 11.0px; line-height:11.0px">ant</a> <a href="/tags/aop" title="Postings tagged aop" style="font-size: 11.0px; line-height:11.0px">aop</a> <a href="/tags/aspectj" title="Postings tagged aspectj" style="font-size: 11.0px; line-height:11.0px">aspectj</a> <a href="/tags/asterisk" title="Postings tagged asterisk" style="font-size: 10.5px; line-height:10.5px">asterisk</a> <a href="/tags/axis" title="Postings tagged axis" style="font-size: 10.5px; line-height:10.5px">axis</a> <a href="/tags/blog" title="Postings tagged blog" style="font-size: 10.5px; line-height:10.5px">blog</a> <a href="/tags/eclipse" title="Postings tagged eclipse" style="font-size: 11.0px; line-height:11.0px">eclipse</a> <a href="/tags/ejb" title="Postings tagged ejb" style="font-size: 10.5px; line-height:10.5px">ejb</a> <a href="/tags/firewall" title="Postings tagged firewall" style="font-size: 12.5px; line-height:12.5px">firewall</a> <a href="/tags/freebsd" title="Postings tagged freebsd" style="font-size: 10.5px; line-height:10.5px">freebsd</a> <a href="/tags/grails" title="Postings tagged grails" style="font-size: 10.5px; line-height:10.5px">grails</a> <a href="/tags/groovy" title="Postings tagged groovy" style="font-size: 10.5px; line-height:10.5px">groovy</a> <a href="/tags/gwt" title="Postings tagged gwt" style="font-size: 10.5px; line-height:10.5px">gwt</a> <a href="/tags/htmlunit" title="Postings tagged htmlunit" style="font-size: 10.5px; line-height:10.5px">htmlunit</a> <a href="/tags/jBPM" title="Postings tagged jBPM" style="font-size: 11.0px; line-height:11.0px">jBPM</a> <a href="/tags/java" title="Postings tagged java" style="font-size: 12.5px; line-height:12.5px">java</a> <a href="/tags/jaxb" title="Postings tagged jaxb" style="font-size: 10.5px; line-height:10.5px">jaxb</a> <a href="/tags/jdbc" title="Postings tagged jdbc" style="font-size: 11.0px; line-height:11.0px">jdbc</a> <a href="/tags/jibx" title="Postings tagged jibx" style="font-size: 10.5px; line-height:10.5px">jibx</a> <a href="/tags/jms" title="Postings tagged jms" style="font-size: 10.5px; line-height:10.5px">jms</a> <a href="/tags/jmx" title="Postings tagged jmx" style="font-size: 10.5px; line-height:10.5px">jmx</a> <a href="/tags/jpa" title="Postings tagged jpa" style="font-size: 10.5px; line-height:10.5px">jpa</a> <a href="/tags/jrockit" title="Postings tagged jrockit" style="font-size: 10.5px; line-height:10.5px">jrockit</a> <a href="/tags/jsf" title="Postings tagged jsf" style="font-size: 10.5px; line-height:10.5px">jsf</a> <a href="/tags/jta" title="Postings tagged jta" style="font-size: 10.5px; line-height:10.5px">jta</a> <a href="/tags/ldap" title="Postings tagged ldap" style="font-size: 10.5px; line-height:10.5px">ldap</a> <a href="/tags/lingo" title="Postings tagged lingo" style="font-size: 10.5px; line-height:10.5px">lingo</a> <a href="/tags/maven" title="Postings tagged maven" style="font-size: 13.0px; line-height:13.0px">maven</a> <a href="/tags/misc" title="Postings tagged misc" style="font-size: 13.0px; line-height:13.0px">misc</a> <a href="/tags/osgi" title="Postings tagged osgi" style="font-size: 10.5px; line-height:10.5px">osgi</a> <a href="/tags/quartz" title="Postings tagged quartz" style="font-size: 10.5px; line-height:10.5px">quartz</a> <a href="/tags/rails" title="Postings tagged rails" style="font-size: 10.5px; line-height:10.5px">rails</a> <a href="/tags/ruby" title="Postings tagged ruby" style="font-size: 10.5px; line-height:10.5px">ruby</a> <a href="/tags/seam" title="Postings tagged seam" style="font-size: 12.0px; line-height:12.0px">seam</a> <a href="/tags/security" title="Postings tagged security" style="font-size: 12.0px; line-height:12.0px">security</a> <a href="/tags/snmp" title="Postings tagged snmp" style="font-size: 10.5px; line-height:10.5px">snmp</a> <a href="/tags/spring" title="Postings tagged spring" style="font-size: 15.0px; line-height:15.0px">spring</a> <a href="/tags/subversion" title="Postings tagged subversion" style="font-size: 10.5px; line-height:10.5px">subversion</a> <a href="/tags/swing" title="Postings tagged swing" style="font-size: 10.5px; line-height:10.5px">swing</a> <a href="/tags/tomcat" title="Postings tagged tomcat" style="font-size: 11.0px; line-height:11.0px">tomcat</a> <a href="/tags/tuning" title="Postings tagged tuning" style="font-size: 10.5px; line-height:10.5px">tuning</a> <a href="/tags/voip" title="Postings tagged voip" style="font-size: 10.5px; line-height:10.5px">voip</a> <a href="/tags/vpn" title="Postings tagged vpn" style="font-size: 10.5px; line-height:10.5px">vpn</a> <a href="/tags/web2.0-ria" title="Postings tagged web2.0-ria" style="font-size: 10.5px; line-height:10.5px">web2.0-ria</a> <a href="/tags/weblogic" title="Postings tagged weblogic" style="font-size: 20.0px; line-height:20.0px">weblogic</a> <a href="/tags/webservices" title="Postings tagged webservices" style="font-size: 10.5px; line-height:10.5px">webservices</a> <a href="/tags/websphere" title="Postings tagged websphere" style="font-size: 10.5px; line-height:10.5px">websphere</a> <a href="/tags/xfire" title="Postings tagged xfire" style="font-size: 10.5px; line-height:10.5px">xfire</a> <a href="/tags/xpath" title="Postings tagged xpath" style="font-size: 10.5px; line-height:10.5px">xpath</a> </p></section>
+<section>
+  <h1>Visitors</h1>
+  <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+</p>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Luc Dewavrin -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lucdewavrinsblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
