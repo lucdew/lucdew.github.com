@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Luc Dewavrin website]]></title>
+  <title><![CDATA[Luc Dewavrin's weblog]]></title>
   <link href="http://lucdew.github.com/atom.xml" rel="self"/>
   <link href="http://lucdew.github.com/"/>
-  <updated>2012-01-02T17:22:17-05:00</updated>
+  <updated>2012-01-02T21:17:01-05:00</updated>
   <id>http://lucdew.github.com/</id>
   <author>
     <name><![CDATA[Luc Dewavrin]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Last Post]]></title>
-    <link href="http://lucdew.github.com/blog/2009/09/16/last-post/"/>
+    <link href="http://lucdew.github.com/blog/last-post/"/>
     <updated>2009-09-16T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2009/09/16/last-post</id>
+    <id>http://lucdew.github.com/blog/last-post</id>
     <content type="html"><![CDATA[<p>I decided to no longer post on my blog due to a serious lack of motivation, time and inspiring topics ;-). Of course, comments will now be closed. As a side note here are the titles of drafts that never turned into posts:</p>
 
 <ul>
@@ -39,9 +39,9 @@
   
   <entry>
     <title type="html"><![CDATA[OSGI survey]]></title>
-    <link href="http://lucdew.github.com/blog/2009/05/05/osgi-survey/"/>
+    <link href="http://lucdew.github.com/blog/osgi-survey/"/>
     <updated>2009-05-05T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2009/05/05/osgi-survey</id>
+    <id>http://lucdew.github.com/blog/osgi-survey</id>
     <content type="html"><![CDATA[<iframe frameborder='0' height='344' marginheight='0' marginwidth='0' src='https://docs.google.com/spreadsheet/embeddedform?formkey=ckhzRjlyekdjYWtGZnlKYlZUYU0zM0E6MA..' width='760'>Loading&#8230;</iframe>
 <p>The results:</p>
 
@@ -50,9 +50,9 @@
   
   <entry>
     <title type="html"><![CDATA[Mimic facelet layouts in grails]]></title>
-    <link href="http://lucdew.github.com/blog/2009/04/27/mimic-facelet-layouts-in-grails/"/>
+    <link href="http://lucdew.github.com/blog/mimic-facelet-layouts-in-grails/"/>
     <updated>2009-04-27T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2009/04/27/mimic-facelet-layouts-in-grails</id>
+    <id>http://lucdew.github.com/blog/mimic-facelet-layouts-in-grails</id>
     <content type="html"><![CDATA[<p>I wanted to mimic facelets &#60;ui:insert /&#62; and &#60;ui:define /&#62; tags in grails.I find facelets to be quite powerful because it allows to define a fragment in your template that can be redefined by the view, otherwise a default fragment is displayed.It can be useful for instance for a menu where you want all views to use a default menu and some use another menu.</p>
 
 <p>In facelets, you would create a template file and add a &#60;ui:insert /&#62; statement for the menu, like this:</p>
@@ -109,9 +109,9 @@
   
   <entry>
     <title type="html"><![CDATA[Acquisition de Sun par Oracle]]></title>
-    <link href="http://lucdew.github.com/blog/2009/04/20/acquisition-de-sun-par-oracle/"/>
+    <link href="http://lucdew.github.com/blog/acquisition-de-sun-par-oracle/"/>
     <updated>2009-04-20T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2009/04/20/acquisition-de-sun-par-oracle</id>
+    <id>http://lucdew.github.com/blog/acquisition-de-sun-par-oracle</id>
     <content type="html"><![CDATA[<p>Pas sûr que Java soit gagnant dans l&#8217;histoire. Les incertitudes sur le devenir des produits Java n&#8217;est pas fait pour inciter les décideurs à opter pour cette technologie. Quelles sont les futures cibles : SpringSource, Redhat ? Sachant que SpringSource a été largement financé par des VC, à mon avis c&#8217;est un bon candidat. Bref, je me mets à la place d&#8217;un DSI aujourd&#8217;hui; si je ne veux pas prendre de risques j&#8217;opte pour .Net et les produits Microsoft : ligne de produits complète, cohérente et intégrée qui ne va pas disparaître d&#8217;ici 6 mois (j&#8217;exagère un peu&#8230;).</p>
 
 <p>Je pense aussi que la période de flottement qui va suivre accentuée en + par une baisse d&#8217;investissements liée à la conjoncture va freiner grandement l&#8217;innovation autour de la plateforme Java et laisser le champ libre à d&#8217;autres technologies. Java n&#8217;est pas prêt de combler le retard sur C#.</p>
@@ -121,9 +121,9 @@
   
   <entry>
     <title type="html"><![CDATA[Seam usage in production]]></title>
-    <link href="http://lucdew.github.com/blog/2009/03/30/seam-usage-in-production/"/>
+    <link href="http://lucdew.github.com/blog/seam-usage-in-production/"/>
     <updated>2009-03-30T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2009/03/30/seam-usage-in-production</id>
+    <id>http://lucdew.github.com/blog/seam-usage-in-production</id>
     <content type="html"><![CDATA[<p>There &#8216;s an interesting <a href='http://www.seamframework.org/Community/SeamInProfessionalUse'>thread</a> on the Seam forum about Seam in &#8220;profesional use&#8221;. Performance and steep learning curve are often mentioned as drawbacks.</p>
 
 <p>Seam heavily relies on proxy based components created by javassist. And javassist is known to be unperformant <a href='https://jira.jboss.org/jira/browse/JBSEAM-1977'>compared to cglib</a>. This library might have been chosen due to politic reason at JBoss. Seam Managed Persistence Context (SMPC) is also seen as a culprit but i guess that like many other frameworks you have to understand what&#8217;s underneath the carpet, lazy loading in some use cases can really hit performance.</p>
@@ -137,17 +137,17 @@
   
   <entry>
     <title type="html"><![CDATA[Economic downturn and impact on javabloggers]]></title>
-    <link href="http://lucdew.github.com/blog/2009/02/17/economic-downturn-and-impact-on-javabloggers/"/>
+    <link href="http://lucdew.github.com/blog/economic-downturn-and-impact-on-javabloggers/"/>
     <updated>2009-02-17T00:00:00-05:00</updated>
-    <id>http://lucdew.github.com/blog/2009/02/17/economic-downturn-and-impact-on-javabloggers</id>
+    <id>http://lucdew.github.com/blog/economic-downturn-and-impact-on-javabloggers</id>
     <content type="html"><![CDATA[<p>I wanted to know if the economic crisis had an impact on blogging. I was curious because it seemed for me that the blogs that i usually follow had less activity  . With the help of a groovy script and gchart, here&#8217;s the last 2 years monthly blog posts count (don&#8217;t know why there&#8217;s a high peak for July 07). It seems that, so far, java bloggers still post.<img alt='' src='http://chart.apis.google.com/chart?cht=lc&amp;chs=600x500&amp;chtt=Javablogs+monthly+posts+count%20+%7C+since+01-01-2007+to+01-02-2009&amp;chxt=x,y&amp;chxr=1,0,15000&amp;chds=0,15000&amp;chd=t:4224,4133,4758,4474,5561,4933,14719,5155,4515,5301,5047,4862,5341,3975,5278,3826,5527,4271,4471,4305,4548,4480,4347,4993,4520&amp;chxl=0:%7C1-07%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-08%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-09' /> For the quality of the blog posts that&#8217;s another story but my blog is not a good example ;-)</p>]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[JBoss resources]]></title>
-    <link href="http://lucdew.github.com/blog/2009/02/12/jboss-resources/"/>
+    <link href="http://lucdew.github.com/blog/jboss-resources/"/>
     <updated>2009-02-12T00:00:00-05:00</updated>
-    <id>http://lucdew.github.com/blog/2009/02/12/jboss-resources</id>
+    <id>http://lucdew.github.com/blog/jboss-resources</id>
     <content type="html"><![CDATA[<p>I recently discovered 2 good web sites that provide good JBoss knowledge :</p>
 
 <ul>
@@ -163,9 +163,9 @@
   
   <entry>
     <title type="html"><![CDATA[Some Maven tips]]></title>
-    <link href="http://lucdew.github.com/blog/2009/02/07/some-maven-tips/"/>
+    <link href="http://lucdew.github.com/blog/some-maven-tips/"/>
     <updated>2009-02-07T00:00:00-05:00</updated>
-    <id>http://lucdew.github.com/blog/2009/02/07/some-maven-tips</id>
+    <id>http://lucdew.github.com/blog/some-maven-tips</id>
     <content type="html"><![CDATA[<p>First post of the year, here are some Maven tips you might find useful (or obvious for experienced users):</p>
 
 <ul>
@@ -278,25 +278,25 @@
   
   <entry>
     <title type="html"><![CDATA[Jaxb bug 527]]></title>
-    <link href="http://lucdew.github.com/blog/2008/10/22/jaxb-bug-527/"/>
+    <link href="http://lucdew.github.com/blog/jaxb-bug-527/"/>
     <updated>2008-10-22T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2008/10/22/jaxb-bug-527</id>
+    <id>http://lucdew.github.com/blog/jaxb-bug-527</id>
     <content type="html"><![CDATA[<p>Please,  if you think you are concerned  vote for the <a href='https://jaxb.dev.java.net/issues/show_bug.cgi?id=527'>bug</a> i submitted</p>]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[SpringSource assouplit sa politique de maintenance]]></title>
-    <link href="http://lucdew.github.com/blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance/"/>
+    <link href="http://lucdew.github.com/blog/springsource-assouplit-sa-politique-de-maintenance/"/>
     <updated>2008-10-08T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2008/10/08/springsource-assouplit-sa-politique-de-maintenance</id>
+    <id>http://lucdew.github.com/blog/springsource-assouplit-sa-politique-de-maintenance</id>
     <content type="html"><![CDATA[<p>Bon SpringSource a décidé de changer de nouveau la politique de maintenance  de Spring après le tollé suscité parmi ses utilisateurs par la <a href='http://lucdew.github.com/?p=248'>récente annonce</a>. Plus de limite de 3 mois pour les versions communautaires. Une version majeure sera maintenue pour la communauté jusqu&#8217;à la sortie en Release Candidate de la version suivante. +d&#8217;infos sur le blog <a href='http://blog.springsource.com/2008/10/07/a-question-of-balance-tuning-the-maintenance-policy/'>SpringSource</a>.</p>]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Spring maintenant payant]]></title>
-    <link href="http://lucdew.github.com/blog/2008/09/21/changement-de-licence-spring/"/>
+    <link href="http://lucdew.github.com/blog/changement-de-licence-spring/"/>
     <updated>2008-09-21T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2008/09/21/changement-de-licence-spring</id>
+    <id>http://lucdew.github.com/blog/changement-de-licence-spring</id>
     <content type="html"><![CDATA[<p>Oui la nouvelle du week-end ou plutot de fin de semaine sur le <a href='http://newblog.springsource.com/2008/05/27/open-source-open-strategy-the-springsource-manifesto/'>changement de licence de Spring</a> <strong>me reste en travers de la gorge</strong>, même si j&#8217;en comprends les raisons.</p>
 
 <p>Mais d&#8217;un coup je me sens coupable d&#8217;avoir poussé depuis 2004 à l&#8217;utilisation de Spring sur plusieurs projets et d&#8217;en avoir été le défenseur auprès de certains collègues réticents sur les principes d&#8217;injection de dépendances, de conteneur léger et même d&#8217;AOP. Sur mes 2 derniers projets, j&#8217;ai même introduit Spring Security (anciennement ACEGI) et utilisé Spring MVC pour une petite application interne chez mon employeur précédent. Et oui, le changement de licence s&#8217;applique aussi à tous ces projets.Cela me fait maintenant me re-questionner sur l&#8217;utilisation de ce framework.</p>
@@ -332,9 +332,9 @@
   
   <entry>
     <title type="html"><![CDATA[Some common JSF pitfalls]]></title>
-    <link href="http://lucdew.github.com/blog/2008/09/01/some-common-jsf-pitfalls/"/>
+    <link href="http://lucdew.github.com/blog/some-common-jsf-pitfalls/"/>
     <updated>2008-09-01T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2008/09/01/some-common-jsf-pitfalls</id>
+    <id>http://lucdew.github.com/blog/some-common-jsf-pitfalls</id>
     <content type="html"><![CDATA[<p>Well at least here&#8217; s a non exhaustive list of common jsf pitfalls, i felt into (some are variants of others) :</p>
 
 <ul>
@@ -354,17 +354,17 @@
   
   <entry>
     <title type="html"><![CDATA[Switched to french canadian keyboard]]></title>
-    <link href="http://lucdew.github.com/blog/2008/08/27/switched-to-french-canadian-keyboard/"/>
+    <link href="http://lucdew.github.com/blog/switched-to-french-canadian-keyboard/"/>
     <updated>2008-08-27T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2008/08/27/switched-to-french-canadian-keyboard</id>
+    <id>http://lucdew.github.com/blog/switched-to-french-canadian-keyboard</id>
     <content type="html"><![CDATA[<p>Very interesting news,after a trip to Canada i switched my keyboard layout from french azerty based layout to french canadian. Since it&#8217;s a qwerty based layout it might be useful, if one day i have to work abroad. Also it&#8217;s more efficient for programming and english writings.</p>]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Spring entityManagerFactory in jta and non-jta modes]]></title>
-    <link href="http://lucdew.github.com/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes/"/>
+    <link href="http://lucdew.github.com/blog/spring-entitymanagerfactory-jta-and-non-jta-modes/"/>
     <updated>2008-06-23T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2008/06/23/spring-entitymanagerfactory-jta-and-non-jta-modes</id>
+    <id>http://lucdew.github.com/blog/spring-entitymanagerfactory-jta-and-non-jta-modes</id>
     <content type="html"><![CDATA[<p>This blog post is about using JPA with Spring in 2 contexts :</p>
 
 <ul>
@@ -568,9 +568,9 @@
   
   <entry>
     <title type="html"><![CDATA[Stat your commits]]></title>
-    <link href="http://lucdew.github.com/blog/2008/06/02/stat-your-commits/"/>
+    <link href="http://lucdew.github.com/blog/stat-your-commits/"/>
     <updated>2008-06-02T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2008/06/02/stat-your-commits</id>
+    <id>http://lucdew.github.com/blog/stat-your-commits</id>
     <content type="html"><![CDATA[<p>I recently discover the <a href='http://stat-scm.sourceforge.net/'>StatSCM</a> maven plugin and it made our team day . It gives useful information about your Subversion activity (it supports other SCM systems) giving precise developers activity information or file statistics. It also generates some nice charts. I found it very useful to monitor what the team members commit: for instance we discovered that a trainee was the developer of the month (ranked by LOC commited) because he commited some very large csv test files.First to enable it, configure the dependency and declare the report in the reports section of your maven parent pom file:</p>
 <figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -648,41 +648,41 @@
   
   <entry>
     <title type="html"><![CDATA[HP about to buy EDS]]></title>
-    <link href="http://lucdew.github.com/blog/2008/05/12/hp-about-to-buy-eds/"/>
+    <link href="http://lucdew.github.com/blog/hp-about-to-buy-eds/"/>
     <updated>2008-05-12T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2008/05/12/hp-about-to-buy-eds</id>
+    <id>http://lucdew.github.com/blog/hp-about-to-buy-eds</id>
     <content type="html"><![CDATA[<p>Concentration in IT goes on ( is it an effect of a &#8220;SAAS strategy&#8221; ?):<a href='http://news.yahoo.com/s/nm/20080512/bs_nm/eds_hewlettpackard_dc_1'>http://news.yahoo.com/s/nm/20080512/bs_nm/eds_hewlettpackard_dc_1</a></p>]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Opensource Java BPM compared]]></title>
-    <link href="http://lucdew.github.com/blog/2008/01/17/opensource-java-bpm-compared/"/>
+    <link href="http://lucdew.github.com/blog/opensource-java-bpm-compared/"/>
     <updated>2008-01-17T00:00:00-05:00</updated>
-    <id>http://lucdew.github.com/blog/2008/01/17/opensource-java-bpm-compared</id>
+    <id>http://lucdew.github.com/blog/opensource-java-bpm-compared</id>
     <content type="html"><![CDATA[<p>(Seen on jBPM mailing-list): a quite interesting study between the non-exhaustive Java BPM engines (jBPM, enhydra shark, openwfe) has been published. Follow this <a href='http://www.workflowpatterns.com/documentation/documents/BPM-07-12.pdf'>link</a>.Updated 2008/08 : The report has been updated (see <a href='http://www.infoq.com/news/2008/08/oswf'>http://www.infoq.com/news/2008/08/oswf</a>)</p>]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[IT consolidation]]></title>
-    <link href="http://lucdew.github.com/blog/2008/01/16/it-consolidation/"/>
+    <link href="http://lucdew.github.com/blog/it-consolidation/"/>
     <updated>2008-01-16T00:00:00-05:00</updated>
-    <id>http://lucdew.github.com/blog/2008/01/16/it-consolidation</id>
+    <id>http://lucdew.github.com/blog/it-consolidation</id>
     <content type="html"><![CDATA[<p>Todays news:<strong>Oracle buys BEA.</strong><strong>Mysql AB acquired by Sun.</strong>Well what&#8217;s next? Redhat acquired by Sun (or even Microsoft), Adobe acquired by Oracle, etc ?Industralization of the IT sector seems to get some steam, surely a sign of maturity. I am not sure if it will have an impact on innovation or this trend is the result of a loss of innovation. Big actors want to provide a complete enterprise stack from hardware to software package solutions. Will we only have to deal with SAP, Oracle, IBM, Sun and Microsoft tomorrow ?Google strategy seems to differentiate and focus on online services.</p>]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[A picture is worth a thousand words (my 2008 no interest techs list)]]></title>
-    <link href="http://lucdew.github.com/blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list/"/>
+    <link href="http://lucdew.github.com/blog/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list/"/>
     <updated>2008-01-03T00:00:00-05:00</updated>
-    <id>http://lucdew.github.com/blog/2008/01/03/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list</id>
+    <id>http://lucdew.github.com/blog/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list</id>
     <content type="html"><![CDATA[<p>This comic sums up my opinion on Scala pretty well (very funny):<a href='http://stuffthathappens.com/blog/2008/01/02/scala-will-do/'>http://stuffthathappens.com/blog/2008/01/02/scala-will-do/</a>I jumped on Ruby and Rails bandwagon spending some man-days (;-)) on it but at least Rails has been a reference in term of web productivity and introduced or leveraged nice concepts (naming conventions over configuration, DSL, REST, TDD etc.) . Recently, many Java web frameworks compared themselves to Rails and how they were much better (Seam,Grails &#38; Co). Rails influenced the IT community (Java, .Net and Python included).=&#62; All in all, i have excuses to have followed the crowd&#8230; But not this time, Scala (pretty unreadable), JavaFx (not until i see <a href='http://weblogs.java.net/blog/chet/archive/2007/05/consumer_jre_le.html'>the consumer jre</a> in action and applets as fast-loaded as flash apps without dumb dialog boxes) are definitely on my 2008 technos of no-interest !I&#8217;ll hopefully focus this year on the new Cobol ;-) core (or even .Net/C#) .</p>]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Would you blog about this song ?]]></title>
-    <link href="http://lucdew.github.com/blog/2007/12/30/would-you-blog-about-my-song/"/>
+    <link href="http://lucdew.github.com/blog/would-you-blog-about-my-song/"/>
     <updated>2007-12-30T00:00:00-05:00</updated>
-    <id>http://lucdew.github.com/blog/2007/12/30/would-you-blog-about-my-song</id>
+    <id>http://lucdew.github.com/blog/would-you-blog-about-my-song</id>
     <content type="html"><![CDATA[<p>Of course, when it&#8217;s so funny (burst the web 2/3.0 bubble):<div class='external-media'> <object data='http://www.youtube.com/v/I6IQ_FOCE6I&amp;rel=1' height='280' type='application/x-shockwave-flash' width='340'><param name='movie' value='http://www.youtube.com/v/I6IQ_FOCE6I&amp;rel=1' /><param name='wmode' value='transparent' /></object></div></p>]]></content>
   </entry>
   

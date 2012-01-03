@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: uncategorized | Luc Dewavrin website]]></title>
+  <title><![CDATA[Category: uncategorized | Luc Dewavrin's weblog]]></title>
   <link href="http://lucdew.github.com/blog/categories/uncategorized/atom.xml" rel="self"/>
   <link href="http://lucdew.github.com/"/>
-  <updated>2012-01-02T17:22:17-05:00</updated>
+  <updated>2012-01-02T21:17:01-05:00</updated>
   <id>http://lucdew.github.com/</id>
   <author>
     <name><![CDATA[Luc Dewavrin]]></name>
@@ -15,17 +15,17 @@
   
   <entry>
     <title type="html"><![CDATA[Would you blog about this song ?]]></title>
-    <link href="http://lucdew.github.com/blog/2007/12/30/would-you-blog-about-my-song/"/>
+    <link href="http://lucdew.github.com/blog/would-you-blog-about-my-song/"/>
     <updated>2007-12-30T00:00:00-05:00</updated>
-    <id>http://lucdew.github.com/blog/2007/12/30/would-you-blog-about-my-song</id>
+    <id>http://lucdew.github.com/blog/would-you-blog-about-my-song</id>
     <content type="html"><![CDATA[<p>Of course, when it&#8217;s so funny (burst the web 2/3.0 bubble):<div class='external-media'> <object data='http://www.youtube.com/v/I6IQ_FOCE6I&amp;rel=1' height='280' type='application/x-shockwave-flash' width='340'><param name='movie' value='http://www.youtube.com/v/I6IQ_FOCE6I&amp;rel=1' /><param name='wmode' value='transparent' /></object></div></p>]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Weblogic SSL with OpenSSL]]></title>
-    <link href="http://lucdew.github.com/blog/2005/05/04/weblogic-ssl-with-openssl/"/>
+    <link href="http://lucdew.github.com/blog/weblogic-ssl-with-openssl/"/>
     <updated>2005-05-04T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/2005/05/04/weblogic-ssl-with-openssl</id>
+    <id>http://lucdew.github.com/blog/weblogic-ssl-with-openssl</id>
     <content type="html"><![CDATA[]]></content>
   </entry>
   
