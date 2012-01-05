@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: java | Luc Dewavrin's weblog]]></title>
-  <link href="http://lucdew.github.com/blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://lucdew.github.com/"/>
-  <updated>2012-01-04T19:39:49-05:00</updated>
-  <id>http://lucdew.github.com/</id>
+  <link href="http://www.dewavrin.info/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://www.dewavrin.info/"/>
+  <updated>2012-01-04T20:43:29-05:00</updated>
+  <id>http://www.dewavrin.info/</id>
   <author>
     <name><![CDATA[Luc Dewavrin]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[OSGI survey]]></title>
-    <link href="http://lucdew.github.com/blog/osgi-survey/"/>
+    <link href="http://www.dewavrin.info/blog/osgi-survey/"/>
     <updated>2009-05-05T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/osgi-survey</id>
+    <id>http://www.dewavrin.info/blog/osgi-survey</id>
     <content type="html"><![CDATA[<iframe frameborder='0' height='344' marginheight='0' marginwidth='0' src='https://docs.google.com/spreadsheet/embeddedform?formkey=ckhzRjlyekdjYWtGZnlKYlZUYU0zM0E6MA..' width='760'>Loading...</iframe>
 <p>The results:</p>
 
@@ -26,9 +26,9 @@
   
   <entry>
     <title type="html"><![CDATA[Mimic facelet layouts in grails]]></title>
-    <link href="http://lucdew.github.com/blog/mimic-facelet-layouts-in-grails/"/>
+    <link href="http://www.dewavrin.info/blog/mimic-facelet-layouts-in-grails/"/>
     <updated>2009-04-27T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/mimic-facelet-layouts-in-grails</id>
+    <id>http://www.dewavrin.info/blog/mimic-facelet-layouts-in-grails</id>
     <content type="html"><![CDATA[<p>I wanted to mimic facelets &#60;ui:insert /&#62; and &#60;ui:define /&#62; tags in grails.I find facelets to be quite powerful because it allows to define a fragment in your template that can be redefined by the view, otherwise a default fragment is displayed.It can be useful for instance for a menu where you want all views to use a default menu and some use another menu.</p>
 
 <p>In facelets, you would create a template file and add a &#60;ui:insert /&#62; statement for the menu, like this: <div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -74,9 +74,9 @@
   
   <entry>
     <title type="html"><![CDATA[Seam usage in production]]></title>
-    <link href="http://lucdew.github.com/blog/seam-usage-in-production/"/>
+    <link href="http://www.dewavrin.info/blog/seam-usage-in-production/"/>
     <updated>2009-03-30T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/seam-usage-in-production</id>
+    <id>http://www.dewavrin.info/blog/seam-usage-in-production</id>
     <content type="html"><![CDATA[<p>There &#8216;s an interesting <a href='http://www.seamframework.org/Community/SeamInProfessionalUse'>thread</a> on the Seam forum about Seam in &#8220;profesional use&#8221;. Performance and steep learning curve are often mentioned as drawbacks.</p>
 
 <p>Seam heavily relies on proxy based components created by javassist. And javassist is known to be unperformant <a href='https://jira.jboss.org/jira/browse/JBSEAM-1977'>compared to cglib</a>. This library might have been chosen due to politic reason at JBoss. Seam Managed Persistence Context (SMPC) is also seen as a culprit but i guess that like many other frameworks you have to understand what&#8217;s underneath the carpet, lazy loading in some use cases can really hit performance.</p>
@@ -90,17 +90,17 @@
   
   <entry>
     <title type="html"><![CDATA[Economic downturn and impact on javabloggers]]></title>
-    <link href="http://lucdew.github.com/blog/economic-downturn-and-impact-on-javabloggers/"/>
+    <link href="http://www.dewavrin.info/blog/economic-downturn-and-impact-on-javabloggers/"/>
     <updated>2009-02-17T00:00:00-05:00</updated>
-    <id>http://lucdew.github.com/blog/economic-downturn-and-impact-on-javabloggers</id>
+    <id>http://www.dewavrin.info/blog/economic-downturn-and-impact-on-javabloggers</id>
     <content type="html"><![CDATA[<p>I wanted to know if the economic crisis had an impact on blogging. I was curious because it seemed for me that the blogs that i usually follow had less activity  . With the help of a groovy script and gchart, here&#8217;s the last 2 years monthly blog posts count (don&#8217;t know why there&#8217;s a high peak for July 07). It seems that, so far, java bloggers still post.<img alt='' src='http://chart.apis.google.com/chart?cht=lc&amp;chs=600x500&amp;chtt=Javablogs+monthly+posts+count%20+%7C+since+01-01-2007+to+01-02-2009&amp;chxt=x,y&amp;chxr=1,0,15000&amp;chds=0,15000&amp;chd=t:4224,4133,4758,4474,5561,4933,14719,5155,4515,5301,5047,4862,5341,3975,5278,3826,5527,4271,4471,4305,4548,4480,4347,4993,4520&amp;chxl=0:%7C1-07%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-08%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-09' /> For the quality of the blog posts that&#8217;s another story but my blog is not a good example ;-)</p>]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[JBoss resources]]></title>
-    <link href="http://lucdew.github.com/blog/jboss-resources/"/>
+    <link href="http://www.dewavrin.info/blog/jboss-resources/"/>
     <updated>2009-02-12T00:00:00-05:00</updated>
-    <id>http://lucdew.github.com/blog/jboss-resources</id>
+    <id>http://www.dewavrin.info/blog/jboss-resources</id>
     <content type="html"><![CDATA[<p>I recently discovered 2 good web sites that provide good JBoss knowledge :</p>
 
 <ul>

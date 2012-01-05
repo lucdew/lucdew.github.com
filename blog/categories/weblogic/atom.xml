@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: weblogic | Luc Dewavrin's weblog]]></title>
-  <link href="http://lucdew.github.com/blog/categories/weblogic/atom.xml" rel="self"/>
-  <link href="http://lucdew.github.com/"/>
-  <updated>2012-01-04T19:39:49-05:00</updated>
-  <id>http://lucdew.github.com/</id>
+  <link href="http://www.dewavrin.info/blog/categories/weblogic/atom.xml" rel="self"/>
+  <link href="http://www.dewavrin.info/"/>
+  <updated>2012-01-04T20:43:29-05:00</updated>
+  <id>http://www.dewavrin.info/</id>
   <author>
     <name><![CDATA[Luc Dewavrin]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Memory leaks hunting articles]]></title>
-    <link href="http://lucdew.github.com/blog/memory-leaks-hunting-articles-2/"/>
+    <link href="http://www.dewavrin.info/blog/memory-leaks-hunting-articles-2/"/>
     <updated>2005-09-17T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/memory-leaks-hunting-articles-2</id>
+    <id>http://www.dewavrin.info/blog/memory-leaks-hunting-articles-2</id>
     <content type="html"><![CDATA[<p>I have been busy lately and once again I will only add interesting links. These are about memory leaks hunting in the JVM. Memory leaks can be hard to spot and these articles were published while I was facing the same problems in my company. So thanks to Java&#8217;s community, I have been able to quickly identify the potential origins of the leaks.</p>
 
 <p>Read this very interesting article which also has links to other blogs which deal the issues of using ThreadLocal. <a href='http://www.patrickpeak.com/page/patrick/20050614#your_web_app_is_leaking'>The Art of war blog</a></p>
@@ -29,9 +29,9 @@
   
   <entry>
     <title type="html"><![CDATA[Weblogic server 9.0 released]]></title>
-    <link href="http://lucdew.github.com/blog/weblogic-server-90-released-2/"/>
+    <link href="http://www.dewavrin.info/blog/weblogic-server-90-released-2/"/>
     <updated>2005-07-25T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/weblogic-server-90-released-2</id>
+    <id>http://www.dewavrin.info/blog/weblogic-server-90-released-2</id>
     <content type="html"><![CDATA[<p>I haven&#8217;t seen any special announcement neither on theserverside.com (too late a annoucement has been published) nor on javalobby.org but it seems that Weblogic server 9.0 a.k.a &#8220;Diablo&#8221; has been released. At least it can be downloaded from dev2dev.bea.com since 07/22</p>
 
 <p>I was waiting for it actively because it runs on Java 5, it&#8217;s J2EE 1.4 certified and needed to port some Tomcat 5.5 applications on it.</p>]]></content>
@@ -39,9 +39,9 @@
   
   <entry>
     <title type="html"><![CDATA[Enable logging for JDBC&#39;s thin driver in Weblogic]]></title>
-    <link href="http://lucdew.github.com/blog/enable-logging-for-jdbcs-thin-driver-in-weblogic/"/>
+    <link href="http://www.dewavrin.info/blog/enable-logging-for-jdbcs-thin-driver-in-weblogic/"/>
     <updated>2005-05-10T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/enable-logging-for-jdbcs-thin-driver-in-weblogic</id>
+    <id>http://www.dewavrin.info/blog/enable-logging-for-jdbcs-thin-driver-in-weblogic</id>
     <content type="html"><![CDATA[<p>Here&#8217;s a quick and dirty tip to enable JDBC logging for Oracle thin drivers.Enabling JDBC logging for connections of a pool is straightforward with JDBC connection proxies like p6spy tool. Sadly some applications still don&#8217;t use connection pools configured on J2EE application server and connect directly to database without retrieving a connection from a pool and with the JDBC URL hardcoded. For the latters, you can still trace JDBC activity.</p>
 
 <p>To do so:</p>
@@ -175,9 +175,9 @@
   
   <entry>
     <title type="html"><![CDATA[Weblogic prepared statement caching]]></title>
-    <link href="http://lucdew.github.com/blog/weblogic-prepared-statement-caching-2/"/>
+    <link href="http://www.dewavrin.info/blog/weblogic-prepared-statement-caching-2/"/>
     <updated>2005-04-11T00:00:00-04:00</updated>
-    <id>http://lucdew.github.com/blog/weblogic-prepared-statement-caching-2</id>
+    <id>http://www.dewavrin.info/blog/weblogic-prepared-statement-caching-2</id>
     <content type="html"><![CDATA[<p>Another interesting <a href='http://www.jroller.com/comments/maximdim/Weblog/improving_jdbc_performance_with_statement'>Dmitri Maximovich blog entry</a> about enabling &#8220;prepared statements caching&#8221; (or pooling) inside Weblogic server.</p>
 
 <p>Don&#8217;t forget that the PS cache works on a per connection basisAlso <a href='http://www.javalobby.org/members-only/eps/jdbc-performance/?source=archives'>see</a> this good presentation about JDBC performance on Javalobby (need an accountto access it)</p>]]></content>
@@ -185,9 +185,9 @@
   
   <entry>
     <title type="html"><![CDATA[Weblogic impossible to load other JMX  classes]]></title>
-    <link href="http://lucdew.github.com/blog/weblogic-impossible-to-load-other-jmx-classes/"/>
+    <link href="http://www.dewavrin.info/blog/weblogic-impossible-to-load-other-jmx-classes/"/>
     <updated>2005-04-01T00:00:00-05:00</updated>
-    <id>http://lucdew.github.com/blog/weblogic-impossible-to-load-other-jmx-classes</id>
+    <id>http://www.dewavrin.info/blog/weblogic-impossible-to-load-other-jmx-classes</id>
     <content type="html"><![CDATA[<p>I have recently discovered that it not possible to use other JMX classes (JMX 1.1 javax.management.*)than the ones in the weblogic.jar on Weblogic 8.1. Actually, I was trying to extend CruiseControl web app to offer the ability to start/resume/pauseintegration processes in the cruisecontrol daemon. The CruiseControl daemon has its own mx4j JMX agent with an embedded RMI connector (and an HTML adaptor which I didn&#8217;t want to use). My webapp connects to the RMI adapator to contact the MBean server of cruisecontrol.</p>
 
 <p>But I had class cast exceptions when run inside Weblogic on the JMX classes. I tried to use the mx4j JMX classes but actually there is no way to do it. I tried to add them in the Weblogic server&#8217;s classpath before the weblogic.jar but Weblogic refuses to boot. So I added them in the WEB-INF/lib directory of my web app and used the special option &#60;prefer-web-inf-classes&#62; in the weblogic.xml file but it didn&#8217;t work either. This option is supposed to force the Webapp classloader to first load the classes in the WEB-INF subdirectories lib and classes contrary to the hierarchical classloading mecanism. But fatally, it doesn&#8217;t work for javax.management.* classes and it&#8217;s not documented. The reason given me by the BEA support is that the javax.management.* classes are already used internally even in the context of the web app classloader for monitoring purpose&#8230;</p>]]></content>
