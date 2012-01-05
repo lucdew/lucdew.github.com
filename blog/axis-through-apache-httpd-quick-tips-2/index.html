@@ -142,7 +142,7 @@
 </span><span class='line'>SetOutputFilter DEFLATE
 </span><span class='line'>SetInputFilter DEFLATE</span></code></pre></td></tr></table></div></figure>
 <ul>
-<li><strong>Dealing with SOAP with attachments</strong>. mod_proxy can be used in front of any servlet container but when the Web containers are clustered it&#8217;s better to use the relative Apache module of these containers (mod_jk for Tomcat or mod_wl_20 for Weblogic). The problem is that some modules don&#8217;t handle well HTTP chuncked-encoding transfer type. Chunck-encoding is used by default by <a href='http://www.dewavrin.info/wp-admin/jakarta.apache.org/commons/httpclient/'>Jakarta commons httpclient</a> library (see <a href='http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html'>this RFC description</a> of chunck-encoding). If you do SOAP with attachments with a Mime-Multipart HTTP request, the proxy alters the HTTP headers of the request and Axis doesn&#8217;t handle it well. The only solution for me has been to use the latest mod_proxy version.Here&#8217;s a sample request:</li>
+<li><strong>Dealing with SOAP with attachments</strong>. mod_proxy can be used in front of any servlet container but when the Web containers are clustered it&#8217;s better to use the relative Apache module of these containers (mod_jk for Tomcat or mod_wl_20 for Weblogic). The problem is that some modules don&#8217;t handle well HTTP chuncked-encoding transfer type. Chunck-encoding is used by default by <a href='http://jakarta.apache.org/commons/httpclient/'>Jakarta commons httpclient</a> library (see <a href='http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html'>this RFC description</a> of chunck-encoding). If you do SOAP with attachments with a Mime-Multipart HTTP request, the proxy alters the HTTP headers of the request and Axis doesn&#8217;t handle it well. The only solution for me has been to use the latest mod_proxy version.Here&#8217;s a sample request:</li>
 </ul>
 <figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -303,6 +303,12 @@
   </footer>
 </article>
 
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
 </div>
 
 <aside class="sidebar">
@@ -379,7 +385,10 @@
       var disqus_shortname = 'lucdewavrinsblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://lucdew.github.com/blog/axis-through-apache-httpd-quick-tips-2/';
+        var disqus_url = 'http://lucdew.github.com/blog/axis-through-apache-httpd-quick-tips-2/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -104,7 +104,7 @@
 
 <div class="entry-content"><p>Some VOIP softphones like X-lite rely on <a href='http://en.wikipedia.org/wiki/SIP'>SIP</a> (connection) and <a href='http://en.wikipedia.org/wiki/Real-time_Transport_Protocol'>RTP</a> (voice) protocols which both work on top of UDP.</p>
 
-<p>In previous posts (<a href='http://www.jroller.com/page/ldewavrin/20050310'>1</a> and <a href='http://www.jroller.com/page/ldewavrin/20041029'>2</a>), I explained how to create a tunnel between a machine in a corporate networkand an external machine (like your home machine). The solution was based on SOCKS capabilities of a ssh tunnel which can behave like a Socks proxy server (-D optionof openssh).</p>
+<p>In previous posts (<a href='/blog/passing-through-corporate-firewall/'>1</a> and <a href='/blog/passing-through-corporate-firewall-part2-2/'>2</a>), I explained how to create a tunnel between a machine in a corporate networkand an external machine (like your home machine). The solution was based on SOCKS capabilities of a ssh tunnel which can behave like a Socks proxy server (-D optionof openssh).</p>
 
 <p>With recent versions of openSSH, SOCKSv5 is even supported and therefore it becomespossible to tunnel UDP. Unfortunately, I haven&#8217;t found any Socksv5 compliant VOIP softphone.</p>
 
@@ -140,7 +140,7 @@
 </li>
 
 <li>
-<p>6) Just configure your SIP phone as if you had direct access to the server (if you don&#8217;t nat).<img alt='' src='http://www.jroller.com/resources/l/ldewavrin/xlite.JPG' /></p>
+<p>6) Just configure your SIP phone as if you had direct access to the server (if you don&#8217;t nat).<img alt='' src='/images/custom/xlite.JPG' /></p>
 </li>
 </ul></div>
 
@@ -195,6 +195,12 @@
     </p>
   </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -272,7 +278,10 @@
       var disqus_shortname = 'lucdewavrinsblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://lucdew.github.com/blog/use-your-voip-softphone-work-2/';
+        var disqus_url = 'http://lucdew.github.com/blog/use-your-voip-softphone-work-2/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

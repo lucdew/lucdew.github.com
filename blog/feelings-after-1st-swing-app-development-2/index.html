@@ -112,7 +112,7 @@
 <li><strong>bugs:</strong> Even if the app is low featured I experimented some little bugs which have no (easy) workarounds and are only fixed in Java 1.5. Like in the following JProgressMonitor window, the cancel action doesn&#39;t work (<a href='http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4804458'>bug 4804458</a>):</li>
 </ul>
 
-<p><img alt='' src='http://www.jroller.com/resources/l/ldewavrin/connect_diag.png' /> <div align='center'><b><i>Discovering Weblogic servers using multicast</i></b></div></p>
+<p><img alt='' src='/images/custom/connect_diag.png' /> <div align='center'><b><i>Discovering Weblogic servers using multicast</i></b></div></p>
 
 <ul>
 <li><strong>Designing screens and forms</strong>. Even if JGoodies FormLayout helped, the design takes time (much more thanfor Web) and I missed GUI Wysiwyg tools. I know there are a few, but I have been told that they produceawful code.</li>
@@ -123,11 +123,11 @@
 <ul>
 <li><strong>One language</strong> What I liked in writing Desktop application is that, compared to Web app devlopment, I have been able to write it in one language from the client part to the server side part (Web services). What i disklike in Web development today is the accumulation of different technologies for the presentation layer: XHTML,CSS, Javascript, server side scripting language (ASP,JSP,PHP,etc) and object language (C#,Java&#8230;). (Ok it doesn&#39;t help separating GUI design from GUI logic code but with GUI designers it could help).If you add learning of an MVC framework or component based framework it makes a lot to know. On the other hand, the knowledge of such MVC frameworks helped me designing the rich client app. Also, debbuging can become problematic with all these layers and sometimes erros in Javascript code occur due to errors on the server part of the application&#8230;</li>
 
-<li><strong>blogs resources</strong> Thanks to the numerous bloggers who deal with Swing hacks everyday, it&#39;s been easy to enhance the UI and make it look quite nice. Doesn&#39;t this pic remind you (jroller reader) of a high ranked blog in Jroller.com :<br /><img alt='' src='http://www.jroller.com/resources/l/ldewavrin/ealisdiag.png' /></li>
+<li><strong>blogs resources</strong> Thanks to the numerous bloggers who deal with Swing hacks everyday, it&#39;s been easy to enhance the UI and make it look quite nice. Doesn&#39;t this pic remind you (jroller reader) of a high ranked blog in Jroller.com :<br /><img alt='' src='/images/custom/ealisdiag.png' /></li>
 
 <li><strong>Deployment</strong> Deployment has not been an issue I just added a Java Web start link in my company&#39;s portal. Most workstations had JRE &#62; 1.4.2 installed on then</li>
 
-<li><strong>OS integration</strong> My integration requirement was basic: a tray icon is displayed when the app is launched and icon changes when a component of the application being monitored doesn&#39;tnot work properly. But thanks to jdic components it has been straightforward to implement.<br /><img alt='' src='http://www.jroller.com/resources/l/ldewavrin/tray.PNG' /></li>
+<li><strong>OS integration</strong> My integration requirement was basic: a tray icon is displayed when the app is launched and icon changes when a component of the application being monitored doesn&#39;tnot work properly. But thanks to jdic components it has been straightforward to implement.<br /><img alt='' src='/images/custom/tray.PNG' /></li>
 </ul>
 
 <p>Overall, I enjoyed this experience. Hopefully for me this app is only used for internal purpose and isn&#8217;t sold ;-) But developping it gave me a glimpse of what could be developping a Swing app.I am not sure if I&#8217;ll invest more time in learning Swing, well at least professionnaly speaking.Not because I don&#8217;t find it interesting or that Swing is inefficientbut mostly due to the fact that I think I&#8217;ll never be hired for such knowledge here in France. IT jobs in developmentare moving to Eastern Europe or India and job opportunities in Swing development are very low and reserved for senior devs.</p></div>
@@ -183,6 +183,12 @@
     </p>
   </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -260,7 +266,10 @@
       var disqus_shortname = 'lucdewavrinsblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://lucdew.github.com/blog/feelings-after-1st-swing-app-development-2/';
+        var disqus_url = 'http://lucdew.github.com/blog/feelings-after-1st-swing-app-development-2/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

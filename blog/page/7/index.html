@@ -335,13 +335,13 @@
 
   <div class="entry-content"><p>Well,since most companies don&#39;t allow their employees to host mp3 on serversespecially on production servers ;-) Here&#39;s a little trick if you havea machine connected to the internet at home (with a fixed IP address ordyndns to easily connect to it) to listen your mp3.</p>
 
-<p>Once again it uses SSL tunnel and SSH (See my previous <a href='http://www.jroller.com/page/ldewavrin/20040819'>post</a>)to connect through your corporate firewalls and proxies to your homemachine. As a Itunes server I chose to use mt-daapd daemon on a Linuxserver. Here are steps:</p>
+<p>Once again it uses SSL tunnel and SSH (See my previous <a href='/blog/passing-through-corporate-firewall-part2-2/'>post</a>)to connect through your corporate firewalls and proxies to your homemachine. As a Itunes server I chose to use mt-daapd daemon on a Linuxserver. Here are steps:</p>
 
 <p>1) On your home machine configure mt-daapd daemon. The step mostly consists in chosing the directory where your mp3s are.</p>
 
-<p>2) Configure ssh on your corporate machine to use stunnel (See my previous <a href='http://www.jroller.com/page/ldewavrin/20040819'>post</a>)</p>
+<p>2) Configure ssh on your corporate machine to use stunnel (See my previous <a href='/blog/passing-through-corporate-firewall-part2-2/'>post</a>)</p>
 
-<p>3)Configure the SSh daemon at home (See my previous <a href='http://www.jroller.com/page/ldewavrin/20040819'>post</a>)</p>
+<p>3)Configure the SSh daemon at home (See my previous <a href='/blog/passing-through-corporate-firewall-part2-2/'>post</a>)</p>
 
 <p>4) On your local machine, use RendezvousProxy toolhttp://ileech.sf.net/RendezvousProxy/ as a proxy for RendezVousprotocol. Itunes uses RendezVous protocol to automatically discover anyItunes server. It works with multicast packets (not investigated thatmuch on it).Configure RendezvousProxy to listen on port 3690 for instance and use daacp.tcp plugin.</p>
 
@@ -403,7 +403,7 @@
 <li>performance boost (without more precision &#8230;)</li>
 </ul>
 
-<p>Well as you can notice the improvements are not revolutionnary and I think it shows that this product has really come to maturity (in termsof administration). By the way, the beta will be available in the beginning of November. Since the presentation was public I have uploaded a screenshot of the new console:<img alt='WLS9 console' src='http://www.jroller.com/resources/l/ldewavrin/console.jpg' /></p></div>
+<p>Well as you can notice the improvements are not revolutionnary and I think it shows that this product has really come to maturity (in termsof administration). By the way, the beta will be available in the beginning of November. Since the presentation was public I have uploaded a screenshot of the new console:<img alt='WLS9 console' src='/images/custom/console.jpg' /></p></div>
   
   
 

@@ -108,7 +108,7 @@ Then, unlike echo2  you can compile your Gwt code to Javascript and Html and dep
 </p>
 <p>1) Create a Gwt JSNI class to invoke your rails service.</p>
 
-<p>Update 12/17/06: Since GWT 1.2.2, you can achievethis without writing your own JSNI class, by using the GWT <a href='http://code.google.com/webtoolkit/documentation/com.google.gwt.http.client.RequestBuilder.html'>RequestBuilder</a> class which provides a method to set your own http header.<a href='http://code.google.com/webtoolkit/documentation/com.google.gwt.doc.DeveloperGuide.JavaScriptNativeInterface.html'>Java Script Native Interface</a> is Google Web Toolkit equivalent of JNI but for Javascript. Java objects (which are BTW translated to Javascript code by GWT compiler) can interact with Javascript objects (and reversly).Rails <strong>respond_to</strong> method available in each controller can be used to respond to yourclient and deliver a different response for each mime type asked.Rails uses <strong>Accept HTTP header</strong> to differentiate the asked media type response.So the class <a href='http://www.dewavrin.info/code/HTTPJsonRequest.java'>Java source file</a> have static GET and POST methods which perform HTTP requests and especially set the accept HTTP header to &#8216;text/json&#8217; . (I grabbed this code from the GWT mailing list and modified it a little bit).Then declare it in your GWT module.</p>
+<p>Update 12/17/06: Since GWT 1.2.2, you can achieve this without writing your own JSNI class, by using the GWT <a href='http://code.google.com/webtoolkit/documentation/com.google.gwt.http.client.RequestBuilder.html'>RequestBuilder</a> class which provides a method to set your own http header.<a href='http://code.google.com/webtoolkit/documentation/com.google.gwt.doc.DeveloperGuide.JavaScriptNativeInterface.html'>Java Script Native Interface</a> is Google Web Toolkit equivalent of JNI but for Javascript. Java objects (which are BTW translated to Javascript code by GWT compiler) can interact with Javascript objects (and reversly).Rails <strong>respond_to</strong> method available in each controller can be used to respond to yourclient and deliver a different response for each mime type asked.Rails uses <strong>Accept HTTP header</strong> to differentiate the asked media type response.So the class <a href='http://www.dewavrin.info/code/HTTPJsonRequest.java'>Java source file (broken link&#8230;)</a> has static GET and POST methods which perform HTTP requests and especially set the accept HTTP header to &#8216;text/json&#8217; . (I grabbed this code from the GWT mailing list and modified it a little bit).Then declare it in your GWT module.</p>
 <figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;inherits</span> <span class='na'>name=</span><span class='s'>&quot;biz.dewavrin.net.HTTPJsonRequest&quot;</span> <span class='nt'>/&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -230,6 +230,12 @@ Then, unlike echo2  you can compile your Gwt code to Javascript and Html and dep
   </footer>
 </article>
 
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
 </div>
 
 <aside class="sidebar">
@@ -306,7 +312,10 @@ Then, unlike echo2  you can compile your Gwt code to Javascript and Html and dep
       var disqus_shortname = 'lucdewavrinsblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://lucdew.github.com/blog/gwt-client-with-rails-backend-integration-tip-2/';
+        var disqus_url = 'http://lucdew.github.com/blog/gwt-client-with-rails-backend-integration-tip-2/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

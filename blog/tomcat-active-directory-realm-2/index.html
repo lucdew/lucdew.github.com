@@ -104,7 +104,7 @@
 
 <div class="entry-content"><p>Even if configuring a JNDI realm for Tomcat is pretty well documented connecting Tomcat to Active Directory is not really.</p>
 
-<p>After <a href='http://www.jroller.com/page/ldewavrin/20041129'>my post</a> about Weblogic and active directory authentication and authorizations.</p>
+<p>After <a href='/blog/weblogic-and-active-directory-authentication'>my post</a> about Weblogic and active directory authentication and authorizations.</p>
 
 <p>Here&#8217;s a just an example of a configuration of the JNDI realm for ADS in order to use the container &#8216;s authentication and authorization features.It might help some&#8230;</p>
 <figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
@@ -194,6 +194,12 @@
   </footer>
 </article>
 
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
 </div>
 
 <aside class="sidebar">
@@ -270,7 +276,10 @@
       var disqus_shortname = 'lucdewavrinsblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://lucdew.github.com/blog/tomcat-active-directory-realm-2/';
+        var disqus_url = 'http://lucdew.github.com/blog/tomcat-active-directory-realm-2/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
