@@ -4,7 +4,7 @@
   <title><![CDATA[Category: general | Luc Dewavrin's weblog]]></title>
   <link href="http://www.dewavrin.info/blog/categories/general/atom.xml" rel="self"/>
   <link href="http://www.dewavrin.info/"/>
-  <updated>2012-01-04T20:43:29-05:00</updated>
+  <updated>2012-01-04T21:21:52-05:00</updated>
   <id>http://www.dewavrin.info/</id>
   <author>
     <name><![CDATA[Luc Dewavrin]]></name>
@@ -34,7 +34,8 @@
 <li> Creating a Spring based library (with its own context)</li>
 
 <li> Au revoir Windows vista</li>
-</ul>]]></content>
+</ul>
+<span style='color: red'>Update January 4th 2012 : Migrated blog to github.com, revamped it. It is now powered by octopress and statically generated (it used to be fueled by Wordpress) </span>]]></content>
   </entry>
   
   <entry>
