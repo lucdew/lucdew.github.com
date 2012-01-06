@@ -4,7 +4,7 @@
   <title><![CDATA[Category: weblogic | Luc Dewavrin's weblog]]></title>
   <link href="http://www.dewavrin.info/blog/categories/weblogic/atom.xml" rel="self"/>
   <link href="http://www.dewavrin.info/"/>
-  <updated>2012-01-05T19:42:34-05:00</updated>
+  <updated>2012-01-05T19:49:08-05:00</updated>
   <id>http://www.dewavrin.info/</id>
   <author>
     <name><![CDATA[Luc Dewavrin]]></name>
@@ -56,55 +56,105 @@
 </li>
 </ul>
 
-<p>{% codeblock lang:java %} import oracle.jdbc.driver.OracleLog; import weblogic.logging.NonCatalogLogger;</p>
-
-<pre><code>/**
- Class that sets the Oracle thin driver log level 
-*/
-
-public class OracleLoggingSetter {
-
-   protected final static NonCatalogLogger logger = new NonCatalogLogger(&quot;OracleLoggingSetter&quot;);
-   static final int LOWLOGLEVEL=1;
-   static final int MEDIUMLOGLEVEL=2;
-   static final int HIGHLOGLEVEL=3;
-
-   public static void main(String[] args) {
-
-   	int loglevel=0;
-
-   	try {
-   		loglevel=Integer.parseInt(args[0]);
-   	}
-   	catch(NumberFormatException e) {
-   		logger.error(&quot;Wrong oracle log level&quot;);
-   		return;
-   	}
-
-   	switch (loglevel) {
-	case 1:
-		logger.info(&quot;Setting oracle low log level &quot;);
-		OracleLog.setLogVolume(LOWLOGLEVEL);
-		break;
-
-	case 2:
-		logger.info(&quot;Setting oracle default log level &quot;);
-		OracleLog.setLogVolume(MEDIUMLOGLEVEL);
-		break;
-
-	case 3:
-		logger.info(&quot;Setting oracle high log level &quot;);
-		OracleLog.setLogVolume(HIGHLOGLEVEL);
-		break;
-
-	default:
-		logger.info(&quot;log level is incorrect or unspecified, no action performed &quot;);
-		break;
-	}
-
-   }</code></pre>
-
-<p>} {% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'> <span class="kn">import</span> <span class="nn">oracle.jdbc.driver.OracleLog</span><span class="o">;</span> <span class="kn">import</span> <span class="nn">weblogic.logging.NonCatalogLogger</span><span class="o">;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> Class that sets the Oracle thin driver log level </span>
+</span><span class='line'><span class="cm">*/</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">OracleLoggingSetter</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">protected</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">NonCatalogLogger</span> <span class="n">logger</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NonCatalogLogger</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">OracleLoggingSetter</span><span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>   <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">LOWLOGLEVEL</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>   <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">MEDIUMLOGLEVEL</span><span class="o">=</span><span class="mi">2</span><span class="o">;</span>
+</span><span class='line'>   <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">HIGHLOGLEVEL</span><span class="o">=</span><span class="mi">3</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>   	<span class="kt">int</span> <span class="n">loglevel</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>   	<span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>   		<span class="n">loglevel</span><span class="o">=</span><span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">args</span><span class="o">[</span><span class="mi">0</span><span class="o">]);</span>
+</span><span class='line'>   	<span class="o">}</span>
+</span><span class='line'>   	<span class="k">catch</span><span class="o">(</span><span class="n">NumberFormatException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>   		<span class="n">logger</span><span class="o">.</span><span class="na">error</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">Wrong</span> <span class="n">oracle</span> <span class="n">log</span> <span class="n">level</span><span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>   		<span class="k">return</span><span class="o">;</span>
+</span><span class='line'>   	<span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   	<span class="k">switch</span> <span class="o">(</span><span class="n">loglevel</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>	<span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
+</span><span class='line'>		<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">Setting</span> <span class="n">oracle</span> <span class="n">low</span> <span class="n">log</span> <span class="n">level</span> <span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>		<span class="n">OracleLog</span><span class="o">.</span><span class="na">setLogVolume</span><span class="o">(</span><span class="n">LOWLOGLEVEL</span><span class="o">);</span>
+</span><span class='line'>		<span class="k">break</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>	<span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
+</span><span class='line'>		<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">Setting</span> <span class="n">oracle</span> <span class="k">default</span> <span class="n">log</span> <span class="n">level</span> <span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>		<span class="n">OracleLog</span><span class="o">.</span><span class="na">setLogVolume</span><span class="o">(</span><span class="n">MEDIUMLOGLEVEL</span><span class="o">);</span>
+</span><span class='line'>		<span class="k">break</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>	<span class="k">case</span> <span class="mi">3</span><span class="o">:</span>
+</span><span class='line'>		<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">Setting</span> <span class="n">oracle</span> <span class="n">high</span> <span class="n">log</span> <span class="n">level</span> <span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>		<span class="n">OracleLog</span><span class="o">.</span><span class="na">setLogVolume</span><span class="o">(</span><span class="n">HIGHLOGLEVEL</span><span class="o">);</span>
+</span><span class='line'>		<span class="k">break</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>	<span class="k">default</span><span class="o">:</span>
+</span><span class='line'>		<span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(&amp;</span><span class="n">quot</span><span class="o">;</span><span class="n">log</span> <span class="n">level</span> <span class="n">is</span> <span class="n">incorrect</span> <span class="n">or</span> <span class="n">unspecified</span><span class="o">,</span> <span class="n">no</span> <span class="n">action</span> <span class="n">performed</span> <span class="o">&amp;</span><span class="n">quot</span><span class="o">;);</span>
+</span><span class='line'>		<span class="k">break</span><span class="o">;</span>
+</span><span class='line'>	<span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="o">}&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <ul>
 <li>
