@@ -4,7 +4,7 @@
   <title><![CDATA[Luc Dewavrin's weblog]]></title>
   <link href="http://www.dewavrin.info/atom.xml" rel="self"/>
   <link href="http://www.dewavrin.info/"/>
-  <updated>2012-12-08T15:40:40+01:00</updated>
+  <updated>2012-12-08T20:14:19+01:00</updated>
   <id>http://www.dewavrin.info/</id>
   <author>
     <name><![CDATA[Luc Dewavrin]]></name>
@@ -18,7 +18,7 @@
     <link href="http://www.dewavrin.info/blog/svnsync-to-existing-repository/"/>
     <updated>2012-12-08T14:59:00+01:00</updated>
     <id>http://www.dewavrin.info/blog/svnsync-to-existing-repository</id>
-    <content type="html"><![CDATA[<p>Basically I will explain how to synchronize with svnsync on an existing repository. I had trouble to find the info on the Internet some I am sharing it. I am by no mean a subversion administrator therefore if the info is not correct please be kind to let me know.</p>
+    <content type="html"><![CDATA[<p>Basically I will explain how to synchronize with svnsync on an existing repository. I had trouble to find the info on the Internet so I am sharing it. I am by no mean a subversion administrator therefore if the info is not correct please be kind to let me know.</p>
 
 <p>Yes I know subversion is not really 2013 but recently I had to synchronize a large master subversion repository with a slave. The slave had to be rebuilt from scratch. It turned out that synchronization with svnsync was really too slow to be considered. Therefore to speed up the process. I created a svn repository on the slave machine :</p>
 <figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
