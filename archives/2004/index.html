@@ -107,7 +107,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.dewavrin.info//blog/presentation-slides-of-weblogic-server-90-2/" data-id="8xldf7r2xefy6oy8" class="article-share-link">Share</a>
+      <a data-url="http://www.dewavrin.info//blog/presentation-slides-of-weblogic-server-90-2/" data-id="4z82sm1umzhg43pw" class="article-share-link">Share</a>
       
         <a href="http://www.dewavrin.info//blog/presentation-slides-of-weblogic-server-90-2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -154,7 +154,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.dewavrin.info//blog/jrockit-rocks-on-ia64/" data-id="dnj004qfhdcd9g5i" class="article-share-link">Share</a>
+      <a data-url="http://www.dewavrin.info//blog/jrockit-rocks-on-ia64/" data-id="rtddj7html47pmgl" class="article-share-link">Share</a>
       
         <a href="http://www.dewavrin.info//blog/jrockit-rocks-on-ia64/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -201,7 +201,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.dewavrin.info//blog/wls-90-beta-is-out-2/" data-id="9cw2r4vwuhin5xab" class="article-share-link">Share</a>
+      <a data-url="http://www.dewavrin.info//blog/wls-90-beta-is-out-2/" data-id="noy8qk7su6k0llmh" class="article-share-link">Share</a>
       
         <a href="http://www.dewavrin.info//blog/wls-90-beta-is-out-2/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -215,9 +215,9 @@ ga('send', 'pageview');
 
 
   
-    <article id="post-2004-10-29-passing-through-corporate-firewall" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-passing-through-corporate-firewall" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/blog/2004-10-29-passing-through-corporate-firewall/" class="article-date">
+    <a href="/blog/passing-through-corporate-firewall/" class="article-date">
   <time datetime="2004-10-28T22:00:00.000Z" itemprop="datePublished">Oct 29 2004</time>
 </a>
     
@@ -233,7 +233,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/2004-10-29-passing-through-corporate-firewall/">Passing through corporate firewall</a>
+      <a class="article-title" href="/blog/passing-through-corporate-firewall/">Passing through corporate firewall</a>
     </h1>
   
 
@@ -244,7 +244,7 @@ ga('send', 'pageview');
         <p> Well, at least from inside your corporate network ;-)to surf, chat and more anonymously.</p>
 <p>After reading this <a href="http://blogs.cadince.com/blojsom/blog/dan/?month=8&amp;year=2004" target="_blank" rel="external">blog article </a>thanks man) and its comments, I tried it and I have to say thatI have been happily surprised how easy it was. I didn’t know the existence of proxytunnel and that’s the key in it (for the theory about establishing a Ssh connectionthrough a SSL proxy see <a href="http://proxytunnel.sourceforge.net/papers/muppet-200204.html" target="_blank" rel="external">here</a>).</p>
 <p>Proxytunnel allows you to establish a SSH connectionvia a corporate proxy (all proxies that supports the CONNECT command). Here a schema of the solution I adopted :</p>
-<figure class="highlight"><pre><div class="line"><span class="comment">Schema</span>                                                    <span class="comment">|Internet</span></div><div class="line">                                                          <span class="comment">|</span></div><div class="line"> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>    <span class="comment">SSL</span>     <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>   <span class="comment">SSL</span>  <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>   <span class="comment">SSL</span>    <span class="comment">443</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span></div><div class="line"><span class="comment">|</span> <span class="comment">Windows</span> <span class="comment">WS|</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">|</span> <span class="comment">Company</span> <span class="comment">Proxy</span> <span class="comment">|</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">|</span> <span class="comment">Firewall|</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">|</span> <span class="comment">Home</span> <span class="comment">SSh</span> <span class="comment">Server</span> <span class="comment">|</span></div><div class="line"><span class="comment">|</span>           <span class="comment">|</span>         <span class="comment">|</span>  <span class="comment">"CONNECT</span> <span class="comment">TO"</span> <span class="comment">|</span>     <span class="comment">|</span>         <span class="comment">|</span>   <span class="comment">|</span>    <span class="comment">|</span>                 <span class="comment">|</span></div><div class="line"><span class="comment">permalink:</span> <span class="comment">passing</span><span class="literal">-</span><span class="comment">through</span><span class="literal">-</span><span class="comment">corporate</span><span class="literal">-</span><span class="comment">firewall</span></div><div class="line"><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>           <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>        <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>    <span class="comment">|</span>     <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span></div><div class="line">        </div></pre></figure>
+<figure class="highlight"><pre><div class="line"><span class="comment">Schema</span>                                                    <span class="comment">|Internet</span></div><div class="line">                                                          <span class="comment">|</span></div><div class="line"> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>    <span class="comment">SSL</span>     <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>   <span class="comment">SSL</span>  <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>   <span class="comment">SSL</span>    <span class="comment">443</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span></div><div class="line"><span class="comment">|</span> <span class="comment">Windows</span> <span class="comment">WS|</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">|</span> <span class="comment">Company</span> <span class="comment">Proxy</span> <span class="comment">|</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">|</span> <span class="comment">Firewall|</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">|</span> <span class="comment">Home</span> <span class="comment">SSh</span> <span class="comment">Server</span> <span class="comment">|</span></div><div class="line"><span class="comment">|</span>           <span class="comment">|</span>         <span class="comment">|</span>  <span class="comment">"CONNECT</span> <span class="comment">TO"</span> <span class="comment">|</span>     <span class="comment">|</span>         <span class="comment">|</span>   <span class="comment">|</span>    <span class="comment">|</span>                 <span class="comment">|</span></div><div class="line"><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>           <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>        <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>    <span class="comment">|</span>     <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span></div><div class="line">        </div></pre></figure>
 
 <p>The other major point in this solution is the usage of a Socks5 server that will allow you to connect to any machine of your internal network with any Socks5 compliant software. A socks5 proxy is a proxy on layer4 of OSI model. For example, I have been able to establish a VNC connection to a Windows XP machine on my home network with “Smart CodeVNC manager” that has Socks5 capabilites.</p>
 <p>Here are the steps I followed.</p>
@@ -279,9 +279,9 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.dewavrin.info//blog/2004-10-29-passing-through-corporate-firewall/" data-id="rscq9wy0azoptvo9" class="article-share-link">Share</a>
+      <a data-url="http://www.dewavrin.info//blog/passing-through-corporate-firewall/" data-id="78jf3qdomxiscz6j" class="article-share-link">Share</a>
       
-        <a href="http://www.dewavrin.info//blog/2004-10-29-passing-through-corporate-firewall/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://www.dewavrin.info//blog/passing-through-corporate-firewall/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/firewall/">firewall</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/">security</a></li></ul>
@@ -334,7 +334,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.dewavrin.info//blog/broadcasting-music-with-itunes-on-your-corporate-network/" data-id="pxhxese19kvtgkn5" class="article-share-link">Share</a>
+      <a data-url="http://www.dewavrin.info//blog/broadcasting-music-with-itunes-on-your-corporate-network/" data-id="i3e6giyan6sckn6k" class="article-share-link">Share</a>
       
         <a href="http://www.dewavrin.info//blog/broadcasting-music-with-itunes-on-your-corporate-network/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -387,7 +387,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.dewavrin.info//blog/weblogic-server-9/" data-id="nwvcs8b0s5sm401c" class="article-share-link">Share</a>
+      <a data-url="http://www.dewavrin.info//blog/weblogic-server-9/" data-id="elhjl9g6hwwd2zpi" class="article-share-link">Share</a>
       
         <a href="http://www.dewavrin.info//blog/weblogic-server-9/#disqus_thread" class="article-comment-link">Comments</a>
       
@@ -464,12 +464,60 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.dewavrin.info//blog/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/" data-id="b76ojw4h8b3a7ilh" class="article-share-link">Share</a>
+      <a data-url="http://www.dewavrin.info//blog/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/" data-id="rkm209c8ci7cef90" class="article-share-link">Share</a>
       
         <a href="http://www.dewavrin.info//blog/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-boost-eclipse-performance-under-windows" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/boost-eclipse-performance-under-windows/" class="article-date">
+  <time datetime="2004-08-18T22:00:00.000Z" itemprop="datePublished">Aug 19 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/boost-eclipse-performance-under-windows/">Boost Eclipse performance under Windows</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>There’s an excellent Eclipse plug-in to prevent Windows from swapping to disk the memoryallocated to the Eclipse’s JVM.</p>
+<p>The <a href="http://suif.stanford.edu/pub/keepresident/" target="_blank" rel="external">keepresident plug-in</a> really improved Eclipse overall performance.</p>
+<p>Sometimes Eclipse3 used to freeze for 10-20 seconds.Even after tweaking the JVM options (-XX:+UseParallelGC -Xms512m -Xmx512m -XX:MaxPermSize=96M on a 1Gbytes machine), it was still freezing randomly. I thought it was the GC on my mono-processor machine which was causing a “stop the world “ for all other threads (i didn’t trace it with the -verbose:gc). But actually, it seems that Windows was involved and deeply deteriorated the performance of Garbage Collection by swapping to disk even when there was still free physical memory ( like when the Eclipse Window is minimized). Now Eclipse is really fast !</p>
+<p>Congratulations to the plug-in’s author</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/boost-eclipse-performance-under-windows/" data-id="rb4m3fhqdntm97pu" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/boost-eclipse-performance-under-windows/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eclipse/">eclipse</a></li></ul>
 
     </footer>
   </div>
@@ -518,60 +566,12 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.dewavrin.info//blog/weblogic-ant-tasks-2/" data-id="i9z4nckqdeck5xx8" class="article-share-link">Share</a>
+      <a data-url="http://www.dewavrin.info//blog/weblogic-ant-tasks-2/" data-id="7yo0ixi1jxop3scj" class="article-share-link">Share</a>
       
         <a href="http://www.dewavrin.info//blog/weblogic-ant-tasks-2/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-boost-eclipse-performance-under-windows" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/blog/boost-eclipse-performance-under-windows/" class="article-date">
-  <time datetime="2004-08-18T22:00:00.000Z" itemprop="datePublished">Aug 19 2004</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/java/">java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/blog/boost-eclipse-performance-under-windows/">Boost Eclipse performance under Windows</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>There’s an excellent Eclipse plug-in to prevent Windows from swapping to disk the memoryallocated to the Eclipse’s JVM.</p>
-<p>The <a href="http://suif.stanford.edu/pub/keepresident/" target="_blank" rel="external">keepresident plug-in</a> really improved Eclipse overall performance.</p>
-<p>Sometimes Eclipse3 used to freeze for 10-20 seconds.Even after tweaking the JVM options (-XX:+UseParallelGC -Xms512m -Xmx512m -XX:MaxPermSize=96M on a 1Gbytes machine), it was still freezing randomly. I thought it was the GC on my mono-processor machine which was causing a “stop the world “ for all other threads (i didn’t trace it with the -verbose:gc). But actually, it seems that Windows was involved and deeply deteriorated the performance of Garbage Collection by swapping to disk even when there was still free physical memory ( like when the Eclipse Window is minimized). Now Eclipse is really fast !</p>
-<p>Congratulations to the plug-in’s author</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://www.dewavrin.info//blog/boost-eclipse-performance-under-windows/" data-id="xzws6mu5v4r4yju7" class="article-share-link">Share</a>
-      
-        <a href="http://www.dewavrin.info//blog/boost-eclipse-performance-under-windows/#disqus_thread" class="article-comment-link">Comments</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eclipse/">eclipse</a></li></ul>
 
     </footer>
   </div>
@@ -613,7 +613,7 @@ ga('send', 'pageview');
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.dewavrin.info//blog/weblogic-81-sp3-is-out-2/" data-id="wpr1k30lorn70zbp" class="article-share-link">Share</a>
+      <a data-url="http://www.dewavrin.info//blog/weblogic-81-sp3-is-out-2/" data-id="zm5atgimeuiivyas" class="article-share-link">Share</a>
       
         <a href="http://www.dewavrin.info//blog/weblogic-81-sp3-is-out-2/#disqus_thread" class="article-comment-link">Comments</a>
       

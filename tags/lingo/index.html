@@ -71,9 +71,9 @@ ga('send', 'pageview');
       <div class="outer">
         <section id="main">
   
-    <article id="post-2006-06-13-spring-and-lingo-easy-jms-2" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-spring-and-lingo-easy-jms-2" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/blog/2006-06-13-spring-and-lingo-easy-jms-2/" class="article-date">
+    <a href="/blog/spring-and-lingo-easy-jms-2/" class="article-date">
   <time datetime="2006-06-12T22:00:00.000Z" itemprop="datePublished">Jun 13 2006</time>
 </a>
     
@@ -89,7 +89,7 @@ ga('send', 'pageview');
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/blog/2006-06-13-spring-and-lingo-easy-jms-2/">Spring and Lingo = Easy JMS</a>
+      <a class="article-title" href="/blog/spring-and-lingo-easy-jms-2/">Spring and Lingo = Easy JMS</a>
     </h1>
   
 
@@ -102,14 +102,14 @@ ga('send', 'pageview');
 <p>We applied this technique for our build system to distribute loadon different machines to speed up the process (we only have mono processor build machines) and gets informed when tasks are done via callbacks.We used Spring 2.0M4 and ActiveMQ 3.2.2 in standalone mode.</p>
 <p>Note that I had troubles to make it run with Websphere MQ 5.3First, recent MQ JMS 1.1 compliant Jars must be used anda misinterpretation of the JMS specs by Websphere seems to breakthe Lingo Spring JMS service exporter see<a href="http://opensource.atlassian.com/projects/spring/browse/SPR-1324" target="_blank" rel="external">http://opensource.atlassian.com/projects/spring/browse/SPR-1324</a>which is for JMS templates but can also be applied to lingo.</p>
 <p>Here’s the diff of org.logicblaze.lingo.jms.JmsServiceExporter between unpatched and patched version for Websphere MQ:</p>
-<figure class="highlight text"><pre><div class="line">diff -aur lingo-1.1/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java li</div><div class="line">ngo-1.1-patch/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java</div><div class="line">permalink: spring-and-lingo-easy-jms-2</div><div class="line"><span class="header">--- lingo-1.1/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java 2006-06-</span></div><div class="line">13 13:45:12.716722400 +0200</div><div class="line"><span class="header">+++ lingo-1.1-patch/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java200</span></div><div class="line">6-06-13 13:44:49.899847100 +0200</div><div class="line"><span class="chunk">@@ -180,7 +180,7 @@</span></div><div class="line"> </div><div class="line">}</div><div class="line">else {</div><div class="line"><span class="deletion">-            return session.createConsumer(destination, messageSelector, noLocal</span></div><div class="line">);</div><div class="line"><span class="addition">+            return session.createConsumer(destination, messageSelector);</span></div><div class="line">}</div><div class="line">}</div></pre></figure>
+<figure class="highlight text"><pre><div class="line">diff -aur lingo-1.1/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java li</div><div class="line">ngo-1.1-patch/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java</div><div class="line"><span class="header">--- lingo-1.1/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java 2006-06-</span></div><div class="line">13 13:45:12.716722400 +0200</div><div class="line"><span class="header">+++ lingo-1.1-patch/src/java/org/logicblaze/lingo/jms/JmsServiceExporter.java200</span></div><div class="line">6-06-13 13:44:49.899847100 +0200</div><div class="line"><span class="chunk">@@ -180,7 +180,7 @@</span></div><div class="line"> </div><div class="line">}</div><div class="line">else {</div><div class="line"><span class="deletion">-            return session.createConsumer(destination, messageSelector, noLocal</span></div><div class="line">);</div><div class="line"><span class="addition">+            return session.createConsumer(destination, messageSelector);</span></div><div class="line">}</div><div class="line">}</div></pre></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://www.dewavrin.info//blog/2006-06-13-spring-and-lingo-easy-jms-2/" data-id="epkch8gacewo6aux" class="article-share-link">Share</a>
+      <a data-url="http://www.dewavrin.info//blog/spring-and-lingo-easy-jms-2/" data-id="3ooaghjin8wpfkb9" class="article-share-link">Share</a>
       
-        <a href="http://www.dewavrin.info//blog/2006-06-13-spring-and-lingo-easy-jms-2/#disqus_thread" class="article-comment-link">Comments</a>
+        <a href="http://www.dewavrin.info//blog/spring-and-lingo-easy-jms-2/#disqus_thread" class="article-comment-link">Comments</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jms/">jms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lingo/">lingo</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/spring/">spring</a></li></ul>
