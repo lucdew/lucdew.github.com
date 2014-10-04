@@ -1,873 +1,687 @@
-
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html>
 <head>
   <meta charset="utf-8">
-  <title>Luc Dewavrin's weblog</title>
-  <meta name="author" content="Luc Dewavrin">
+  
+  <title>Luc Dewavrin&#39;s weblog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <link rel="alternative" href="/atom.xml" title="Luc Dewavrin&#39;s weblog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
 
   
-  <meta name="description" content="Basically I will explain how to synchronize with svnsync on an existing repository. I had trouble to find the info on the Internet so I am sharing it &hellip;">
-  <meta name="keywords" content="java,spring,hibernate,weblogic,ant,maven,javaee,j2ee,grails,gwt,dewavrin,jbpm,drools">
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+ga('create', 'UA-1239956-1', 'auto');
+ga('send', 'pageview');
 
-  
-  <link rel="canonical" href="http://www.dewavrin.info">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's weblog" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-1239956-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+</script>
+<!-- End Google Analytics -->
 
 
 </head>
 
-<body   >
-  <!--[if lte IE 6]><script src="javascripts/warning.js"></script><script>window.onload=function(){e("/images/custom/ie6/")}</script><![endif]-->
-  <header role="banner"><hgroup>
-  <h1><a href="/">Luc Dewavrin's weblog</a></h1>
-  
-</hgroup>
-
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Luc Dewavrin&#39;s weblog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-github-link" class="nav-icon" href="https://github.com/lucdew" target="_blank"></a>
+        <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/lucdew" target="_blank"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://www.dewavrin.info"></form>
+      </div>
+    </div>
+  </div>
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+
+      <div class="outer">
+        <section id="main">
   
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:www.dewavrin.info" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/svnsync-to-existing-repository/">Svnsync to Existing Repository</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-12-08T14:59:00+01:00" pubdate data-updated="true">Dec 8<span>th</span>, 2012</time>
-        
-         | <a href="/blog/svnsync-to-existing-repository/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Basically I will explain how to synchronize with svnsync on an existing repository. I had trouble to find the info on the Internet so I am sharing it. I am by no mean a subversion administrator therefore if the info is not correct please be kind to let me know.</p>
-
-<p>Yes I know subversion is not really 2013 but recently I had to synchronize a large master subversion repository with a slave. The slave had to be rebuilt from scratch. It turned out that synchronization with svnsync was really too slow to be considered. Therefore to speed up the process. I created a svn repository on the slave machine :</p>
-<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svnadmin create myrepo</span></code></pre></td></tr></table></div></figure>
-<p>And synced by dumping and loading through a ssh tunnel :</p>
-<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svnadmin dump /var/subversion/myrepo | ssh remoteuser@remotehost "svnadmin load /var/subversion/myrepo "</span></code></pre></td></tr></table></div></figure>
-<p>If you sync with svnsync it will complain that the repository has not been initialized with it (svnsync init). No panic, a bunch of revision properties for revision 0 have to be created.</p>
-
-<p>The properties are:</p>
-
-<ul>
-<li>svn:sync-from-uuid : the uuid of the master repository. Can be found with the svn info command.</li>
-
-<li>svn:sync-last-merged-rev : the last merged revision. The synchronization will resume from it. So it has to be set the first time to the last revision, can be retrieved with svn log.</li>
-
-<li>svn:sync-from-url : The URL of the master with the file scheme like file:///var/subversion/myrepo.</li>
-</ul>
-
-<p>Set the properties with the user that does the svnsync on the slave repository, example:</p>
-<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svn propset --revprop -r0 svn:sync-from-url "file:///var/subversion/myrepo" file:///var/subversion/myrepo --username syncuser</span></code></pre></td></tr></table></div></figure></div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/last-post/">Last Post</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-09-16T00:00:00+02:00" pubdate data-updated="true">Sep 16<span>th</span>, 2009</time>
-        
-         | <a href="/blog/last-post/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I decided to no longer post on my blog due to a serious lack of motivation, time and inspiring topics ;-). Of course, comments will now be closed. As a side note here are the titles of drafts that never turned into posts:</p>
-
-<ul>
-<li> Difficulty of choosing a Java web framework</li>
-
-<li> Seam managed persistence context and Spring</li>
-
-<li> Bye Bye computer book shelf</li>
-
-<li> Drools flow or jBPM4 ?</li>
-
-<li> Ejb3 on JBoss with Maven</li>
-
-<li> Creating a Spring based library (with its own context)</li>
-
-<li> Au revoir Windows vista</li>
-</ul>
-<span style='color: red'>Update January 4th 2012 : Migrated blog to github.com, revamped it. It is now powered by octopress and statically generated (it used to be fueled by Wordpress) </span></div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/osgi-survey/">OSGI Survey</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-05-05T00:00:00+02:00" pubdate data-updated="true">May 5<span>th</span>, 2009</time>
-        
-         | <a href="/blog/osgi-survey/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><iframe frameborder='0' height='344' marginheight='0' marginwidth='0' src='https://docs.google.com/spreadsheet/embeddedform?formkey=ckhzRjlyekdjYWtGZnlKYlZUYU0zM0E6MA..' width='760'>Loading&#8230;</iframe>
-<p>The results:</p>
-
-<p><img alt='' src='https://docs.google.com/spreadsheet/oimg?key=0Akkf5_MgAMxgckhzRjlyekdjYWtGZnlKYlZUYU0zM0E&amp;oid=2&amp;zx=2cx0p6mjlgp5' /></p></div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/mimic-facelet-layouts-in-grails/">Mimic Facelet Layouts in Grails</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-04-27T00:00:00+02:00" pubdate data-updated="true">Apr 27<span>th</span>, 2009</time>
-        
-         | <a href="/blog/mimic-facelet-layouts-in-grails/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I wanted to mimic facelets &#60;ui:insert /&#62; and &#60;ui:define /&#62; tags in grails.I find facelets to be quite powerful because it allows to define a fragment in your template that can be redefined by the view, otherwise a default fragment is displayed.It can be useful for instance for a menu where you want all views to use a default menu and some use another menu.</p>
-
-<p>In facelets, you would create a template file and add a &#60;ui:insert /&#62; statement for the menu, like this:</p>
-<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;ui:insert</span> <span class='na'>name=</span><span class='s'>&quot;menu&quot;</span><span class='nt'>&gt;</span>
-</span><span class='line'>    <span class='nt'>&lt;ui:include</span> <span class='na'>src=</span><span class='s'>&quot;../frags/menu.xhtml&quot;</span> <span class='nt'>/&gt;</span>
-</span><span class='line'><span class='nt'>&lt;/ui:insert&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>Here the <span class='Apple-style-span' style='font-weight: bold'>&lt;ui:insert/&gt;</span> statement by default includes with the help of the <span class='Apple-style-span' style='font-weight: bold'>&lt;ui:include/&gt;</span>element a menu fragment (a partial page).</p>
-
-<p>In your view you could if wanted redefine the menu with the <span class='Apple-style-span' style='font-weight: bold'>&lt;ui:define/&gt;</span> element, like this:</p>
-<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;ui:composition</span> <span class='na'>template=</span><span class='s'>&quot;layout/template.xhtml&quot;</span><span class='nt'>&gt;</span>
-</span><span class='line'>  <span class='nt'>&lt;ui:define</span> <span class='na'>name=</span><span class='s'>&quot;menu&quot;</span> <span class='nt'>/&gt;</span>
-</span><span class='line'><span class='nt'>&lt;/ui:composition&gt;</span>
-</span></code></pre></td></tr></table></div></figure><div>Override default menu here </div>
-<p>Grails template system is handled by sitemesh. To achieve the same goal, you can in your template file (layout/main.gsp for instance), add the following element for the menu :</p>
-<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;g:pageproperty</span> <span class='na'>name=</span><span class='s'>&quot;page.menu&quot;</span> <span class='na'>default=</span><span class='s'>&quot;${render(template:&#39;/frags/menu&#39;)}&quot;</span> <span class='nt'>/&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>It achieves the same purpose, actually instead of defining a page section like in facelets, it displays the calling page&#8217;s <b>&lt;content&gt;</b> element named menu if present (control is inverted but the result is the same).Otherwise, if the &#60;content&#62; element is not found, the menu fragment is rendered.The fragment page should be in our example created in the frags directory under the name _menu.gsp. In your view, you can therefore define the menu section of your template by declaring a content element.</p>
-<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class='nt'>&lt;html&gt;</span>
-</span><span class='line'>   <span class='nt'>&lt;head&gt;</span>
-</span><span class='line'>     <span class='nt'>&lt;meta</span> <span class='na'>http-equiv=</span><span class='s'>&quot;Content-Type&quot;</span> <span class='na'>content=</span><span class='s'>&quot;text/html; charset=UTF-8&quot;</span> <span class='nt'>/&gt;</span>
-</span><span class='line'>     <span class='nt'>&lt;meta</span> <span class='na'>name=</span><span class='s'>&quot;layout&quot;</span> <span class='na'>content=</span><span class='s'>&quot;main&quot;</span> <span class='nt'>/&gt;</span>
-</span><span class='line'>     <span class='nt'>&lt;title&gt;</span>Show Book<span class='nt'>&lt;/title&gt;</span>
-</span><span class='line'>  <span class='nt'>&lt;/head&gt;</span>
-</span><span class='line'>  <span class='nt'>&lt;body&gt;</span>
-</span><span class='line'>     <span class='nt'>&lt;content</span> <span class='na'>tag=</span><span class='s'>&quot;menu&quot;</span><span class='nt'>&gt;</span>
-</span><span class='line'>        <span class='nt'>&lt;div&gt;</span>Override default menu here<span class='nt'>&lt;/div&gt;</span>
-</span><span class='line'>     <span class='nt'>&lt;/content&gt;</span>
-</span><span class='line'>     <span class='c'>&lt;!-- More content here --&gt;</span>
-</span><span class='line'>   <span class='nt'>&lt;/body&gt;</span>
-</span><span class='line'><span class='nt'>&lt;/html&gt;</span>
-</span></code></pre></td></tr></table></div></figure></div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/acquisition-de-sun-par-oracle/">Acquisition De Sun Par Oracle</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-04-20T00:00:00+02:00" pubdate data-updated="true">Apr 20<span>th</span>, 2009</time>
-        
-         | <a href="/blog/acquisition-de-sun-par-oracle/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Pas sûr que Java soit gagnant dans l&#8217;histoire. Les incertitudes sur le devenir des produits Java n&#8217;est pas fait pour inciter les décideurs à opter pour cette technologie. Quelles sont les futures cibles : SpringSource, Redhat ? Sachant que SpringSource a été largement financé par des VC, à mon avis c&#8217;est un bon candidat. Bref, je me mets à la place d&#8217;un DSI aujourd&#8217;hui; si je ne veux pas prendre de risques j&#8217;opte pour .Net et les produits Microsoft : ligne de produits complète, cohérente et intégrée qui ne va pas disparaître d&#8217;ici 6 mois (j&#8217;exagère un peu&#8230;).</p>
-
-<p>Je pense aussi que la période de flottement qui va suivre accentuée en + par une baisse d&#8217;investissements liée à la conjoncture va freiner grandement l&#8217;innovation autour de la plateforme Java et laisser le champ libre à d&#8217;autres technologies. Java n&#8217;est pas prêt de combler le retard sur C#.</p>
-
-<p>Bref, sans doute quelques mois difficiles en perspective pour la plateforme Java avant d&#8217;y voir + clair.</p></div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/seam-usage-in-production/">Seam Usage in Production</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-03-30T00:00:00+02:00" pubdate data-updated="true">Mar 30<span>th</span>, 2009</time>
-        
-         | <a href="/blog/seam-usage-in-production/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There &#8216;s an interesting <a href='http://www.seamframework.org/Community/SeamInProfessionalUse'>thread</a> on the Seam forum about Seam in &#8220;profesional use&#8221;. Performance and steep learning curve are often mentioned as drawbacks.</p>
-
-<p>Seam heavily relies on proxy based components created by javassist. And javassist is known to be unperformant <a href='https://jira.jboss.org/jira/browse/JBSEAM-1977'>compared to cglib</a>. This library might have been chosen due to politic reason at JBoss. Seam Managed Persistence Context (SMPC) is also seen as a culprit but i guess that like many other frameworks you have to understand what&#8217;s underneath the carpet, lazy loading in some use cases can really hit performance.</p>
-
-<p>Scalability is not mentioned but i guess that since Seam is stateful it also can be an issue for large websites.</p>
-
-<p>For the learning curve, it might be true if you don&#8217;t come from the JavaEE world or have never developed JSF applications. Seam still requires good knowledge of JSF 1.X and how it corrects it in many ways. The request lifecycle is also complex albeit powerful.Also other &#8220;lightweight&#8221; JSF based frameworks are quoted like <a href='https://makefaces.dev.java.net/'>makefaces</a>.</p>
-
-<p>Seam for me is both a IOC container specialized for web development and a web integration framework of Java EE (Ejb,Web beans), JBoss stack (jBPM, Drools, Richfaces, JSFUnit) and commonly used libraries (quartz,jfreechart, itext, javamail,etc.) It also addresses many commonly asked features (conversations, mail sending, page caching,etc.) I am not sure for the future of Seam. Seam 3 might be a complete rewrite due to support of JSF 2 and JSR-299 aka <em>Java Contexts and Dependency Injection</em>, but it is a comprehensive and efficient web framework with a decent IDE (JBoss tools).</p></div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/economic-downturn-and-impact-on-javabloggers/">Economic Downturn and Impact on Javabloggers</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-17T00:00:00+01:00" pubdate data-updated="true">Feb 17<span>th</span>, 2009</time>
-        
-         | <a href="/blog/economic-downturn-and-impact-on-javabloggers/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I wanted to know if the economic crisis had an impact on blogging. I was curious because it seemed for me that the blogs that i usually follow had less activity  . With the help of a groovy script and gchart, here&#8217;s the last 2 years monthly blog posts count (don&#8217;t know why there&#8217;s a high peak for July 07). It seems that, so far, java bloggers still post.<img alt='' src='http://chart.apis.google.com/chart?cht=lc&amp;chs=600x500&amp;chtt=Javablogs+monthly+posts+count%20+%7C+since+01-01-2007+to+01-02-2009&amp;chxt=x,y&amp;chxr=1,0,15000&amp;chds=0,15000&amp;chd=t:4224,4133,4758,4474,5561,4933,14719,5155,4515,5301,5047,4862,5341,3975,5278,3826,5527,4271,4471,4305,4548,4480,4347,4993,4520&amp;chxl=0:%7C1-07%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-08%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-09' /></p>
-
-<p>For the quality of the blog posts that&#8217;s another story but my blog is not a good example ;-)</p>
-
-<p>The source</p>
-<div><script src='https://gist.github.com/1568387.js?file='><!-- test --></script>
-<noscript><pre><code>import java.util.*;
-
-
-/**
- * @author Luc
- * Change startDate and endDate (must span at least 2 full months)
- * 
- */
- def sdf = new java.text.SimpleDateFormat(&quot;dd-MM-yyyy&quot;)
-
- def baseUrl = &quot;http://www.javablogs.com&quot;
- def startDate = sdf.parse(&quot;01-01-2007&quot;)
- def endDate = sdf.parse(&quot;01-02-2009&quot;)
- def resultMap = [:] as TreeMap
- 
-def addStatsForDate = { Calendar c -&gt;
-		def dayOfMonth = c.get(Calendar.DAY_OF_MONTH)
-		def month = c.get(Calendar.MONTH)
-		def year = c.get(Calendar.YEAR)
-		def xmlSurpler = new XmlSlurper()
-		def url = &quot;${baseUrl}/ViewDaysBlogs.action?date=${dayOfMonth}&amp;month=${month}&amp;year=${year}&amp;view=rss&quot;
-		def rss = xmlSurpler.parse(url)
-		def items = rss.channel.item
-		resultMap[c.getTimeInMillis()]=items.size()
-		println &quot;Processed date ${dayOfMonth} ${month+1} ${year}&quot;
-}
-
-def encodeMap = {
-  List list = []
-  for (i in (('A'..'Z') + ('a'..'z') + (0..9)))  {
-    list &lt;&lt; i
-  }
-  String s = &quot;&amp;chd=t:&quot;
-  def resultByYears = [:]
-  int curYear = -1
-  
-  resultMap.each { long t,int v -&gt;
-      Calendar c = Calendar.getInstance()
-      c.setTimeInMillis(t)
-	  if (c.get(Calendar.YEAR)!=curYear) {
-		  curYear = c.get(Calendar.YEAR)
-		  resultByYears[curYear]=[:]
-	  }
-	  int count = resultByYears[curYear][c.get(Calendar.MONTH)]?:0
-	  count+=v
-	  resultByYears[curYear][c.get(Calendar.MONTH)]=count
-  }
-  resultByYears.values().eachWithIndex { val,index -&gt;
-  	  if (index &gt; 0) {
-  		  s+=&quot;,&quot;
-  	  }
-	  s+=val.values().join(&quot;,&quot;)
-  }
-
-  s += &quot;&amp;chxl=0:|&quot;
-  resultByYears.eachWithIndex { k,v,index -&gt;
-      println k
-  	  if (index &gt; 0) {
-  		  s+=&quot;|&quot;
-  	  }
-  	
-	  s+=v.keySet().collect{
-		  (it+1)+&quot;-&quot;+&quot;${k}&quot;[-2..-1]
-	  }.join(&quot;|&quot;)
-  }
-  	  
-  return s
-}
-
-	
-def createGChart = {
-   def chartTitle = URLEncoder.encode(&quot;Javablogs monthly frequentation | since ${sdf.format(startDate)} to ${sdf.format(endDate)}&quot;)
-   def url=&quot;http://chart.apis.google.com/chart?cht=lc&amp;chs=500x500&amp;chtt=${chartTitle}&amp;chxt=x,y&amp;chxr=1,0,10000&amp;chds=0,10000&quot;+encodeMap()
-   return url
-}
-	
-def currentDate = Calendar.getInstance()
-currentDate.setTime(startDate)
-while(currentDate.getTimeInMillis() &lt; endDate.getTime()) {
-	addStatsForDate(currentDate)
-	currentDate.add(Calendar.DAY_OF_MONTH,1)
-}
-
-def url = createGChart()
-print url
-</code></pre></noscript></div></div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/jboss-resources/">JBoss Resources</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-12T00:00:00+01:00" pubdate data-updated="true">Feb 12<span>th</span>, 2009</time>
-        
-         | <a href="/blog/jboss-resources/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I recently discovered 2 good web sites that provide good JBoss knowledge :</p>
-
-<ul>
-<li>
-<p><a href='http://www.mastertheboss.com'>Master the boss</a> : especially with articles with jBPM/JBoss ESB integration, jBPM best practices and JBoss AS tuning (a little bit outdated by the way, but still a good resource).</p>
-</li>
-
-<li>
-<p><a href='http://enterprisebpm.blogspot.com/'>Enterprise BPM blog</a> : blog by a Redhat engineer involved in jBPM and WS-BPEL jBPM implementation. It has also links to other jBPM related sites.</p>
-</li>
-</ul></div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/some-maven-tips/">Some Maven Tips</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-07T00:00:00+01:00" pubdate data-updated="true">Feb 7<span>th</span>, 2009</time>
-        
-         | <a href="/blog/some-maven-tips/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>First post of the year, here are some Maven tips you might find useful (or obvious for experienced users):</p>
-
-<ul>
-<li><strong>How to version commercial libraries in your SCM and use them as dependency ?</strong> In case you don&#8217;t have your own central repository and you&#8217;d like to version your libraries in your SCM server, you can declare in your pom a repository like this :</li>
-</ul>
-<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;repository&gt;</span>
-</span><span class='line'>    <span class='nt'>&lt;id&gt;</span>sipphonyrepo<span class='nt'>&lt;/id&gt;</span>
-</span><span class='line'>    <span class='nt'>&lt;url&gt;</span>file:///${basedir}/../repository<span class='nt'>&lt;/url&gt;</span>
-</span><span class='line'><span class='nt'>&lt;/repository&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>The &#8216;repository&#8217; directory should be versioned in your scm server but it also means that it should be checked out with your project. Also like any other repository, the dependencies will be copied in your local repository.</p>
-
-<ul>
-<li><strong>How to just copy files</strong> ?It might be useful on a development machine to copy files while installing an artifact, for instance you might want to copy a JBoss datasource file to a JBoss profile to make sure it&#8217;s deployed. For this you can use the Maven resource plugins. For instance the following plugin statement will copy the datasource file to your JBoss server&#8217;s default profile deployment directory if JBOSS_HOME environment library is defined (on the development machine) :</li>
-</ul>
-<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;profile&gt;</span>
-</span><span class='line'> <span class='nt'>&lt;id&gt;</span>jboss.deploy<span class='nt'>&lt;/id&gt;</span>
-</span><span class='line'> <span class='nt'>&lt;activation&gt;</span>
-</span><span class='line'>  <span class='nt'>&lt;property&gt;</span>
-</span><span class='line'>     <span class='nt'>&lt;name&gt;</span>env.JBOSS_HOME<span class='nt'>&lt;/name&gt;</span>
-</span><span class='line'>  <span class='nt'>&lt;/property&gt;</span>
-</span><span class='line'> <span class='nt'>&lt;/activation&gt;</span>
-</span><span class='line'> <span class='nt'>&lt;build&gt;</span>
-</span><span class='line'>    <span class='nt'>&lt;plugins&gt;</span>
-</span><span class='line'>       <span class='nt'>&lt;plugin&gt;</span>
-</span><span class='line'>         <span class='nt'>&lt;artifactid&gt;</span>maven-resources-plugin<span class='nt'>&lt;/artifactid&gt;</span>
-</span><span class='line'>         <span class='nt'>&lt;version&gt;</span>2.3<span class='nt'>&lt;/version&gt;</span>
-</span><span class='line'>         <span class='nt'>&lt;executions&gt;</span>
-</span><span class='line'>           <span class='nt'>&lt;execution&gt;</span>
-</span><span class='line'>             <span class='nt'>&lt;id&gt;</span>copy-ds<span class='nt'>&lt;/id&gt;</span>
-</span><span class='line'>             <span class='nt'>&lt;goals&gt;</span>
-</span><span class='line'>               <span class='nt'>&lt;goal&gt;</span>copy-resources<span class='nt'>&lt;/goal&gt;</span>
-</span><span class='line'>             <span class='nt'>&lt;/goals&gt;</span>
-</span><span class='line'>             <span class='nt'>&lt;phase&gt;</span>install<span class='nt'>&lt;/phase&gt;</span>
-</span><span class='line'>             <span class='nt'>&lt;configuration&gt;</span>
-</span><span class='line'>                <span class='nt'>&lt;outputdirectory&gt;</span>${env.JBOSS_HOME}/server/default/deploy<span class='nt'>&lt;/outputdirectory&gt;</span>
-</span><span class='line'>                <span class='nt'>&lt;resources&gt;</span>
-</span><span class='line'>                  <span class='nt'>&lt;resource&gt;</span>
-</span><span class='line'>                   <span class='nt'>&lt;directory&gt;</span>${basedir}<span class='nt'>&lt;/directory&gt;</span>
-</span><span class='line'>                   <span class='nt'>&lt;includes&gt;</span>
-</span><span class='line'>                      <span class='nt'>&lt;include&gt;</span>mysql-ds.xml<span class='nt'>&lt;/include&gt;</span>
-</span><span class='line'>                  <span class='nt'>&lt;/includes&gt;</span>
-</span><span class='line'>               <span class='nt'>&lt;/resource&gt;</span>
-</span><span class='line'>               <span class='nt'>&lt;/resources&gt;</span>
-</span><span class='line'>             <span class='nt'>&lt;/configuration&gt;</span>
-</span><span class='line'>           <span class='nt'>&lt;/execution&gt;</span>
-</span><span class='line'>         <span class='nt'>&lt;/executions&gt;</span>
-</span><span class='line'>      <span class='nt'>&lt;/plugin&gt;</span>
-</span><span class='line'>    <span class='nt'>&lt;/plugins&gt;</span>
-</span><span class='line'>  <span class='nt'>&lt;/build&gt;</span>
-</span><span class='line'><span class='nt'>&lt;/profile&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<ul>
-<li><strong>How to perform complex build build logic ?</strong> One solution would be to use profiles for that like in the above example. But it can quickly become cumbersome and limited. So a good option is to use Ant Maven plugin with <a href='http://ant-contrib.sourceforge.net/'>ant-contribs</a> dependency for control statements and loops or even better the <a href='http://groovy.codehaus.org/GMaven'>groovy GMaven plugin</a> (avoiding XML verbosity).Profiles have still the benefit of clearly identifying an intent in your build. The following command will list all profiles:</li>
-</ul>
-<figure class='code'><div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mvn help:all-profiles</span></code></pre></td></tr></table></div></figure>
-<p>If build logic can be extracted and used in different contexts, it&#8217;s time to create a plugin. It&#8217;s quite simple.</p>
-
-<ul>
-<li><strong>How to create an artifact of a zip or tar ?</strong> One obvious solution is to use maven assembly plugin but if you need to add some custom logic during packaging, you could just create the zip or tar file with Ant maven plugin or groovy GMaven plugin and gant during the package phase. Then attach the file to your project with Maven <a href='http://mojo.codehaus.org/build-helper-maven-plugin/attach-artifact-mojo.html'>build helper plugin</a> and its <strong>attach-artifact</strong> goal to install it in your repository during the install phase. Once installed in your local repository, the zip or tar file can be become a dependency, just use the proper type in the dependency declaration.</li>
-</ul>
-<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;type&gt;</span>zip<span class='nt'>&lt;/type&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<ul>
-<li><strong>How to create a full delivery layout with multiple archetype ?</strong> My advice for creating a comprehensive delivery directory structure would be to use a dedicated module, take advantage of ant,assembly and resource plugins for that. Struts2 has such a module : <a href='http://svn.apache.org/repos/asf/struts/struts2/trunk/assembly/pom.xml'>see the assembly module&#8217;s pom</a></li>
-</ul></div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/jaxb-bug-527/">Jaxb Bug 527</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2008-10-22T00:00:00+02:00" pubdate data-updated="true">Oct 22<span>nd</span>, 2008</time>
-        
-         | <a href="/blog/jaxb-bug-527/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Please,  if you think you are concerned  vote for the <a href='https://jaxb.dev.java.net/issues/show_bug.cgi?id=527'>bug</a> i submitted</p></div>
-  
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
+    <article id="post-svnsync-to-existing-repository" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/svnsync-to-existing-repository/" class="article-date">
+  <time datetime="2012-12-07T23:00:00.000Z" itemprop="datePublished">Dec 8 2012</time>
+</a>
     
   </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/svnsync-to-existing-repository/">svnsync to existing repository</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Basically I will explain how to synchronize with svnsync on an existing repository. I had trouble to find the info on the Internet so I am sharing it. I am by no mean a subversion administrator therefore if the info is not correct please be kind to let me know.</p>
+<p>Yes I know subversion is not really 2013 but recently I had to synchronize a large master subversion repository with a slave. The slave had to be rebuilt from scratch. It turned out that synchronization with svnsync was really too slow to be considered. Therefore to speed up the process. I created a svn repository on the slave machine :</p>
+<pre><code>svnadmin <span class="operator"><span class="keyword">create</span> myrepo</span>
+</code></pre><p>And synced by dumping and loading through a ssh tunnel :</p>
+<pre><code> svnadmin <span class="keyword">dump</span> <span class="regexp">/var/</span>subversion<span class="regexp">/myrepo | ssh remoteuser@remotehost "svnadmin load /</span>var<span class="regexp">/subversion/m</span>yrepo <span class="string">"</span>
+</code></pre><p>If you sync with svnsync it will complain that the repository has not been initialized with it (svnsync init). No panic, a bunch of revision properties for revision 0  have to be created.</p>
+<p>The properties are:</p>
+<ul>
+<li>svn:sync-from-uuid : the uuid of the master repository. Can be found with the svn info command.</li>
+<li>svn:sync-last-merged-rev : the last merged revision. The synchronization will resume from it. So it has to be set the first time to the last revision, can be retrieved with svn log.</li>
+<li>svn:sync-from-url : The URL of the master with the file scheme like file:///var/subversion/myrepo.</li>
+</ul>
+<p>Set the properties with the user that does the svnsync on the slave repository, example:</p>
+<pre><code>svn propset --revprop -r0 svn:sync-<span class="keyword">from</span>-url <span class="string">"file:///var/subversion/myrepo"</span> <span class="keyword">file</span>:<span class="comment">///var/subversion/myrepo --username syncuser</span>
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/svnsync-to-existing-repository/" data-id="6xzrmuszo0plyss6" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/svnsync-to-existing-repository/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-last-post" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/last-post/" class="article-date">
+  <time datetime="2009-09-15T22:00:00.000Z" itemprop="datePublished">Sep 16 2009</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/general/">general</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/last-post/">Last post</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I decided to no longer post on my blog due to a serious lack of motivation, time and inspiring topics ;-). Of course, comments will now be closed. As a side note here are the titles of drafts that never turned into posts:</p>
+<ul>
+<li>Difficulty of choosing a Java web framework</li>
+<li>Seam managed persistence context and Spring</li>
+<li>Bye Bye computer book shelf</li>
+<li>Drools flow or jBPM4 ?</li>
+<li>Ejb3 on JBoss with Maven</li>
+<li>Creating a Spring based library (with its own context)</li>
+<li>Au revoir Windows vista</li>
+</ul>
+<p><span style="color: red">Update January 4th 2012 : Migrated blog to github.com, revamped it. It is now powered by octopress and statically generated (it used to be fueled by Wordpress) </span></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/last-post/" data-id="kkr8zjdlejxpv2gu" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/last-post/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/misc/">misc</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-osgi-survey" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/osgi-survey/" class="article-date">
+  <time datetime="2009-05-04T22:00:00.000Z" itemprop="datePublished">May 5 2009</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>►<a class="article-category-link" href="/categories/java/tech/">tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/osgi-survey/">OSGI survey</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <iframe src="https://docs.google.com/spreadsheet/embeddedform?formkey=ckhzRjlyekdjYWtGZnlKYlZUYU0zM0E6MA.." width="760" height="344" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+
+<p>The results:</p>
+<p><img src="https://docs.google.com/spreadsheet/oimg?key=0Akkf5_MgAMxgckhzRjlyekdjYWtGZnlKYlZUYU0zM0E&amp;oid=2&amp;zx=2cx0p6mjlgp5" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/osgi-survey/" data-id="wqkrjk6tag7kwr2e" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/osgi-survey/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/osgi/">osgi</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-mimic-facelet-layouts-in-grails" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/mimic-facelet-layouts-in-grails/" class="article-date">
+  <time datetime="2009-04-26T22:00:00.000Z" itemprop="datePublished">Apr 27 2009</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>►<a class="article-category-link" href="/categories/java/tech/">tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I wanted to mimic facelets &lt;ui:insert /&gt; and &lt;ui:define /&gt; tags in grails.I find facelets to be quite powerful because it allows to define a fragment in your template that can be redefined by the view, otherwise a default fragment is displayed.It can be useful for instance for a menu where you want all views to use a default menu and some use another menu. </p>
+<p>In facelets, you would create a template file and add a &lt;ui:insert /&gt; statement for the menu, like this:</p>
+<figure class="highlight xml"><pre><div class="line"><span class="tag">&lt;<span class="title">ui:insert</span> <span class="attribute">name</span>=<span class="value">"menu"</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="title">ui:include</span> <span class="attribute">src</span>=<span class="value">"../frags/menu.xhtml"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">ui:insert</span>&gt;</span></div></pre></figure><br>Here the <span style="font-weight: bold" class="Apple-style-span">&lt;ui:insert/&gt;</span> statement by default includes with the help of the <span style="font-weight: bold" class="Apple-style-span">&lt;ui:include/&gt;</span>element a menu fragment (a partial page).<br><br>In your view you could if wanted redefine the menu with the <span style="font-weight: bold" class="Apple-style-span">&lt;ui:define/&gt;</span> element, like this:<br><figure class="highlight xml"><pre><div class="line"><span class="tag">&lt;<span class="title">ui:composition</span> <span class="attribute">template</span>=<span class="value">"layout/template.xhtml"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">ui:define</span> <span class="attribute">name</span>=<span class="value">"menu"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">ui:composition</span>&gt;</span></div></pre></figure>
+
+<p><div>Override default menu here </div><br>Grails template system is handled by sitemesh. To achieve the same goal, you can in your template file (layout/main.gsp for instance), add the following element for the menu :</p>
+<figure class="highlight xml"><pre><div class="line"><span class="tag">&lt;<span class="title">g:pageproperty</span> <span class="attribute">name</span>=<span class="value">"page.menu"</span> <span class="attribute">default</span>=<span class="value">"${render(template:'/frags/menu')}"</span> /&gt;</span></div></pre></figure>
+
+<p>It achieves the same purpose, actually instead of defining a page section like in facelets, it displays the calling page’s <b>&lt;content&gt;</b> element named menu if present (control is inverted but the result is the same).Otherwise,  if the &lt;content&gt; element is not found,  the menu fragment is rendered.The fragment page should be in our example created in the frags directory under the name _menu.gsp. In your view, you can therefore define the menu section of your template by declaring a content element. </p>
+<figure class="highlight html"><pre><div class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="title">head</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">http-equiv</span>=<span class="value">"Content-Type"</span> <span class="attribute">content</span>=<span class="value">"text/html; charset=UTF-8"</span> /&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"layout"</span> <span class="attribute">content</span>=<span class="value">"main"</span> /&gt;</span> </div><div class="line">     <span class="tag">&lt;<span class="title">title</span>&gt;</span>Show Book<span class="tag">&lt;/<span class="title">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="title">content</span> <span class="attribute">tag</span>=<span class="value">"menu"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="title">div</span>&gt;</span>Override default menu here<span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line">     <span class="tag">&lt;/<span class="title">content</span>&gt;</span></div><div class="line">     <span class="comment">&lt;!-- More content here --&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="title">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></div></pre></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/mimic-facelet-layouts-in-grails/" data-id="q92zojfd32dv6o55" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/mimic-facelet-layouts-in-grails/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/grails/">grails</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-acquisition-de-sun-par-oracle" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/acquisition-de-sun-par-oracle/" class="article-date">
+  <time datetime="2009-04-19T22:00:00.000Z" itemprop="datePublished">Apr 20 2009</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/general/">general</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Pas sûr que Java soit gagnant dans l’histoire. Les incertitudes sur le devenir des produits Java n’est pas fait pour inciter les décideurs à opter pour cette technologie. Quelles sont les futures cibles : SpringSource, Redhat ? Sachant que SpringSource a été largement financé par des VC, à mon avis c’est un bon candidat. Bref, je me mets à la place d’un DSI aujourd’hui; si je ne veux pas prendre de risques j’opte pour .Net et les produits Microsoft : ligne de produits complète, cohérente et intégrée qui ne va pas disparaître d’ici 6 mois (j’exagère un peu…).</p>
+<p>Je pense aussi que la période de flottement qui va suivre accentuée en + par une baisse d’investissements liée à la conjoncture va freiner grandement l’innovation autour de la plateforme Java et laisser le champ libre à d’autres technologies. Java n’est pas prêt de combler le retard sur C#. </p>
+<p>Bref, sans doute quelques mois difficiles en perspective pour la plateforme Java avant d’y voir + clair.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/acquisition-de-sun-par-oracle/" data-id="asykhkvtvrhu8tz6" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/acquisition-de-sun-par-oracle/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-seam-usage-in-production" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/seam-usage-in-production/" class="article-date">
+  <time datetime="2009-03-29T22:00:00.000Z" itemprop="datePublished">Mar 30 2009</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>►<a class="article-category-link" href="/categories/java/tech/">tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/seam-usage-in-production/">Seam usage in production</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>There ‘s an interesting <a href="http://www.seamframework.org/Community/SeamInProfessionalUse" target="_blank" rel="external">thread</a> on the Seam forum about Seam in “profesional use”. Performance and steep learning curve are often mentioned as drawbacks. </p>
+<p>Seam heavily relies on proxy based components created by javassist. And javassist is known to be unperformant <a href="https://jira.jboss.org/jira/browse/JBSEAM-1977" target="_blank" rel="external">compared to cglib</a>. This library might have been chosen due to politic reason at JBoss. Seam Managed Persistence Context (SMPC) is also seen as a culprit but i guess that like many other frameworks you have to understand what’s underneath the carpet, lazy loading in some use cases can really hit performance.</p>
+<p>Scalability is not mentioned but i guess that since Seam is stateful it also can be an issue for large websites.</p>
+<p>For the learning curve, it might be true if you don’t come from the JavaEE world or have never developed JSF applications. Seam still requires good knowledge of JSF 1.X and how it corrects it in many ways.  The request lifecycle is also complex albeit powerful.Also other “lightweight” JSF based frameworks are quoted like <a href="https://makefaces.dev.java.net/" target="_blank" rel="external">makefaces</a>.</p>
+<p>Seam for me is both a IOC container specialized for web development  and a web integration framework of Java EE (Ejb,Web beans), JBoss stack (jBPM, Drools, Richfaces, JSFUnit) and commonly used libraries (quartz,jfreechart, itext, javamail,etc.)  It also addresses many commonly asked features (conversations, mail sending, page caching,etc.)  I am not sure for the future of Seam. Seam 3 might be a complete rewrite due to support of JSF 2 and JSR-299 aka <em>Java Contexts and Dependency Injection</em>, but it is a comprehensive and efficient web framework with a decent IDE (JBoss tools).</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/seam-usage-in-production/" data-id="if8bnumjrgdcvyaq" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/seam-usage-in-production/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/seam/">seam</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-economic-downturn-and-impact-on-javabloggers" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/economic-downturn-and-impact-on-javabloggers/" class="article-date">
+  <time datetime="2009-02-16T23:00:00.000Z" itemprop="datePublished">Feb 17 2009</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>►<a class="article-category-link" href="/categories/java/general/">general</a>►<a class="article-category-link" href="/categories/java/general/tech/">tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/economic-downturn-and-impact-on-javabloggers/">Economic downturn and impact on javabloggers</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I wanted to know if the economic crisis had an impact on blogging. I was curious because it seemed for me that the blogs that i usually follow had less activity  . With the help of a groovy script and gchart, here’s the last 2 years monthly blog posts count (don’t know why there’s a high peak for July 07). It seems that, so far, java bloggers still post.</p>
+<p><img src="http://chart.apis.google.com/chart?cht=lc&amp;chs=600x500&amp;chtt=Javablogs+monthly+posts+count%20+%7C+since+01-01-2007+to+01-02-2009&amp;chxt=x,y&amp;chxr=1,0,15000&amp;chds=0,15000&amp;chd=t:4224,4133,4758,4474,5561,4933,14719,5155,4515,5301,5047,4862,5341,3975,5278,3826,5527,4271,4471,4305,4548,4480,4347,4993,4520&amp;chxl=0:%7C1-07%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-08%7C2%7C3%7C4%7C5%7C6%7C7%7C8%7C9%7C10%7C11%7C12%7C1-09" alt=""></p>
+<p>For the quality of the blog posts that’s another story but my blog is not a good example ;-)</p>
+<p>The source :</p>
+<script src="https://gist.github.com/1568387.js"></script>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/economic-downturn-and-impact-on-javabloggers/" data-id="k9jtt5n405qn6qzd" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/economic-downturn-and-impact-on-javabloggers/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/groovy/">groovy</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jboss-resources" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/jboss-resources/" class="article-date">
+  <time datetime="2009-02-11T23:00:00.000Z" itemprop="datePublished">Feb 12 2009</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/jboss-resources/">JBoss resources</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I recently discovered 2 good web sites that provide good JBoss knowledge :</p>
+<ul>
+<li><a href="http://www.mastertheboss.com" target="_blank" rel="external">Master the boss</a> : especially with articles with jBPM/JBoss ESB integration, jBPM best practices and JBoss AS tuning (a little bit outdated by the way, but still a good resource).</li>
+<li><a href="http://enterprisebpm.blogspot.com/" target="_blank" rel="external">Enterprise BPM blog</a> : blog by a Redhat engineer involved in jBPM and WS-BPEL jBPM implementation. It has also links to other jBPM related sites.</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/jboss-resources/" data-id="8fb0v3agic1e2hvo" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/jboss-resources/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-some-maven-tips" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/some-maven-tips/" class="article-date">
+  <time datetime="2009-02-06T23:00:00.000Z" itemprop="datePublished">Feb 7 2009</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>►<a class="article-category-link" href="/categories/java/tech/">tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/some-maven-tips/">Some Maven tips</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>First post of the year, here are some Maven tips you might find useful (or obvious for experienced users):</p>
+<ul>
+<li><strong>How to version commercial libraries in your SCM and use them as dependency ?</strong></li>
+</ul>
+<p>In case you don’t have your own central repository and you’d like to version your libraries in your SCM server, you can declare in your pom a repository like this :</p>
+<figure class="highlight xml"><pre><div class="line"><span class="tag">&lt;<span class="title">repository</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">id</span>&gt;</span>sipphonyrepo<span class="tag">&lt;/<span class="title">id</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">url</span>&gt;</span>file:///${basedir}/../repository<span class="tag">&lt;/<span class="title">url</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">repository</span>&gt;</span></div></pre></figure><br>The ‘repository’ directory should be versioned in your scm server but it also means that it should be checked out with your project. Also like any other repository, the dependencies will be copied in your local repository.<br><br><em>  <em>*How to just copy files</em></em> ?<br><br>It might be useful on a development machine to copy files while installing an artifact, for instance you might want to copy a JBoss datasource file to a JBoss profile to make sure it’s deployed.  For this you can use the Maven resource plugins. For instance the following plugin statement will copy the datasource file to your JBoss server’s default profile deployment directory if JBOSS_HOME environment library is defined (on the development machine) :<br><figure class="highlight xml"><pre><div class="line"><span class="tag">&lt;<span class="title">profile</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="title">id</span>&gt;</span>jboss.deploy<span class="tag">&lt;/<span class="title">id</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="title">activation</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">property</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="title">name</span>&gt;</span>env.JBOSS_HOME<span class="tag">&lt;/<span class="title">name</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">property</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="title">activation</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="title">build</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">plugins</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="title">plugin</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="title">artifactid</span>&gt;</span>maven-resources-plugin<span class="tag">&lt;/<span class="title">artifactid</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="title">version</span>&gt;</span>2.3<span class="tag">&lt;/<span class="title">version</span>&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="title">executions</span>&gt;</span></div><div class="line">           <span class="tag">&lt;<span class="title">execution</span>&gt;</span></div><div class="line">             <span class="tag">&lt;<span class="title">id</span>&gt;</span>copy-ds<span class="tag">&lt;/<span class="title">id</span>&gt;</span></div><div class="line">             <span class="tag">&lt;<span class="title">goals</span>&gt;</span></div><div class="line">               <span class="tag">&lt;<span class="title">goal</span>&gt;</span>copy-resources<span class="tag">&lt;/<span class="title">goal</span>&gt;</span></div><div class="line">             <span class="tag">&lt;/<span class="title">goals</span>&gt;</span></div><div class="line">             <span class="tag">&lt;<span class="title">phase</span>&gt;</span>install<span class="tag">&lt;/<span class="title">phase</span>&gt;</span></div><div class="line">             <span class="tag">&lt;<span class="title">configuration</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="title">outputdirectory</span>&gt;</span>${env.JBOSS_HOME}/server/default/deploy<span class="tag">&lt;/<span class="title">outputdirectory</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="title">resources</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;<span class="title">resource</span>&gt;</span></div><div class="line">                   <span class="tag">&lt;<span class="title">directory</span>&gt;</span>${basedir}<span class="tag">&lt;/<span class="title">directory</span>&gt;</span></div><div class="line">                   <span class="tag">&lt;<span class="title">includes</span>&gt;</span></div><div class="line">                      <span class="tag">&lt;<span class="title">include</span>&gt;</span>mysql-ds.xml<span class="tag">&lt;/<span class="title">include</span>&gt;</span></div><div class="line">                  <span class="tag">&lt;/<span class="title">includes</span>&gt;</span></div><div class="line">               <span class="tag">&lt;/<span class="title">resource</span>&gt;</span></div><div class="line">               <span class="tag">&lt;/<span class="title">resources</span>&gt;</span></div><div class="line">             <span class="tag">&lt;/<span class="title">configuration</span>&gt;</span></div><div class="line">           <span class="tag">&lt;/<span class="title">execution</span>&gt;</span></div><div class="line">         <span class="tag">&lt;/<span class="title">executions</span>&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="title">plugin</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="title">plugins</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">build</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">profile</span>&gt;</span></div></pre></figure>
+
+<ul>
+<li><strong>How to perform complex build build logic ?</strong></li>
+</ul>
+<p>One solution would be to use profiles for that like in the above example. But it can quickly become cumbersome and limited. So a good option is to use Ant Maven plugin with <a href="http://ant-contrib.sourceforge.net/" target="_blank" rel="external">ant-contribs</a> dependency for control statements and loops or even better the <a href="http://groovy.codehaus.org/GMaven" target="_blank" rel="external">groovy GMaven plugin</a> (avoiding XML verbosity).Profiles have still the benefit of clearly identifying an intent in your build. The following command will list all profiles:</p>
+<figure class="highlight bash"><pre><div class="line">mvn <span class="built_in">help</span>:all-profiles</div></pre></figure> 
+
+<p>If build logic can be extracted and used in different contexts, it’s time to create a plugin. It’s quite simple.</p>
+<ul>
+<li><strong>How to create an artifact of a zip or tar  ?</strong></li>
+</ul>
+<p>One obvious solution is to use maven assembly plugin but if you need to add some custom logic during packaging, you could just create the zip or tar file with Ant maven plugin or groovy GMaven plugin and gant during the package phase. Then attach the file to your project with Maven <a href="http://mojo.codehaus.org/build-helper-maven-plugin/attach-artifact-mojo.html" target="_blank" rel="external">build helper plugin</a> and its <strong>attach-artifact</strong> goal to install it in your repository during the install phase. Once installed in your local repository, the zip or tar file can be become a dependency, just use the proper type in the dependency declaration.</p>
+<figure class="highlight xml"><pre><div class="line"><span class="tag">&lt;<span class="title">type</span>&gt;</span>zip<span class="tag">&lt;/<span class="title">type</span>&gt;</span></div></pre></figure>
+
+<ul>
+<li><strong>How to create a full delivery layout with multiple archetype ?</strong></li>
+</ul>
+<p>My advice for creating a comprehensive delivery directory structure would be to use a dedicated module, take advantage of ant,assembly and resource plugins for that. Struts2 has such a module : <a href="http://svn.apache.org/repos/asf/struts/struts2/trunk/assembly/pom.xml" target="_blank" rel="external">see the assembly module’s pom</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/some-maven-tips/" data-id="g1y4w9ccuq8f4any" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/some-maven-tips/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/maven/">maven</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jaxb-bug-527" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/jaxb-bug-527/" class="article-date">
+  <time datetime="2008-10-21T22:00:00.000Z" itemprop="datePublished">Oct 22 2008</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/jaxb-bug-527/">Jaxb bug 527</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Please,  if you think you are concerned  vote for the <a href="https://jaxb.dev.java.net/issues/show_bug.cgi?id=527" target="_blank" rel="external">bug</a> i submitted</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/jaxb-bug-527/" data-id="der9wo602cs4gbrt" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/jaxb-bug-527/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jaxb/">jaxb</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+<div class="widget-wrap">
+   <h3 class="widget-title">tweets</h3>
+   <div class="widget">
+               <a class="twitter-timeline"  
+                   href="https://twitter.com/lucdew" 
+                   data-chrome="noheader nofooter noborders transparent"
+                   data-tweet-limit="5"
+                   data-widget-id="518280804359610368">Tweets by @lucdew</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+   </div>
 </div>
-<aside class="sidebar">
+
+
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/svnsync-to-existing-repository/">svnsync to existing repository</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/last-post/">Last Post</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/osgi-survey/">OSGI survey</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
-      </li>
-    
-  </ul>
-</section>
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ant/" style="font-size: 12.00px;">ant</a><a href="/tags/aop/" style="font-size: 12.00px;">aop</a><a href="/tags/aspectj/" style="font-size: 12.00px;">aspectj</a><a href="/tags/asterisk/" style="font-size: 10.00px;">asterisk</a><a href="/tags/axis/" style="font-size: 10.00px;">axis</a><a href="/tags/blog/" style="font-size: 10.00px;">blog</a><a href="/tags/eclipse/" style="font-size: 12.00px;">eclipse</a><a href="/tags/ejb/" style="font-size: 10.00px;">ejb</a><a href="/tags/firewall/" style="font-size: 16.00px;">firewall</a><a href="/tags/freebsd/" style="font-size: 10.00px;">freebsd</a><a href="/tags/grails/" style="font-size: 10.00px;">grails</a><a href="/tags/groovy/" style="font-size: 12.00px;">groovy</a><a href="/tags/gwt/" style="font-size: 10.00px;">gwt</a><a href="/tags/htmlunit/" style="font-size: 10.00px;">htmlunit</a><a href="/tags/jBPM/" style="font-size: 12.00px;">jBPM</a><a href="/tags/java/" style="font-size: 16.00px;">java</a><a href="/tags/jaxb/" style="font-size: 10.00px;">jaxb</a><a href="/tags/jdbc/" style="font-size: 12.00px;">jdbc</a><a href="/tags/jibx/" style="font-size: 10.00px;">jibx</a><a href="/tags/jms/" style="font-size: 10.00px;">jms</a><a href="/tags/jmx/" style="font-size: 10.00px;">jmx</a><a href="/tags/jpa/" style="font-size: 10.00px;">jpa</a><a href="/tags/jrockit/" style="font-size: 10.00px;">jrockit</a><a href="/tags/jsf/" style="font-size: 10.00px;">jsf</a><a href="/tags/jta/" style="font-size: 10.00px;">jta</a><a href="/tags/ldap/" style="font-size: 10.00px;">ldap</a><a href="/tags/lingo/" style="font-size: 10.00px;">lingo</a><a href="/tags/maven/" style="font-size: 18.00px;">maven</a><a href="/tags/misc/" style="font-size: 18.00px;">misc</a><a href="/tags/osgi/" style="font-size: 10.00px;">osgi</a><a href="/tags/quartz/" style="font-size: 10.00px;">quartz</a><a href="/tags/rails/" style="font-size: 10.00px;">rails</a><a href="/tags/ruby/" style="font-size: 10.00px;">ruby</a><a href="/tags/seam/" style="font-size: 14.00px;">seam</a><a href="/tags/security/" style="font-size: 14.00px;">security</a><a href="/tags/snmp/" style="font-size: 10.00px;">snmp</a><a href="/tags/spring/" style="font-size: 20.00px;">spring</a><a href="/tags/subversion/" style="font-size: 10.00px;">subversion</a><a href="/tags/svn/" style="font-size: 10.00px;">svn</a><a href="/tags/swing/" style="font-size: 10.00px;">swing</a>
+    </div>
+  </div>
 
-
-<section>
-  <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("lucdew", 4, false);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
   
-    <a href="http://twitter.com/lucdew" class="twitter-follow-button" data-show-count="false">Follow @lucdew</a>
+    <div class="widget-wrap">
+   <h3 class="widget-title">Visitors</h3>
+   <div class="widget">
+         <a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+   </div>
+</div>
+
   
-</section>
-
-
-
-
-<section><h1>Tags</h1><p><a href="/tags/ant" title="Postings tagged ant" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">ant</a> <a href="/tags/aop" title="Postings tagged aop" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">aop</a> <a href="/tags/aspectj" title="Postings tagged aspectj" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">aspectj</a> <a href="/tags/asterisk" title="Postings tagged asterisk" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">asterisk</a> <a href="/tags/axis" title="Postings tagged axis" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">axis</a> <a href="/tags/blog" title="Postings tagged blog" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">blog</a> <a href="/tags/eclipse" title="Postings tagged eclipse" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">eclipse</a> <a href="/tags/ejb" title="Postings tagged ejb" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">ejb</a> <a href="/tags/firewall" title="Postings tagged firewall" style="font-size: 12.5px; line-height:12.5px;text-decoration:none;">firewall</a> <a href="/tags/freebsd" title="Postings tagged freebsd" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">freebsd</a> <a href="/tags/grails" title="Postings tagged grails" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">grails</a> <a href="/tags/groovy" title="Postings tagged groovy" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">groovy</a> <a href="/tags/gwt" title="Postings tagged gwt" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">gwt</a> <a href="/tags/htmlunit" title="Postings tagged htmlunit" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">htmlunit</a> <a href="/tags/jBPM" title="Postings tagged jBPM" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">jBPM</a> <a href="/tags/java" title="Postings tagged java" style="font-size: 12.5px; line-height:12.5px;text-decoration:none;">java</a> <a href="/tags/jaxb" title="Postings tagged jaxb" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jaxb</a> <a href="/tags/jdbc" title="Postings tagged jdbc" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">jdbc</a> <a href="/tags/jibx" title="Postings tagged jibx" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jibx</a> <a href="/tags/jms" title="Postings tagged jms" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jms</a> <a href="/tags/jmx" title="Postings tagged jmx" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jmx</a> <a href="/tags/jpa" title="Postings tagged jpa" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jpa</a> <a href="/tags/jrockit" title="Postings tagged jrockit" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jrockit</a> <a href="/tags/jsf" title="Postings tagged jsf" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jsf</a> <a href="/tags/jta" title="Postings tagged jta" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jta</a> <a href="/tags/ldap" title="Postings tagged ldap" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">ldap</a> <a href="/tags/lingo" title="Postings tagged lingo" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">lingo</a> <a href="/tags/maven" title="Postings tagged maven" style="font-size: 13.0px; line-height:13.0px;text-decoration:none;">maven</a> <a href="/tags/misc" title="Postings tagged misc" style="font-size: 13.0px; line-height:13.0px;text-decoration:none;">misc</a> <a href="/tags/osgi" title="Postings tagged osgi" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">osgi</a> <a href="/tags/quartz" title="Postings tagged quartz" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">quartz</a> <a href="/tags/rails" title="Postings tagged rails" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">rails</a> <a href="/tags/ruby" title="Postings tagged ruby" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">ruby</a> <a href="/tags/seam" title="Postings tagged seam" style="font-size: 12.0px; line-height:12.0px;text-decoration:none;">seam</a> <a href="/tags/security" title="Postings tagged security" style="font-size: 12.0px; line-height:12.0px;text-decoration:none;">security</a> <a href="/tags/snmp" title="Postings tagged snmp" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">snmp</a> <a href="/tags/spring" title="Postings tagged spring" style="font-size: 16.0px; line-height:16.0px;text-decoration:none;">spring</a> <a href="/tags/subversion" title="Postings tagged subversion" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">subversion</a> <a href="/tags/svn" title="Postings tagged svn" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">svn</a> <a href="/tags/swing" title="Postings tagged swing" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">swing</a> <a href="/tags/tomcat" title="Postings tagged tomcat" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">tomcat</a> <a href="/tags/tuning" title="Postings tagged tuning" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">tuning</a> <a href="/tags/voip" title="Postings tagged voip" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">voip</a> <a href="/tags/vpn" title="Postings tagged vpn" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">vpn</a> <a href="/tags/web2.0-ria" title="Postings tagged web2.0-ria" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">web2.0-ria</a> <a href="/tags/weblogic" title="Postings tagged weblogic" style="font-size: 20.0px; line-height:20.0px;text-decoration:none;">weblogic</a> <a href="/tags/webservices" title="Postings tagged webservices" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">webservices</a> <a href="/tags/websphere" title="Postings tagged websphere" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">websphere</a> <a href="/tags/xfire" title="Postings tagged xfire" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">xfire</a> <a href="/tags/xpath" title="Postings tagged xpath" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">xpath</a> </p></section>
-<section>
-  <h1>Visitors</h1>
-  <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
-</p>
-</section>
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">September 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/04/">April 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">February 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/10/">October 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/09/">September 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/08/">August 2008</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/06/">June 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/05/">May 2008</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/01/">January 2008</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/12/">December 2007</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/11/">November 2007</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/08/">August 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/07/">July 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/06/">June 2007</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/02/">February 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/01/">January 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/12/">December 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/11/">November 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/06/">June 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/05/">May 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/04/">April 2006</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/02/">February 2006</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/01/">January 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/12/">December 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/10/">October 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/09/">September 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/08/">August 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/07/">July 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/06/">June 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/05/">May 2005</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/04/">April 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/03/">March 2005</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/02/">February 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/12/">December 2004</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/10/">October 2004</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/09/">September 2004</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/08/">August 2004</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/07/">July 2004</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/04/">April 2004</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
 
   
 </aside>
-
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 Luc Dewavrin<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Luc Dewavrin -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
 </footer>
+    </div>
+    <nav id="mobile-nav">
   
-
-<script type="text/javascript">
-      var disqus_shortname = 'lucdewavrinsblog';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'lucdewavrinsblog';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
 </script>
 
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
 
 
 
+<script src="/js/script.js" type="text/javascript"></script>
 
 
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
+  </div>
 </body>
 </html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Tag: weblogic | Luc Dewavrin&#39;s weblog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <link rel="alternative" href="/atom.xml" title="Luc Dewavrin&#39;s weblog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1239956-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Luc Dewavrin&#39;s weblog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-github-link" class="nav-icon" href="https://github.com/lucdew" target="_blank"></a>
+        <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/lucdew" target="_blank"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://www.dewavrin.info"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-jrockit-rocks-on-ia64" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/jrockit-rocks-on-ia64/" class="article-date">
+  <time datetime="2004-12-15T23:00:00.000Z" itemprop="datePublished">Dec 16 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/weblogic/">weblogic</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/jrockit-rocks-on-ia64/">JRockit rocks on IA64</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I did some benchmark on a web application which runs on <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>8.1 sp2. <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> was installed on a 4 IA64 CPU Linux server .<br> The benchmark between the Sun JVM 1.4.1 for IA64 and the BEA JRockit providedwith <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> showed that the <b>application ran 10x times fasteron JRockit</b>. The ratio was even higher with more than 50 virtual users.</p>
+<p>I couldn&#39;t even believe it. I thought I had done mistakes trying to tunethe Sun JVM with the -XX options but no the results were the samewithout the -XX options. I haven&#39;t figured outwhy the Sun JVM ran so slowly… But if you need to run <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>server on IA64 give JRockit a try, it&#39;s really worth it.</p>
+<p>To be honest, the Sun JVM 1.4.1 for Itanium 64seems to be a beta one (java -version gives build 1.4.1-b21) and the JRockit JVM is the only one supported on IA64 by BEA. So the comparision was obviously biased. By the way,i&#39;ll do some tests with <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> 8.1 sp4 with a JVM 1.4.2</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/jrockit-rocks-on-ia64/" data-id="dnj004qfhdcd9g5i" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/jrockit-rocks-on-ia64/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jrockit/">jrockit</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-wls-90-beta-is-out-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/wls-90-beta-is-out-2/" class="article-date">
+  <time datetime="2004-12-14T23:00:00.000Z" itemprop="datePublished">Dec 15 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/weblogic/">weblogic</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/wls-90-beta-is-out-2/">WLS 9.0 beta is out</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Only for Windows so far.</p>
+<p>And it runs on J2SE 1.5</p>
+<p>See <a href="http://dev2dev.bea.com/products/wlserver90/index.jsp" target="_blank" rel="external">http://dev2dev.bea.com/products/wlserver90/index.jsp</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/wls-90-beta-is-out-2/" data-id="9cw2r4vwuhin5xab" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/wls-90-beta-is-out-2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-weblogic-server-9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/weblogic-server-9/" class="article-date">
+  <time datetime="2004-09-27T22:00:00.000Z" itemprop="datePublished">Sep 28 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/general/">general</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/weblogic-server-9/">Weblogic server 9</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Yesterday,I attented the online conference about <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> server 9 “Operation Administration andmaintainance” . Well, here are some of the enhancements I noted:</p>
+<ul>
+<li>The administration console won’t use an applet anymore but a Strutsbased application. It will allow to do multiple operations and validatethem at once. There will also have an “undo” command.<br><em>Update: I have forgotten to say that BEA confirmed that WLST jython based scripting language will now be part of the product. That’s one more reason to learn Jython</em></li>
+<li>Hot redeployment of a Web application without service disruption.This feature is only available for Web application. For me it’s not amajor feature since a load balancer or Apache (with very little downtime) can do the job but it requires at least 2 instances of <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> server.</li>
+<li><a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> Diagnostic Framework: it will give the ability to do morefine grained instrumentation of application and <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> serverservices. This framework is AOP based.</li>
+<li>J2EE 1.4 compliance.</li>
+<li>performance boost (without more precision …)</li>
+</ul>
+<p>Well as you can notice the improvements are not revolutionnary and I think it shows that this product has really come to maturity (in termsof administration). By the way, the beta will be available in the beginning of November. Since the presentation was public I have uploaded a screenshot of the new console:<img src="/images/custom/console.jpg" alt="WLS9 console"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/weblogic-server-9/" data-id="nwvcs8b0s5sm401c" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/weblogic-server-9/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/" class="article-date">
+  <time datetime="2004-08-29T22:00:00.000Z" itemprop="datePublished">Aug 30 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/weblogic/">weblogic</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/">Review of Weblogic scripting languages wlst (Jython based) vs wlsh ( WLS shell)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Both are tools to programmatically and easily configure <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> domains and   servers. Why these tools?</p>
+<ul>
+<li>to automate <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> servers and domain creation for large scale production     environment. Configuring a <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> domain through the administration console     is tedious and slow in a multiserver environment.</li>
+<li>Repeat a complex configuration from server to server.</li>
+</ul>
+<p>Well, you could use Java and JMX or do some reverse engineeringon some <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> class (like domain creation) but it would reallybe a waste of time, when tools exist to make domain administration easier.</p>
+<h1 id="wlst">wlst</h1>
+<h2 id="Pros:">Pros:</h2>
+<ul>
+<li>Jython (Python Implementation in Java) based powerful Object Oriented scripting language. You can create your own classes like creating a Security classes to add a user,a group return all the users of a domain… </li>
+<li>Offline capabilites to create and configure domains.</li>
+<li>Has functions for <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> Workshop.<h2 id="Cons:">Cons:</h2>
+</li>
+<li>Learning curve of Jython/Python for more advanced coding logic.( But I have to admit that Python     is easy to learn).</li>
+<li>type conversion between Java and python which can be annoying. Example:</li>
+</ul>
+<p><figure class="highlight python"><pre><div class="line">objs  = jarray.array([appname,<span class="keyword">None</span>,<span class="keyword">None</span>],java.lang.Object)</div></pre></figure></p>
+<ul>
+<li>Some MBeans are hidden. Example: can not invoke methods on the DeployerRuntime MBean  like the invoke method.  Maybe authors want users to use the dedicated deployment functions like deploy()   undeploy() instead. </li>
+<li>Can only use a property file to pass parameters to the script (but you could import the wlst jython module and process jython command line arguments the traditionnal way)</li>
+</ul>
+<h1 id="wlsh">wlsh</h1>
+<h2 id="Pros">Pros</h2>
+<ul>
+<li>Easy to learn very much like Unix SHELL.</li>
+<li>Aditionnal tools: provide a graphical MBean (and cli) explorer + a graphical     monitoring tool. </li>
+<li>Can pass any kind of parameter to the script from the command line.<h2 id="Cons:-1">Cons:</h2>
+</li>
+<li>Not officially supported  by BEA. Some bugs exist “it returns null when trying to get some MBean”. But   the author said a new version will be released for <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> server 9.</li>
+<li>Limited scripting capabilities. Language is limited (with limited control structures) </li>
+</ul>
+<p>To conclude, both are not really mature tools and have some light bugs but   they greatly help in <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> configuration tasks. I don’t know if Websphere or Oracle9iAS have this kind of tool but they represent a great advantage for <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>. Especially for ISVs who want to help clients to configure a <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> server to run their application.</p>
+<p>Both tools can also convert an existing domain configuration (config.xml) to a script which is a very helpful feature. I think that for advanced <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> administration scripting wlst looks better (I chose to use it now). On the other  side some features of wlsh like the MBean explorer, the graphical MBean attributes monitoring are really great. Porting wlst to Groovy scripting language ( Java based scripting language with a JSR) would also have been a great idea since it would avoid to learn another language (i.e python) but just the syntax of Groovy.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/" data-id="b76ojw4h8b3a7ilh" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-weblogic-ant-tasks-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/weblogic-ant-tasks-2/" class="article-date">
+  <time datetime="2004-08-18T22:00:00.000Z" itemprop="datePublished">Aug 19 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/weblogic/">weblogic</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/weblogic-ant-tasks-2/">Weblogic ant tasks</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>For having worked with many of the <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> ant tasks,it&#39;s really a pain to make them work with a standard ant(i.e: not the one bundled with <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>).</p>
+<p>I work under Eclipse 3 with ant 1.6 and do some integration work of J2EE applications. Some of the <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> ant tasks like source2wsdd or wlappc just don&#39;t work without <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>&#39;s ant. wlappc was supposed to be fixed with sp3 but it still doesn&#39;t work properly. The workarounds to make these tasks work are:</p>
+<ul>
+<li>find the matching administration class and load the class with the “java” task<br></li>
+<li>create dynamically a command/shell script that will invoke the task with<a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>&#39;s ant !<br>Also, I tried the WLST scripting tool based on Jython. Of course calling itfrom the <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> &#39;s ant works fine but with a standard one it doesn&#39;t(even with Classpath set properly :-) ).</li>
+</ul>
+<p>That&#39;s why I decided to stick to wlsh( <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> shell: <a href="http://www.wlshell.com)which" target="_blank" rel="external">http://www.wlshell.com)which</a> worked pretty well for me but is not officially supported by BEA (and have limited scripting capabilites compared to Jython).</p>
+<p><span style="color:red">Update: actually wlst can be invoked from ant when the fork option of the “java” task is set to true. But my complaints about the <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> ant tasks just remain.</span></p>
+<p>I think BEA guys should really test these ant tasks and administration tools with a vanilla ant. And generally, they should improve the quality of them, some have very limited features compared to the CLI tools and even some of the implementedfeatures are broken !</p>
+<p>P.S: Next time I&#39;ll try to post technical stuff instead of complaining …</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/weblogic-ant-tasks-2/" data-id="i9z4nckqdeck5xx8" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/weblogic-ant-tasks-2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/tags/weblogic/">&laquo; Prev</a><a class="page-number" href="/tags/weblogic/">1</a><span class="page-number current">2</span>
+    </nav>
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+<div class="widget-wrap">
+   <h3 class="widget-title">tweets</h3>
+   <div class="widget">
+               <a class="twitter-timeline"  
+                   href="https://twitter.com/lucdew" 
+                   data-chrome="noheader nofooter noborders transparent"
+                   data-tweet-limit="5"
+                   data-widget-id="518280804359610368">Tweets by @lucdew</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+   </div>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ant/" style="font-size: 12.00px;">ant</a><a href="/tags/aop/" style="font-size: 12.00px;">aop</a><a href="/tags/aspectj/" style="font-size: 12.00px;">aspectj</a><a href="/tags/asterisk/" style="font-size: 10.00px;">asterisk</a><a href="/tags/axis/" style="font-size: 10.00px;">axis</a><a href="/tags/blog/" style="font-size: 10.00px;">blog</a><a href="/tags/eclipse/" style="font-size: 12.00px;">eclipse</a><a href="/tags/ejb/" style="font-size: 10.00px;">ejb</a><a href="/tags/firewall/" style="font-size: 16.00px;">firewall</a><a href="/tags/freebsd/" style="font-size: 10.00px;">freebsd</a><a href="/tags/grails/" style="font-size: 10.00px;">grails</a><a href="/tags/groovy/" style="font-size: 12.00px;">groovy</a><a href="/tags/gwt/" style="font-size: 10.00px;">gwt</a><a href="/tags/htmlunit/" style="font-size: 10.00px;">htmlunit</a><a href="/tags/jBPM/" style="font-size: 12.00px;">jBPM</a><a href="/tags/java/" style="font-size: 16.00px;">java</a><a href="/tags/jaxb/" style="font-size: 10.00px;">jaxb</a><a href="/tags/jdbc/" style="font-size: 12.00px;">jdbc</a><a href="/tags/jibx/" style="font-size: 10.00px;">jibx</a><a href="/tags/jms/" style="font-size: 10.00px;">jms</a><a href="/tags/jmx/" style="font-size: 10.00px;">jmx</a><a href="/tags/jpa/" style="font-size: 10.00px;">jpa</a><a href="/tags/jrockit/" style="font-size: 10.00px;">jrockit</a><a href="/tags/jsf/" style="font-size: 10.00px;">jsf</a><a href="/tags/jta/" style="font-size: 10.00px;">jta</a><a href="/tags/ldap/" style="font-size: 10.00px;">ldap</a><a href="/tags/lingo/" style="font-size: 10.00px;">lingo</a><a href="/tags/maven/" style="font-size: 18.00px;">maven</a><a href="/tags/misc/" style="font-size: 18.00px;">misc</a><a href="/tags/osgi/" style="font-size: 10.00px;">osgi</a><a href="/tags/quartz/" style="font-size: 10.00px;">quartz</a><a href="/tags/rails/" style="font-size: 10.00px;">rails</a><a href="/tags/ruby/" style="font-size: 10.00px;">ruby</a><a href="/tags/seam/" style="font-size: 14.00px;">seam</a><a href="/tags/security/" style="font-size: 14.00px;">security</a><a href="/tags/snmp/" style="font-size: 10.00px;">snmp</a><a href="/tags/spring/" style="font-size: 20.00px;">spring</a><a href="/tags/subversion/" style="font-size: 10.00px;">subversion</a><a href="/tags/svn/" style="font-size: 10.00px;">svn</a><a href="/tags/swing/" style="font-size: 10.00px;">swing</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+   <h3 class="widget-title">Visitors</h3>
+   <div class="widget">
+         <a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+   </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">September 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/04/">April 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">February 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/10/">October 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/09/">September 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/08/">August 2008</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/06/">June 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/05/">May 2008</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/01/">January 2008</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/12/">December 2007</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/11/">November 2007</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/08/">August 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/07/">July 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/06/">June 2007</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/02/">February 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/01/">January 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/12/">December 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/11/">November 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/06/">June 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/05/">May 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/04/">April 2006</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/02/">February 2006</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/01/">January 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/12/">December 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/10/">October 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/09/">September 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/08/">August 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/07/">July 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/06/">June 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/05/">May 2005</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/04/">April 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/03/">March 2005</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/02/">February 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/12/">December 2004</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/10/">October 2004</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/09/">September 2004</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/08/">August 2004</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/07/">July 2004</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/04/">April 2004</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 Luc Dewavrin<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'lucdewavrinsblog';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+
+  </div>
+</body>
+</html>

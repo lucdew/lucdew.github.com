@@ -1,326 +1,245 @@
-
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html>
 <head>
   <meta charset="utf-8">
-  <title>Mimic facelet layouts in grails - Luc Dewavrin's weblog</title>
-  <meta name="author" content="Luc Dewavrin">
+  
+  <title>Mimic facelet layouts in grails | Luc Dewavrin&#39;s weblog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <link rel="alternative" href="/atom.xml" title="Luc Dewavrin&#39;s weblog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
 
   
-  <meta name="description" content="I wanted to mimic facelets &#60;ui:insert /&#62; and &#60;ui:define /&#62; tags in grails.I find facelets to be quite powerful because it allows to &hellip;">
-  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+ga('create', 'UA-1239956-1', 'auto');
+ga('send', 'pageview');
 
-  
-  <link rel="canonical" href="http://www.dewavrin.info/blog/mimic-facelet-layouts-in-grails">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="Luc Dewavrin's weblog" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-1239956-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
+</script>
+<!-- End Google Analytics -->
 
 
 </head>
 
-<body   >
-  <!--[if lte IE 6]><script src="javascripts/warning.js"></script><script>window.onload=function(){e("/images/custom/ie6/")}</script><![endif]-->
-  <header role="banner"><hgroup>
-  <h1><a href="/">Luc Dewavrin's weblog</a></h1>
-  
-</hgroup>
-
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Luc Dewavrin&#39;s weblog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-github-link" class="nav-icon" href="https://github.com/lucdew" target="_blank"></a>
+        <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/lucdew" target="_blank"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://www.dewavrin.info"></form>
+      </div>
+    </div>
+  </div>
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:www.dewavrin.info" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
 
+      <div class="outer">
+        <section id="main"><article id="post-mimic-facelet-layouts-in-grails" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/mimic-facelet-layouts-in-grails/" class="article-date">
+  <time datetime="2009-04-26T22:00:00.000Z" itemprop="datePublished">Apr 27 2009</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>►<a class="article-category-link" href="/categories/java/tech/">tech</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Mimic facelet layouts in grails
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I wanted to mimic facelets &lt;ui:insert /&gt; and &lt;ui:define /&gt; tags in grails.I find facelets to be quite powerful because it allows to define a fragment in your template that can be redefined by the view, otherwise a default fragment is displayed.It can be useful for instance for a menu where you want all views to use a default menu and some use another menu. </p>
+<p>In facelets, you would create a template file and add a &lt;ui:insert /&gt; statement for the menu, like this:</p>
+<figure class="highlight xml"><pre><div class="line"><span class="tag">&lt;<span class="title">ui:insert</span> <span class="attribute">name</span>=<span class="value">"menu"</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="title">ui:include</span> <span class="attribute">src</span>=<span class="value">"../frags/menu.xhtml"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">ui:insert</span>&gt;</span></div></pre></figure><br>Here the <span style="font-weight: bold" class="Apple-style-span">&lt;ui:insert/&gt;</span> statement by default includes with the help of the <span style="font-weight: bold" class="Apple-style-span">&lt;ui:include/&gt;</span>element a menu fragment (a partial page).<br><br>In your view you could if wanted redefine the menu with the <span style="font-weight: bold" class="Apple-style-span">&lt;ui:define/&gt;</span> element, like this:<br><figure class="highlight xml"><pre><div class="line"><span class="tag">&lt;<span class="title">ui:composition</span> <span class="attribute">template</span>=<span class="value">"layout/template.xhtml"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">ui:define</span> <span class="attribute">name</span>=<span class="value">"menu"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">ui:composition</span>&gt;</span></div></pre></figure>
+
+<p><div>Override default menu here </div><br>Grails template system is handled by sitemesh. To achieve the same goal, you can in your template file (layout/main.gsp for instance), add the following element for the menu :</p>
+<figure class="highlight xml"><pre><div class="line"><span class="tag">&lt;<span class="title">g:pageproperty</span> <span class="attribute">name</span>=<span class="value">"page.menu"</span> <span class="attribute">default</span>=<span class="value">"${render(template:'/frags/menu')}"</span> /&gt;</span></div></pre></figure>
+
+<p>It achieves the same purpose, actually instead of defining a page section like in facelets, it displays the calling page’s <b>&lt;content&gt;</b> element named menu if present (control is inverted but the result is the same).Otherwise,  if the &lt;content&gt; element is not found,  the menu fragment is rendered.The fragment page should be in our example created in the frags directory under the name _menu.gsp. In your view, you can therefore define the menu section of your template by declaring a content element. </p>
+<figure class="highlight html"><pre><div class="line"><span class="tag">&lt;<span class="title">html</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="title">head</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">http-equiv</span>=<span class="value">"Content-Type"</span> <span class="attribute">content</span>=<span class="value">"text/html; charset=UTF-8"</span> /&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">name</span>=<span class="value">"layout"</span> <span class="attribute">content</span>=<span class="value">"main"</span> /&gt;</span> </div><div class="line">     <span class="tag">&lt;<span class="title">title</span>&gt;</span>Show Book<span class="tag">&lt;/<span class="title">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">body</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="title">content</span> <span class="attribute">tag</span>=<span class="value">"menu"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="title">div</span>&gt;</span>Override default menu here<span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line">     <span class="tag">&lt;/<span class="title">content</span>&gt;</span></div><div class="line">     <span class="comment">&lt;!-- More content here --&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="title">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">html</span>&gt;</span></div></pre></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/mimic-facelet-layouts-in-grails/" data-id="oh22lb2o5l3trnye" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/mimic-facelet-layouts-in-grails/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/grails/">grails</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/blog/osgi-survey/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          OSGI survey
+        
+      </div>
+    </a>
+  
+  
+    <a href="/blog/acquisition-de-sun-par-oracle/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Acquisition de Sun par Oracle</div>
+    </a>
+  
 </nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Mimic Facelet Layouts in Grails</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
 
   
-
-
-<time datetime="2009-04-27T00:00:00+02:00" pubdate data-updated="true">Apr 27<span>th</span>, 2009</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><p>I wanted to mimic facelets &#60;ui:insert /&#62; and &#60;ui:define /&#62; tags in grails.I find facelets to be quite powerful because it allows to define a fragment in your template that can be redefined by the view, otherwise a default fragment is displayed.It can be useful for instance for a menu where you want all views to use a default menu and some use another menu.</p>
-
-<p>In facelets, you would create a template file and add a &#60;ui:insert /&#62; statement for the menu, like this:</p>
-<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;ui:insert</span> <span class='na'>name=</span><span class='s'>&quot;menu&quot;</span><span class='nt'>&gt;</span>
-</span><span class='line'>    <span class='nt'>&lt;ui:include</span> <span class='na'>src=</span><span class='s'>&quot;../frags/menu.xhtml&quot;</span> <span class='nt'>/&gt;</span>
-</span><span class='line'><span class='nt'>&lt;/ui:insert&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>Here the <span class='Apple-style-span' style='font-weight: bold'>&lt;ui:insert/&gt;</span> statement by default includes with the help of the <span class='Apple-style-span' style='font-weight: bold'>&lt;ui:include/&gt;</span>element a menu fragment (a partial page).</p>
-
-<p>In your view you could if wanted redefine the menu with the <span class='Apple-style-span' style='font-weight: bold'>&lt;ui:define/&gt;</span> element, like this:</p>
-<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;ui:composition</span> <span class='na'>template=</span><span class='s'>&quot;layout/template.xhtml&quot;</span><span class='nt'>&gt;</span>
-</span><span class='line'>  <span class='nt'>&lt;ui:define</span> <span class='na'>name=</span><span class='s'>&quot;menu&quot;</span> <span class='nt'>/&gt;</span>
-</span><span class='line'><span class='nt'>&lt;/ui:composition&gt;</span>
-</span></code></pre></td></tr></table></div></figure><div>Override default menu here </div>
-<p>Grails template system is handled by sitemesh. To achieve the same goal, you can in your template file (layout/main.gsp for instance), add the following element for the menu :</p>
-<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class='nt'>&lt;g:pageproperty</span> <span class='na'>name=</span><span class='s'>&quot;page.menu&quot;</span> <span class='na'>default=</span><span class='s'>&quot;${render(template:&#39;/frags/menu&#39;)}&quot;</span> <span class='nt'>/&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-<p>It achieves the same purpose, actually instead of defining a page section like in facelets, it displays the calling page&#8217;s <b>&lt;content&gt;</b> element named menu if present (control is inverted but the result is the same).Otherwise, if the &#60;content&#62; element is not found, the menu fragment is rendered.The fragment page should be in our example created in the frags directory under the name _menu.gsp. In your view, you can therefore define the menu section of your template by declaring a content element.</p>
-<figure class='code'> <div class='highlight'><table><tr><td class='gutter'><pre class='line-numbers'><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class='nt'>&lt;html&gt;</span>
-</span><span class='line'>   <span class='nt'>&lt;head&gt;</span>
-</span><span class='line'>     <span class='nt'>&lt;meta</span> <span class='na'>http-equiv=</span><span class='s'>&quot;Content-Type&quot;</span> <span class='na'>content=</span><span class='s'>&quot;text/html; charset=UTF-8&quot;</span> <span class='nt'>/&gt;</span>
-</span><span class='line'>     <span class='nt'>&lt;meta</span> <span class='na'>name=</span><span class='s'>&quot;layout&quot;</span> <span class='na'>content=</span><span class='s'>&quot;main&quot;</span> <span class='nt'>/&gt;</span>
-</span><span class='line'>     <span class='nt'>&lt;title&gt;</span>Show Book<span class='nt'>&lt;/title&gt;</span>
-</span><span class='line'>  <span class='nt'>&lt;/head&gt;</span>
-</span><span class='line'>  <span class='nt'>&lt;body&gt;</span>
-</span><span class='line'>     <span class='nt'>&lt;content</span> <span class='na'>tag=</span><span class='s'>&quot;menu&quot;</span><span class='nt'>&gt;</span>
-</span><span class='line'>        <span class='nt'>&lt;div&gt;</span>Override default menu here<span class='nt'>&lt;/div&gt;</span>
-</span><span class='line'>     <span class='nt'>&lt;/content&gt;</span>
-</span><span class='line'>     <span class='c'>&lt;!-- More content here --&gt;</span>
-</span><span class='line'>   <span class='nt'>&lt;/body&gt;</span>
-</span><span class='line'><span class='nt'>&lt;/html&gt;</span>
-</span></code></pre></td></tr></table></div></figure></div>
-
-
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Luc Dewavrin</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-04-27T00:00:00+02:00" pubdate data-updated="true">Apr 27<span>th</span>, 2009</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/tech/'>tech</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://www.dewavrin.info/blog/mimic-facelet-layouts-in-grails/" data-via="lucdew" data-counturl="http://www.dewavrin.info/blog/mimic-facelet-layouts-in-grails/" >Tweet</a>
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/acquisition-de-sun-par-oracle/" title="Previous Post: Acquisition de Sun par Oracle">&laquo; Acquisition de Sun par Oracle</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/osgi-survey/" title="next Post: OSGI survey">OSGI survey &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+<div class="widget-wrap">
+   <h3 class="widget-title">tweets</h3>
+   <div class="widget">
+               <a class="twitter-timeline"  
+                   href="https://twitter.com/lucdew" 
+                   data-chrome="noheader nofooter noborders transparent"
+                   data-tweet-limit="5"
+                   data-widget-id="518280804359610368">Tweets by @lucdew</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+   </div>
 </div>
-  </section>
 
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ant/" style="font-size: 12.00px;">ant</a><a href="/tags/aop/" style="font-size: 12.00px;">aop</a><a href="/tags/aspectj/" style="font-size: 12.00px;">aspectj</a><a href="/tags/asterisk/" style="font-size: 10.00px;">asterisk</a><a href="/tags/axis/" style="font-size: 10.00px;">axis</a><a href="/tags/blog/" style="font-size: 10.00px;">blog</a><a href="/tags/eclipse/" style="font-size: 12.00px;">eclipse</a><a href="/tags/ejb/" style="font-size: 10.00px;">ejb</a><a href="/tags/firewall/" style="font-size: 16.00px;">firewall</a><a href="/tags/freebsd/" style="font-size: 10.00px;">freebsd</a><a href="/tags/grails/" style="font-size: 10.00px;">grails</a><a href="/tags/groovy/" style="font-size: 12.00px;">groovy</a><a href="/tags/gwt/" style="font-size: 10.00px;">gwt</a><a href="/tags/htmlunit/" style="font-size: 10.00px;">htmlunit</a><a href="/tags/jBPM/" style="font-size: 12.00px;">jBPM</a><a href="/tags/java/" style="font-size: 16.00px;">java</a><a href="/tags/jaxb/" style="font-size: 10.00px;">jaxb</a><a href="/tags/jdbc/" style="font-size: 12.00px;">jdbc</a><a href="/tags/jibx/" style="font-size: 10.00px;">jibx</a><a href="/tags/jms/" style="font-size: 10.00px;">jms</a><a href="/tags/jmx/" style="font-size: 10.00px;">jmx</a><a href="/tags/jpa/" style="font-size: 10.00px;">jpa</a><a href="/tags/jrockit/" style="font-size: 10.00px;">jrockit</a><a href="/tags/jsf/" style="font-size: 10.00px;">jsf</a><a href="/tags/jta/" style="font-size: 10.00px;">jta</a><a href="/tags/ldap/" style="font-size: 10.00px;">ldap</a><a href="/tags/lingo/" style="font-size: 10.00px;">lingo</a><a href="/tags/maven/" style="font-size: 18.00px;">maven</a><a href="/tags/misc/" style="font-size: 18.00px;">misc</a><a href="/tags/osgi/" style="font-size: 10.00px;">osgi</a><a href="/tags/quartz/" style="font-size: 10.00px;">quartz</a><a href="/tags/rails/" style="font-size: 10.00px;">rails</a><a href="/tags/ruby/" style="font-size: 10.00px;">ruby</a><a href="/tags/seam/" style="font-size: 14.00px;">seam</a><a href="/tags/security/" style="font-size: 14.00px;">security</a><a href="/tags/snmp/" style="font-size: 10.00px;">snmp</a><a href="/tags/spring/" style="font-size: 20.00px;">spring</a><a href="/tags/subversion/" style="font-size: 10.00px;">subversion</a><a href="/tags/svn/" style="font-size: 10.00px;">svn</a><a href="/tags/swing/" style="font-size: 10.00px;">swing</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+   <h3 class="widget-title">Visitors</h3>
+   <div class="widget">
+         <a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+   </div>
 </div>
 
-<aside class="sidebar">
   
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/svnsync-to-existing-repository/">svnsync to existing repository</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/last-post/">Last Post</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/osgi-survey/">OSGI survey</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/mimic-facelet-layouts-in-grails/">Mimic facelet layouts in grails</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/acquisition-de-sun-par-oracle/">Acquisition de Sun par Oracle</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-<section>
-  <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating...</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("lucdew", 4, false);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/lucdew" class="twitter-follow-button" data-show-count="false">Follow @lucdew</a>
-  
-</section>
-
-
-
-
-<section><h1>Tags</h1><p><a href="/tags/ant" title="Postings tagged ant" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">ant</a> <a href="/tags/aop" title="Postings tagged aop" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">aop</a> <a href="/tags/aspectj" title="Postings tagged aspectj" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">aspectj</a> <a href="/tags/asterisk" title="Postings tagged asterisk" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">asterisk</a> <a href="/tags/axis" title="Postings tagged axis" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">axis</a> <a href="/tags/blog" title="Postings tagged blog" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">blog</a> <a href="/tags/eclipse" title="Postings tagged eclipse" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">eclipse</a> <a href="/tags/ejb" title="Postings tagged ejb" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">ejb</a> <a href="/tags/firewall" title="Postings tagged firewall" style="font-size: 12.5px; line-height:12.5px;text-decoration:none;">firewall</a> <a href="/tags/freebsd" title="Postings tagged freebsd" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">freebsd</a> <a href="/tags/grails" title="Postings tagged grails" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">grails</a> <a href="/tags/groovy" title="Postings tagged groovy" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">groovy</a> <a href="/tags/gwt" title="Postings tagged gwt" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">gwt</a> <a href="/tags/htmlunit" title="Postings tagged htmlunit" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">htmlunit</a> <a href="/tags/jBPM" title="Postings tagged jBPM" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">jBPM</a> <a href="/tags/java" title="Postings tagged java" style="font-size: 12.5px; line-height:12.5px;text-decoration:none;">java</a> <a href="/tags/jaxb" title="Postings tagged jaxb" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jaxb</a> <a href="/tags/jdbc" title="Postings tagged jdbc" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">jdbc</a> <a href="/tags/jibx" title="Postings tagged jibx" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jibx</a> <a href="/tags/jms" title="Postings tagged jms" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jms</a> <a href="/tags/jmx" title="Postings tagged jmx" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jmx</a> <a href="/tags/jpa" title="Postings tagged jpa" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jpa</a> <a href="/tags/jrockit" title="Postings tagged jrockit" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jrockit</a> <a href="/tags/jsf" title="Postings tagged jsf" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jsf</a> <a href="/tags/jta" title="Postings tagged jta" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">jta</a> <a href="/tags/ldap" title="Postings tagged ldap" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">ldap</a> <a href="/tags/lingo" title="Postings tagged lingo" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">lingo</a> <a href="/tags/maven" title="Postings tagged maven" style="font-size: 13.0px; line-height:13.0px;text-decoration:none;">maven</a> <a href="/tags/misc" title="Postings tagged misc" style="font-size: 13.0px; line-height:13.0px;text-decoration:none;">misc</a> <a href="/tags/osgi" title="Postings tagged osgi" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">osgi</a> <a href="/tags/quartz" title="Postings tagged quartz" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">quartz</a> <a href="/tags/rails" title="Postings tagged rails" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">rails</a> <a href="/tags/ruby" title="Postings tagged ruby" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">ruby</a> <a href="/tags/seam" title="Postings tagged seam" style="font-size: 12.0px; line-height:12.0px;text-decoration:none;">seam</a> <a href="/tags/security" title="Postings tagged security" style="font-size: 12.0px; line-height:12.0px;text-decoration:none;">security</a> <a href="/tags/snmp" title="Postings tagged snmp" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">snmp</a> <a href="/tags/spring" title="Postings tagged spring" style="font-size: 16.0px; line-height:16.0px;text-decoration:none;">spring</a> <a href="/tags/subversion" title="Postings tagged subversion" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">subversion</a> <a href="/tags/svn" title="Postings tagged svn" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">svn</a> <a href="/tags/swing" title="Postings tagged swing" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">swing</a> <a href="/tags/tomcat" title="Postings tagged tomcat" style="font-size: 11.0px; line-height:11.0px;text-decoration:none;">tomcat</a> <a href="/tags/tuning" title="Postings tagged tuning" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">tuning</a> <a href="/tags/voip" title="Postings tagged voip" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">voip</a> <a href="/tags/vpn" title="Postings tagged vpn" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">vpn</a> <a href="/tags/web2.0-ria" title="Postings tagged web2.0-ria" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">web2.0-ria</a> <a href="/tags/weblogic" title="Postings tagged weblogic" style="font-size: 20.0px; line-height:20.0px;text-decoration:none;">weblogic</a> <a href="/tags/webservices" title="Postings tagged webservices" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">webservices</a> <a href="/tags/websphere" title="Postings tagged websphere" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">websphere</a> <a href="/tags/xfire" title="Postings tagged xfire" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">xfire</a> <a href="/tags/xpath" title="Postings tagged xpath" style="font-size: 10.5px; line-height:10.5px;text-decoration:none;">xpath</a> </p></section>
-<section>
-  <h1>Visitors</h1>
-  <p><a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
-</p>
-</section>
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">September 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/04/">April 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">February 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/10/">October 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/09/">September 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/08/">August 2008</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/06/">June 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/05/">May 2008</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/01/">January 2008</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/12/">December 2007</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/11/">November 2007</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/08/">August 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/07/">July 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/06/">June 2007</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/02/">February 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/01/">January 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/12/">December 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/11/">November 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/06/">June 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/05/">May 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/04/">April 2006</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/02/">February 2006</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/01/">January 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/12/">December 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/10/">October 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/09/">September 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/08/">August 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/07/">July 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/06/">June 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/05/">May 2005</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/04/">April 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/03/">March 2005</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/02/">February 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/12/">December 2004</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/10/">October 2004</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/09/">September 2004</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/08/">August 2004</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/07/">July 2004</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/04/">April 2004</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
 
   
 </aside>
-
-
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 Luc Dewavrin<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - Luc Dewavrin -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
 </footer>
+    </div>
+    <nav id="mobile-nav">
   
-
-<script type="text/javascript">
-      var disqus_shortname = 'lucdewavrinsblog';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://www.dewavrin.info/blog/mimic-facelet-layouts-in-grails/';
-        var disqus_url = 'http://www.dewavrin.info/blog/mimic-facelet-layouts-in-grails/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'lucdewavrinsblog';
+  
+  var disqus_url = 'http://www.dewavrin.info//blog/mimic-facelet-layouts-in-grails/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
 </script>
 
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
 
 
 
+<script src="/js/script.js" type="text/javascript"></script>
 
 
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
+  </div>
 </body>
 </html>

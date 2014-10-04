@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Archives: 2006/2 | Luc Dewavrin&#39;s weblog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <link rel="alternative" href="/atom.xml" title="Luc Dewavrin&#39;s weblog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1239956-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Luc Dewavrin&#39;s weblog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-github-link" class="nav-icon" href="https://github.com/lucdew" target="_blank"></a>
+        <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/lucdew" target="_blank"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://www.dewavrin.info"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-memory-leaks-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/memory-leaks-2/" class="article-date">
+  <time datetime="2006-02-27T23:00:00.000Z" itemprop="datePublished">Feb 28 2006</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/memory-leaks-2/">Memory leaks</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Crazy Bob posted on <a href="http://crazybob.org/2006/02/threadlocal-memory-leak.html" target="_blank" rel="external">ThreadLocal memory leaks</a>.This type of memory leak really annoys me because I see it very often on Java EE servers and developers are not aware of it.The error is mostly annoying in development, testing environmentswhere the Java EE server is not restarted and the applicationsare just redeployed. Therefore, threads (of thread pools) are not recreated and hold references to old application classes.</p>
+<p>My advice is <strong>CLEAN YOUR THREADLOCALs</strong></p>
+<p>Add a servlet filter, Web frameworkinterceptor or WS handler to set all ThreadLocal variables to null just beforereturning the response to the client. Lower level solutions should be preferred and turn out to be less risky. A dummy implementation (to give an idea) would be a servlet filter:</p>
+<figure class="highlight java"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContextCleanerFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>{</div><div class="line"> </div><div class="line">	<span class="keyword">private</span> ContextCleaner ctxCleaner;</div><div class="line"> </div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span>(FilterConfig filterConfig) {</div><div class="line">	    <span class="comment">// CtxCleaner instantiated directly boooh !!!</span></div><div class="line">		ctxCleaner = <span class="keyword">new</span> StaticContextCleaner();</div><div class="line">	 }</div><div class="line"> </div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span>(ServletRequest request, ServletResponse response, FilterChain chain) <span class="keyword">throws</span> IOException, ServletException  {</div><div class="line"> </div><div class="line">	    <span class="comment">// Reset ThreadLocals before processing the request</span></div><div class="line">		<span class="keyword">if</span> (ctxCleaner != <span class="keyword">null</span>) ctxCleaner.cleanAll();</div><div class="line">		chain.doFilter(request,response);</div><div class="line">		<span class="comment">// Reset ThreadLocals after processing the request</span></div><div class="line">		<span class="keyword">if</span> (ctxCleaner != <span class="keyword">null</span>) ctxCleaner.cleanAll();</div><div class="line">	}</div><div class="line"> </div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span>() {</div><div class="line"> </div><div class="line">	}</div><div class="line"> </div><div class="line">}</div></pre></figure>
+
+<p>with a ContextCleaner Interface:</p>
+<figure class="highlight java"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ContextCleaner</span> </span>{</div><div class="line">   <span class="keyword">boolean</span> cleanAll();</div><div class="line">}</div></pre></figure>
+
+<p>and a dummy implementation:</p>
+<figure class="highlight java"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StaticContextCleaner</span> <span class="keyword">implements</span> <span class="title">ContextCleaner</span> </span>{</div><div class="line"> </div><div class="line">	<span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">cleanAll</span>() {</div><div class="line">	   UserSession.setSessionData(<span class="keyword">null</span>);</div><div class="line">	   <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	}</div><div class="line"> </div><div class="line">}</div></pre></figure>
+
+<p>Where UserSession has static accessors to handle the ThreadLocal and is used by application code to store objects in a ThreadLocal instance:</p>
+<figure class="highlight java"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserSession</span> </span>{</div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal m_session= <span class="keyword">new</span> ThreadLocal();</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setSessionData</span>(SessionData sessionData){</div><div class="line">		m_session.set(sessionData);</div><div class="line">	}</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> SessionData <span class="title">getSessionData</span>(){</div><div class="line">		<span class="keyword">return</span> (SessionData)m_session.get();</div><div class="line">	}</div><div class="line">}</div></pre></figure>
+
+<p>The problem with this implementation is that it only works with classes that you controland are aware that they use ThreadLocal variables. Maybe with reflection it’s possible to accessthe current Thread’s Map which stores ThreadLocal objects and set them to null one by one. But it would be highly risky if your application server uses ThreadLocal for its own usage.</p>
+<p>For further information on ThreadLocal memory leaks see <a href="http://blog.arendsen.net/?p=18" target="_blank" rel="external">this link</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/memory-leaks-2/" data-id="z63cfe4i89yuzzar" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/memory-leaks-2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2006-02-20-axis-through-apache-httpd-quick-tips-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/2006-02-20-axis-through-apache-httpd-quick-tips-2/" class="article-date">
+  <time datetime="2006-02-19T23:00:00.000Z" itemprop="datePublished">Feb 20 2006</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/2006-02-20-axis-through-apache-httpd-quick-tips-2/">Axis through Apache HTTPD quick tips</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Here are tips when using Axis Web services through Apache:</p>
+<ul>
+<li><strong>Gzip</strong> To enable gzip compression use the recommendations of the following blog entry. It consists in using <a href="jakarta.apache.org/commons/httpclient/"> Jakarta commons httpclient</a> and configuring your Axis stub to set gzip compression on. On Apache 2.0.X, mod_deflate module can be used and it’s pretty straightforward to enable gzip compression for input and output streams.<figure class="highlight"><pre><div class="line"><span class="tag">&lt;<span class="title">Location</span> /<span class="attribute">ws</span>&gt;</span>;</div><div class="line"> SetOutputFilter DEFLATE</div><div class="line"> SetInputFilter DEFLATE</div><div class="line"><span class="tag">&lt;/<span class="title">Location</span>&gt;</span></div></pre></figure>
+
+</li>
+</ul>
+<p>Gzip can be enabled by Mime-type but it didn’t seem to work for me… Enabling gzip compression is only advised when you have “large” messages (100 Kbytes). Benchmark it.</p>
+<ul>
+<li><strong>Preserve Host</strong><br>When the WSDL is generated via Axis servlet, the <em>Host</em> HTTP header is used to build the URL of WS endpoints in the WSDL. So if you are using mod_proxy to forward HTTP request to a servlet container don’t forget to add this instruction.<figure class="highlight"><pre><div class="line">ProxyPreserveHost <span class="keyword">On</span></div></pre></figure>
+
+</li>
+</ul>
+<p>Here’s a sample configuration (mod_proxy, mod_proxy_http must be enabled).</p>
+<figure class="highlight"><pre><div class="line"><span class="preprocessor"># Configure mod_proxy as a reverse proxy only</span></div><div class="line">ProxyRequests Off</div><div class="line"><span class="preprocessor"># To preserve HOST HTTP/1.1 header</span></div><div class="line">ProxyPreserveHost On</div><div class="line"></div><div class="line">ProxyPass http:<span class="comment">//j2eeserver:80/ws</span></div><div class="line">ProxyPassReverse http:<span class="comment">//j2eeserver:80/ws</span></div><div class="line">SetOutputFilter DEFLATE</div><div class="line">SetInputFilter DEFLATE</div></pre></figure>
+
+<ul>
+<li><strong>Dealing with SOAP with attachments</strong>. mod_proxy can be used in front of any servlet container but when the Web containers are clustered it’s better to use the relative Apache module of these containers (mod_jk for Tomcat or mod_wl_20 for Weblogic). The problem is that some modules don’t handle well HTTP chuncked-encoding transfer type. Chunck-encoding is used by default by <a href="http://jakarta.apache.org/commons/httpclient/" target="_blank" rel="external">Jakarta commons httpclient</a> library (see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html" target="_blank" rel="external"> this RFC description</a> of chunck-encoding). If you do SOAP with attachments with a Mime-Multipart HTTP request, the proxy alters the HTTP headers of the request and Axis doesn’t handle it well. The only solution for me has been to use the latest mod_proxy version.Here’s a sample request:</li>
+</ul>
+<figure class="highlight"><pre><div class="line">POST /ws/Call HTTP/<span class="number">1.1</span></div><div class="line">Content-Type: multipart/related; <span class="variable">type=</span><span class="string">"text/xml"</span>; <span class="variable">start=</span><span class="string">""</span>; 	<span class="variable">boundary=</span><span class="string">"----=_Part_1_29493424.1136228652812"</span></div><div class="line">SOAPAction: <span class="string">""</span></div><div class="line">User-Agent: Axis/<span class="number">1.3</span></div><div class="line">Host: localhost:<span class="number">81</span></div><div class="line">Transfer-Encoding: chunked</div><div class="line"> </div><div class="line"><span class="number">542</span></div><div class="line"> </div><div class="line"><span class="variable">------=</span>_Part_1_29493424.<span class="number">1136228652812</span></div><div class="line">Content-Type: text/xml; <span class="variable">charset=</span>UTF-<span class="number">8</span></div><div class="line">Content-Transfer-Encoding: binary</div><div class="line">Content-Id: </div><div class="line"> </div><div class="line">me31</div><div class="line"><span class="variable">------=</span>_Part_1_29493424.<span class="number">1136228652812</span></div><div class="line">Content-Type: text/xml</div><div class="line">Content-Transfer-Encoding: binary</div><div class="line">Content-Id: </div><div class="line"> </div><div class="line">permalink: axis-through-apache-httpd-quick-tips-<span class="number">2</span></div><div class="line"><span class="variable">------=</span>_Part_1_29493424.<span class="number">1136228652812</span>--</div></pre></figure>
+
+<p>And here are the altered HTTP headers (behind the Weblogic mod_wl_20 proxy). The Content-length header is missing. The request is not chuncked encoded anymore and it makes Axis unable to find the Mime part of the SOAP-Enveloppe and the Mime part of the attachment.</p>
+<figure class="highlight"><pre><div class="line"><span class="request">POST <span class="string">/ws/Call</span> HTTP/1.1</span></div><div class="line"><span class="attribute">Host</span>: <span class="string">localhost:8081</span></div><div class="line"><span class="attribute">Content-Type</span>: <span class="string">multipart/related; type="text/xml"; start=""; 	boundary="----=_Part_1_810652.1136228287250"</span></div><div class="line"><span class="attribute">SOAPAction</span>: <span class="string">""</span></div><div class="line"><span class="attribute">User-Agent</span>: <span class="string">Axis/1.3</span></div><div class="line"><span class="attribute">Max-Forwards</span>: <span class="string">10</span></div><div class="line"><span class="attribute">X-Forwarded-For</span>: <span class="string">192.168.0.1</span></div><div class="line"><span class="attribute">X-Forwarded-Host</span>: <span class="string">localhost:81</span></div><div class="line"><span class="attribute">X-Forwarded-Server</span>: <span class="string">gateway</span></div></pre></figure>
+
+<p><u><strong>About Weblogic module for Apache</strong></u></p>
+<p>I wish BEA could opensource their proxy module for Apache. In front of a Weblogic cluster it’s the only module for Apache that can be used because the module keeps a list of alive members of the cluster (by connecting to one of the cluster members). The list of the cluster members is returned to the mod_weblogic module in an encoded form. See the X-Weblogic-Cluster-List header below.</p>
+<figure class="highlight"><pre><div class="line"><span class="attribute">X-WebLogic-Cluster-Hash</span>: <span class="string">4VGHN1gZDEo+SVsK2yjMU+4La3w</span></div><div class="line"><span class="attribute">X-Powered-By</span>: <span class="string">Servlet/2.4 JSP/2.0</span></div><div class="line"><span class="attribute">X-WebLogic-Cluster-List</span>: <span class="string">1468479224!-1407317905!7002!-1|648190806!-1407317905!7003!-1</span></div></pre></figure>
+
+<p>I haven’t figured out what the X-Weblogic-Cluster-Hash is and how it’s generated (=&gt; a decompilation of Weblogic classes) should do it but in the X-Weblogic-Cluster-List you can see the inversed IP addresses and port of the cluster members in numerical format. Here ‘s a class to retrieve the IP address from the inversed numerical format.<br>Try: GetIP 1407317905</p>
+<figure class="highlight java"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GetIP</span> </span>{</div><div class="line"> </div><div class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) <span class="keyword">throws</span> Exception {</div><div class="line">    <span class="keyword">long</span> a= Long.parseLong(args[<span class="number">0</span>])  ;</div><div class="line">    <span class="keyword">long</span> b = ~a;</div><div class="line">    StringBuffer ip=<span class="keyword">new</span> StringBuffer();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">4</span>;i++) {</div><div class="line">       <span class="keyword">long</span> c=b&gt;&gt;(<span class="number">8</span>*(<span class="number">4</span>-i));</div><div class="line">       c = c &amp; <span class="number">255</span>;</div><div class="line">       ip.append(Long.toString(i==<span class="number">4</span>?c+<span class="number">1</span>:c));</div><div class="line">       ip.append(<span class="string">"."</span>);</div><div class="line">    }</div><div class="line">    System.out.println(ip.substring(<span class="number">0</span>,ip.length()-<span class="number">1</span>));</div><div class="line"> </div><div class="line">  }</div><div class="line"> </div><div class="line"> </div><div class="line">}</div></pre></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/2006-02-20-axis-through-apache-httpd-quick-tips-2/" data-id="2wzyd3hcc3zass3w" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/2006-02-20-axis-through-apache-httpd-quick-tips-2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/axis/">axis</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webservices/">webservices</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-is-ruby-ready-for-enterprise-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/is-ruby-ready-for-enterprise-2/" class="article-date">
+  <time datetime="2006-02-16T23:00:00.000Z" itemprop="datePublished">Feb 17 2006</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/general/">general</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/is-ruby-ready-for-enterprise-2/">Is Ruby ready for enterprise ?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I have been attracted by the horns and whistles of Ruby (and Rails) and recently I decided to jump on the bandwagon.</p>
+<p>I had to code a script that polls SNMP agents. Since there’s a decent ruby SNMP library on the net, I decided to code it in Ruby and also because it’s easy to create a Windows executable with ruby2exe.rb ruby script.</p>
+<p>But here’s why I have been disappointed by some aspects of “ruby the platform” during this coding session:</p>
+<ul>
+<li>Ruby doesn’t support Unicode strings yet. Try to do: a=\’café\’b=a[0,3] and you’ll get an error (not the proper character).  A character is today encoded in a single byte. Well there are some workarounds explained <a href="http://wiki.rubyonrails.org/rails/pages/HowToUseUnicodeStrings" target="_blank" rel="external">here</a> but no perfect solutions until the support of multilinguism in the language itself.</li>
+<li>No XML validation. The REXML library included in Ruby distribution does not support validation of an XML document on a XML schema. Some third-party libraries like libxml seem to support it but they are partially coded in C</li>
+<li>The ruby interactive interpreter does not support French keyboard on Windows and i can’t type the [ character.</li>
+</ul>
+<p>If I appreciate the language syntax, I don’t understand how can some bloggers encourage Java coders to move to Ruby and Rails. ruby “the platform” doesn’t seem really mature.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/is-ruby-ready-for-enterprise-2/" data-id="r54szf31yve30qfi" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/is-ruby-ready-for-enterprise-2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ruby/">ruby</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+<div class="widget-wrap">
+   <h3 class="widget-title">tweets</h3>
+   <div class="widget">
+               <a class="twitter-timeline"  
+                   href="https://twitter.com/lucdew" 
+                   data-chrome="noheader nofooter noborders transparent"
+                   data-tweet-limit="5"
+                   data-widget-id="518280804359610368">Tweets by @lucdew</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+   </div>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ant/" style="font-size: 12.00px;">ant</a><a href="/tags/aop/" style="font-size: 12.00px;">aop</a><a href="/tags/aspectj/" style="font-size: 12.00px;">aspectj</a><a href="/tags/asterisk/" style="font-size: 10.00px;">asterisk</a><a href="/tags/axis/" style="font-size: 10.00px;">axis</a><a href="/tags/blog/" style="font-size: 10.00px;">blog</a><a href="/tags/eclipse/" style="font-size: 12.00px;">eclipse</a><a href="/tags/ejb/" style="font-size: 10.00px;">ejb</a><a href="/tags/firewall/" style="font-size: 16.00px;">firewall</a><a href="/tags/freebsd/" style="font-size: 10.00px;">freebsd</a><a href="/tags/grails/" style="font-size: 10.00px;">grails</a><a href="/tags/groovy/" style="font-size: 12.00px;">groovy</a><a href="/tags/gwt/" style="font-size: 10.00px;">gwt</a><a href="/tags/htmlunit/" style="font-size: 10.00px;">htmlunit</a><a href="/tags/jBPM/" style="font-size: 12.00px;">jBPM</a><a href="/tags/java/" style="font-size: 16.00px;">java</a><a href="/tags/jaxb/" style="font-size: 10.00px;">jaxb</a><a href="/tags/jdbc/" style="font-size: 12.00px;">jdbc</a><a href="/tags/jibx/" style="font-size: 10.00px;">jibx</a><a href="/tags/jms/" style="font-size: 10.00px;">jms</a><a href="/tags/jmx/" style="font-size: 10.00px;">jmx</a><a href="/tags/jpa/" style="font-size: 10.00px;">jpa</a><a href="/tags/jrockit/" style="font-size: 10.00px;">jrockit</a><a href="/tags/jsf/" style="font-size: 10.00px;">jsf</a><a href="/tags/jta/" style="font-size: 10.00px;">jta</a><a href="/tags/ldap/" style="font-size: 10.00px;">ldap</a><a href="/tags/lingo/" style="font-size: 10.00px;">lingo</a><a href="/tags/maven/" style="font-size: 18.00px;">maven</a><a href="/tags/misc/" style="font-size: 18.00px;">misc</a><a href="/tags/osgi/" style="font-size: 10.00px;">osgi</a><a href="/tags/quartz/" style="font-size: 10.00px;">quartz</a><a href="/tags/rails/" style="font-size: 10.00px;">rails</a><a href="/tags/ruby/" style="font-size: 10.00px;">ruby</a><a href="/tags/seam/" style="font-size: 14.00px;">seam</a><a href="/tags/security/" style="font-size: 14.00px;">security</a><a href="/tags/snmp/" style="font-size: 10.00px;">snmp</a><a href="/tags/spring/" style="font-size: 20.00px;">spring</a><a href="/tags/subversion/" style="font-size: 10.00px;">subversion</a><a href="/tags/svn/" style="font-size: 10.00px;">svn</a><a href="/tags/swing/" style="font-size: 10.00px;">swing</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+   <h3 class="widget-title">Visitors</h3>
+   <div class="widget">
+         <a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+   </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">September 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/04/">April 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">February 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/10/">October 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/09/">September 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/08/">August 2008</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/06/">June 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/05/">May 2008</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/01/">January 2008</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/12/">December 2007</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/11/">November 2007</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/08/">August 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/07/">July 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/06/">June 2007</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/02/">February 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/01/">January 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/12/">December 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/11/">November 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/06/">June 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/05/">May 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/04/">April 2006</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/02/">February 2006</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/01/">January 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/12/">December 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/10/">October 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/09/">September 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/08/">August 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/07/">July 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/06/">June 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/05/">May 2005</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/04/">April 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/03/">March 2005</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/02/">February 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/12/">December 2004</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/10/">October 2004</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/09/">September 2004</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/08/">August 2004</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/07/">July 2004</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/04/">April 2004</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 Luc Dewavrin<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'lucdewavrinsblog';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+
+  </div>
+</body>
+</html>

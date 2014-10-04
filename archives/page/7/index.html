@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Archives | Luc Dewavrin&#39;s weblog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <link rel="alternative" href="/atom.xml" title="Luc Dewavrin&#39;s weblog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1239956-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Luc Dewavrin&#39;s weblog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-github-link" class="nav-icon" href="https://github.com/lucdew" target="_blank"></a>
+        <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/lucdew" target="_blank"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://www.dewavrin.info"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-weblogic-and-active-directory-authentication" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/weblogic-and-active-directory-authentication/" class="article-date">
+  <time datetime="2005-02-21T23:00:00.000Z" itemprop="datePublished">Feb 22 2005</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/weblogic/">weblogic</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/weblogic-and-active-directory-authentication/">Weblogic and Active Directory authentication</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Ok back to more serious <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> posts !</p>
+<p>Intranet web applications often require to authenticate users with their Windows domain account.<a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> can be easily configured to authenticate users through ActiveDirectory Server. <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> connects to ADS with LDAP (protocol) andtries to bind to the latter with user’s credentials.</p>
+<p>To do so, it’s pretty easy,just create in your security realm an “Active Directory Authenticator”.</p>
+<p>You need an account which will have sufficient rights to browse the LDAP’s Directory InformationTree of ADS to retrieve users and groups. Also you need to configure ADS to authorize LDAPrequests: bind,read and lookups at least on the branches where users and groups reside (this seems to be enabled by default once connected as domain user).</p>
+<p>When a user will connect to your Web application and be asked for login/password, the following steps will be performed by the authenticator:</p>
+<ul>
+<li>Retrieve the Distinguished Name of the user by performing a LDAP request to ADS.The search’s filter and base DN can be configured in the users tab of the authenticator in the administration console. Also in that tab you can specify theuser’s attribute name with which the filter to get the user DN will be applied.</li>
+<li>Then <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> binds to ADS with the distinguished name and password given.</li>
+<li>If previous step is successful, then it tries to find out to which groups the userbelongs. For this, the filter defined in the membership tab (when configuring the authenticator)is used on each static group. Then in the “autentication and authorization” process the other security providers ( authorization and role mapper)are invoked.</li>
+</ul>
+<p>As you might have noticed, LDAP requests are numerous and it’s a good idea toenable the cache of LDAP lookups. The cache has a TTL but there’s no option to reset the cache in the console. The AD authenticator MBean doesn’t provide a method to reset the cache programmatically.Here’s a sample configuration extracted from the config.xml file I used for a domain called snakeoil.com.Of course, you might have organised your users and groups differentlyand should adapt your base DN search and filter parameters.</p>
+<figure class="highlight xml"><pre><div class="line"><span class="tag">&lt;<span class="title">weblogic.security.providers.authentication.activedirectoryauthenticator</span> </span></div><div class="line"><span class="attribute">ontrolflag</span>=<span class="value">"OPTIONAL"</span> <span class="attribute">credential</span>=<span class="value">"{3DES}8KN5usC0Qp0qSVbgQqtHpg=="</span> <span class="attribute">displayname</span>=<span class="value">"SNAKEOIL_ADS"</span> </div><div class="line"><span class="attribute">groupbasedn</span>=<span class="value">"OU=SNAKEOIL_GLOBAL_GROUPS,OU=US,DC=snakeoil,DC=com"</span> <span class="attribute">host</span>=<span class="value">"myhost"</span> </div><div class="line"><span class="attribute">name</span>=<span class="value">"Security:Name=myrealmSNAKEOIL_ADS"</span> <span class="attribute">principal</span>=<span class="value">"CN=FirstName </span></div><div class="line">LastName,OU=SNAKEOIL_USERS_INTERNALS,OU=SNAKEOIL_USERS,OU=US,DC=snakeoil,DC=com" <span class="attribute">realm</span>=<span class="value">"Security:Name=myrealm"</span> </div><div class="line"><span class="attribute">userbasedn</span>=<span class="value">"OU=SNAKEOIL_USERS,OU=US,DC=snakeoil,DC=com"</span> </div><div class="line"><span class="attribute">userfromnamefilter</span>=<span class="value">"(&amp;amp;(sAMAccountName=%u)(objectclass=user))"</span> </div><div class="line"><span class="attribute">usernameattribute</span>=<span class="value">"sAMAccountName"</span>&gt;</div><div class="line"><span class="tag">&lt;/<span class="title">weblogic.security.providers.authentication.activedirectoryauthenticator</span>&gt;</span></div></pre></figure>
+
+<p>I didn’t change the membership’s default parameters (they were fine for my environment)that’s why they don’t appear here. The  SAMAccountName attribute which contains the Windows login Idis used to find the user DN.</p>
+<p><strong>NB1:</strong><br>By default the JAAS flag of the default authenticator is “required” and you should change it to “Sufficient” or “Optional” otherwise your ADS users will be denied access to your application</p>
+<p><strong>NB2:</strong><br>Their might be a way to transparently authenticate the user once it has an open session on Windows but I haven’t investigated on that (maybe with Kerberos):Update 12/7/2004: I am answering to my ignorance: yes it exists it is NTLM protocol <a href="http://www.luigidragone.com/networking/ntlm.html" target="_blank" rel="external">link</a>But it seems that there’s no easy way to use it with WLS. It must be better to proxy <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> with IIS or use SiteMinder.Update 22/02/2005: Since WLS 8.1 sp4 it’s possible to get automatically authenticated with the Kerberos token obtained once logged in the Windows domain. More explanations on <a href="e-docs.bea.com/wls/docs81/secmanage/sso.html">edocs.bea.com</a></p>
+<p><strong>Links:</strong></p>
+<ul>
+<li>edocs.bea.com documentation about <a href="http://e-docs.bea.com/wls/docs81/secmanage/providers.html#1172008" target="_blank" rel="external">Configuring LDAP authenticators</a></li>
+<li>edocs.bea.com documentation about <a href="e-docs.bea.com/wls/docs81/secmanage/sso.html">Configuring Single Sign-On with Microsoft Clients</a></li>
+<li><a href="http://www.microsoft.com/windowsserver2003/technologies/directory/activedirectory/default.mspx" target="_blank" rel="external">Microsoft Active Directory Server</a></li>
+<li><a href="http://pegacat.com/jxplorer/" target="_blank" rel="external">Jxplorer</a> an opensource GUI ldap client written in Java (I discovered itrecently I used to browse LDAP trees with <a href="http://www-unix.mcs.anl.gov/~gawor/ldap/" target="_blank" rel="external">LDAP browser</a></li>
+<li><a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> Pro Magazine’s <a href="http://www.ftponline.com/weblogicpro/2004_09/magazine/columns/troubleshootersdiary/default_pf.aspx" target="_blank" rel="external">article</a> on debugging LDAP authenticator</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/weblogic-and-active-directory-authentication/" data-id="zyn92ptxupf1svzr" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/weblogic-and-active-directory-authentication/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ldap/">ldap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-presentation-slides-of-weblogic-server-90-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/presentation-slides-of-weblogic-server-90-2/" class="article-date">
+  <time datetime="2004-12-23T23:00:00.000Z" itemprop="datePublished">Dec 24 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/weblogic/">weblogic</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/presentation-slides-of-weblogic-server-90-2/">Presentation slides of Weblogic server 9.0</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Nice slides of a presentation of <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> server 9.0 made duringJavapolis 2004 are available on-line.</p>
+<p>I have discovered some new features like deployment planswhich can be useful when you need to support manyconfiguration environments: test, integration, qualification and production without having to unjar and modify the deployment descriptors.</p>
+<p>Some new features are purely technical and useless : like the usage of XMLschema for the config.xml or the usage of log4j as the logging framework.</p>
+<p>For developers, the integration of Webservices Metadata looks nice.BTW, this feature is more tied to the usage of J2SDK 5.0 metadata.</p>
+<p>Many new features on the JMS stack look promising and make the <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> JMS server more attractive as a MOM on its own like Websphere MQ or Sonic MQ.See <a href="http://www.javapolis.com/" target="_blank" rel="external">http://www.javapolis.com/</a> ( you need to register)</p>
+<p>BTW, merry christmas !</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/presentation-slides-of-weblogic-server-90-2/" data-id="8xldf7r2xefy6oy8" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/presentation-slides-of-weblogic-server-90-2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jrockit-rocks-on-ia64" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/jrockit-rocks-on-ia64/" class="article-date">
+  <time datetime="2004-12-15T23:00:00.000Z" itemprop="datePublished">Dec 16 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/weblogic/">weblogic</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/jrockit-rocks-on-ia64/">JRockit rocks on IA64</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>I did some benchmark on a web application which runs on <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>8.1 sp2. <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> was installed on a 4 IA64 CPU Linux server .<br> The benchmark between the Sun JVM 1.4.1 for IA64 and the BEA JRockit providedwith <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> showed that the <b>application ran 10x times fasteron JRockit</b>. The ratio was even higher with more than 50 virtual users.</p>
+<p>I couldn&#39;t even believe it. I thought I had done mistakes trying to tunethe Sun JVM with the -XX options but no the results were the samewithout the -XX options. I haven&#39;t figured outwhy the Sun JVM ran so slowly… But if you need to run <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>server on IA64 give JRockit a try, it&#39;s really worth it.</p>
+<p>To be honest, the Sun JVM 1.4.1 for Itanium 64seems to be a beta one (java -version gives build 1.4.1-b21) and the JRockit JVM is the only one supported on IA64 by BEA. So the comparision was obviously biased. By the way,i&#39;ll do some tests with <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> 8.1 sp4 with a JVM 1.4.2</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/jrockit-rocks-on-ia64/" data-id="dnj004qfhdcd9g5i" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/jrockit-rocks-on-ia64/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jrockit/">jrockit</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-wls-90-beta-is-out-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/wls-90-beta-is-out-2/" class="article-date">
+  <time datetime="2004-12-14T23:00:00.000Z" itemprop="datePublished">Dec 15 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/weblogic/">weblogic</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/wls-90-beta-is-out-2/">WLS 9.0 beta is out</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Only for Windows so far.</p>
+<p>And it runs on J2SE 1.5</p>
+<p>See <a href="http://dev2dev.bea.com/products/wlserver90/index.jsp" target="_blank" rel="external">http://dev2dev.bea.com/products/wlserver90/index.jsp</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/wls-90-beta-is-out-2/" data-id="9cw2r4vwuhin5xab" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/wls-90-beta-is-out-2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-2004-10-29-passing-through-corporate-firewall" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/2004-10-29-passing-through-corporate-firewall/" class="article-date">
+  <time datetime="2004-10-28T22:00:00.000Z" itemprop="datePublished">Oct 29 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/2004-10-29-passing-through-corporate-firewall/">Passing through corporate firewall</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Well, at least from inside your corporate network ;-)to surf, chat and more anonymously.</p>
+<p>After reading this <a href="http://blogs.cadince.com/blojsom/blog/dan/?month=8&amp;year=2004" target="_blank" rel="external">blog article </a>thanks man) and its comments, I tried it and I have to say thatI have been happily surprised how easy it was. I didn’t know the existence of proxytunnel and that’s the key in it (for the theory about establishing a Ssh connectionthrough a SSL proxy see <a href="http://proxytunnel.sourceforge.net/papers/muppet-200204.html" target="_blank" rel="external">here</a>).</p>
+<p>Proxytunnel allows you to establish a SSH connectionvia a corporate proxy (all proxies that supports the CONNECT command). Here a schema of the solution I adopted :</p>
+<figure class="highlight"><pre><div class="line"><span class="comment">Schema</span>                                                    <span class="comment">|Internet</span></div><div class="line">                                                          <span class="comment">|</span></div><div class="line"> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>    <span class="comment">SSL</span>     <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>   <span class="comment">SSL</span>  <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>   <span class="comment">SSL</span>    <span class="comment">443</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span></div><div class="line"><span class="comment">|</span> <span class="comment">Windows</span> <span class="comment">WS|</span> <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">|</span> <span class="comment">Company</span> <span class="comment">Proxy</span> <span class="comment">|</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">|</span> <span class="comment">Firewall|</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="comment">|</span> <span class="comment">Home</span> <span class="comment">SSh</span> <span class="comment">Server</span> <span class="comment">|</span></div><div class="line"><span class="comment">|</span>           <span class="comment">|</span>         <span class="comment">|</span>  <span class="comment">"CONNECT</span> <span class="comment">TO"</span> <span class="comment">|</span>     <span class="comment">|</span>         <span class="comment">|</span>   <span class="comment">|</span>    <span class="comment">|</span>                 <span class="comment">|</span></div><div class="line"><span class="comment">permalink:</span> <span class="comment">passing</span><span class="literal">-</span><span class="comment">through</span><span class="literal">-</span><span class="comment">corporate</span><span class="literal">-</span><span class="comment">firewall</span></div><div class="line"><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>           <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>        <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span>    <span class="comment">|</span>     <span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span><span class="literal">-</span></div><div class="line">        </div></pre></figure>
+
+<p>The other major point in this solution is the usage of a Socks5 server that will allow you to connect to any machine of your internal network with any Socks5 compliant software. A socks5 proxy is a proxy on layer4 of OSI model. For example, I have been able to establish a VNC connection to a Windows XP machine on my home network with “Smart CodeVNC manager” that has Socks5 capabilites.</p>
+<p>Here are the steps I followed.</p>
+<p>1) First check the prequesites</p>
+<p>Tools needed on client side (we’ll make the assumption that it runs on Windows)</p>
+<ul>
+<li>cygwin with ssh client</li>
+<li>proxytunnel cygwin port ( <a href="http://proxytunnel.sourceforge.net" target="_blank" rel="external">http://proxytunnel.sourceforge.net</a>)</li>
+</ul>
+<p>Server side prerequisites: </p>
+<ul>
+<li>SSH daemon and that’s it.</li>
+<li>Port 443 opened.</li>
+<li>Optional: xinetd or a NAT tool to do port redirection (I used OpenBSD packet filter to redirect connections on port 443 on my Internet gateway to an internal Linux server in my home network).</li>
+</ul>
+<p>2) SSH server configuration</p>
+<p>The only thing to do is to configure it to listen on port 443 and authorize root loggin. Or you can use xinetd to use port redirection or any NAT tool ( PF, Netfilter…) and leave the server run on port 22.</p>
+<p>3)  Client SSH configuration<br>In a cygwin terminal, create a $HOME/.ssh/config file and add the following lines:</p>
+<pre lang="text">Host myserver   KeepAlive yes   ProxyCommand path_to_proxytunnel/proxytunnel.exe -g proxy_ip_address -G proxy_port -d ssh_server address -D ssh_server_port</pre>
+
+<p>The ssh server port should be 443.</p>
+<p>4) Establish the ssh tunnel</p>
+<p>In one command, you establish a SSH tunnel with SOCKS5 capabilities to your remote SSH server.</p>
+<figure class="highlight"><pre><div class="line"> </div><div class="line"><span class="preprocessor"># ssh -D 1080 -l root myserver</span></div></pre></figure>
+
+<p>update: use -N to avoid opening a Shell and -C for compression</p>
+<p>Actually, the -D enables dynamic port redirection and listens on local port 1080.Connections are tunneled through SSH and are on the other side of the tunnel made by the remote SSh server (which behaves as a Socks proxy). ssh can also understant SOCKS5 protocol therefore you know have a Socks5 server that listens on port 1080 locally. The SOCKS connections are tunneled and are remotely executed by your ssh server</p>
+<p>5)  Configure your Workstation software to use the Socks5 server on port 1080 on localhost and enjoy.</p>
+<p>Note that you can use IP of your remote internal network, you created “a kind of VPN”for SOCKS5 compliant software. For example, let’s say that you have on your home network a Web server that runs on the private address 192.168.1.2. You can now reach it by typing in firefox <a href="http://192.168.1.2" target="_blank" rel="external">http://192.168.1.2</a>. </p>
+<p>Also don’t forget to use a firewall on your workstation or your coworkers will gladly be able to connect to your Socks5 proxy.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/2004-10-29-passing-through-corporate-firewall/" data-id="rscq9wy0azoptvo9" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/2004-10-29-passing-through-corporate-firewall/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/firewall/">firewall</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/">security</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-broadcasting-music-with-itunes-on-your-corporate-network" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/broadcasting-music-with-itunes-on-your-corporate-network/" class="article-date">
+  <time datetime="2004-10-28T22:00:00.000Z" itemprop="datePublished">Oct 29 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/general/">general</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/broadcasting-music-with-itunes-on-your-corporate-network/">Broadcasting music with Itunes on your corporate Network</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Well,since most companies don&#39;t allow their employees to host mp3 on serversespecially on production servers ;-) Here&#39;s a little trick if you havea machine connected to the internet at home (with a fixed IP address ordyndns to easily connect to it) to listen your mp3.</p>
+<p>Once again it uses SSL tunnel and SSH (See my previous <a href="/blog/passing-through-corporate-firewall-part2-2/">post</a>)to connect through your corporate firewalls and proxies to your homemachine. As a Itunes server I chose to use mt-daapd daemon on a Linuxserver. Here are steps:</p>
+<p>1) On your home machine configure mt-daapd daemon. The step mostly consists in chosing the directory where your mp3s are.</p>
+<p>2) Configure ssh on your corporate machine to use stunnel (See my previous <a href="/blog/passing-through-corporate-firewall-part2-2/">post</a>)</p>
+<p>3)Configure the SSh daemon at home (See my previous <a href="/blog/passing-through-corporate-firewall-part2-2/">post</a>)</p>
+<p>4) On your local machine, use RendezvousProxy tool<a href="http://ileech.sf.net/RendezvousProxy/" target="_blank" rel="external">http://ileech.sf.net/RendezvousProxy/</a> as a proxy for RendezVousprotocol. Itunes uses RendezVous protocol to automatically discover anyItunes server. It works with multicast packets (not investigated thatmuch on it).Configure RendezvousProxy to listen on port 3690 for instance and use daacp.tcp plugin.</p>
+<p>5) Establish the SSL tunnel:</p>
+<p><figure class="highlight"><pre><div class="line"># <span class="tag">ssh</span> <span class="tag">-N</span> <span class="tag">-C</span> <span class="tag">-L</span> 3690<span class="pseudo">:mp3remotehost</span><span class="pseudo">:3689</span> <span class="tag">user</span><span class="at_rule">@<span class="keyword">homegateway</span></span></div></pre></figure><br>Where -N option does not open a shell. -C is for compression.-L is for port forwarding. 3690 is the local port open your machine.mp3host and 3689 are the hostname andport of your mt-daapd server. user and homegateway are the user andhost of your home gateway with whom you will establish the SSHconnection.</p>
+<p>6) Start Itunes and your server should be listed in the left pane.<br>Enjoy!</p>
+<p>I have tested it with my home internet connection which is a DSLconnection with 256 Mbits/s upload capabilities and it rocks. No need to tell your coworkers who use Itunes that you host a mp3 broadcasting server because if they are in the same LAN, they all should see it…</p>
+<p>Ask you network administrator also to route IP multicast packets for the RDV address to make your whole company enjoy your mp3 server ;-)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/broadcasting-music-with-itunes-on-your-corporate-network/" data-id="pxhxese19kvtgkn5" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/broadcasting-music-with-itunes-on-your-corporate-network/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/firewall/">firewall</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/misc/">misc</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-weblogic-server-9" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/weblogic-server-9/" class="article-date">
+  <time datetime="2004-09-27T22:00:00.000Z" itemprop="datePublished">Sep 28 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/general/">general</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/weblogic-server-9/">Weblogic server 9</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Yesterday,I attented the online conference about <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> server 9 “Operation Administration andmaintainance” . Well, here are some of the enhancements I noted:</p>
+<ul>
+<li>The administration console won’t use an applet anymore but a Strutsbased application. It will allow to do multiple operations and validatethem at once. There will also have an “undo” command.<br><em>Update: I have forgotten to say that BEA confirmed that WLST jython based scripting language will now be part of the product. That’s one more reason to learn Jython</em></li>
+<li>Hot redeployment of a Web application without service disruption.This feature is only available for Web application. For me it’s not amajor feature since a load balancer or Apache (with very little downtime) can do the job but it requires at least 2 instances of <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> server.</li>
+<li><a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> Diagnostic Framework: it will give the ability to do morefine grained instrumentation of application and <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> serverservices. This framework is AOP based.</li>
+<li>J2EE 1.4 compliance.</li>
+<li>performance boost (without more precision …)</li>
+</ul>
+<p>Well as you can notice the improvements are not revolutionnary and I think it shows that this product has really come to maturity (in termsof administration). By the way, the beta will be available in the beginning of November. Since the presentation was public I have uploaded a screenshot of the new console:<img src="/images/custom/console.jpg" alt="WLS9 console"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/weblogic-server-9/" data-id="nwvcs8b0s5sm401c" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/weblogic-server-9/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/" class="article-date">
+  <time datetime="2004-08-29T22:00:00.000Z" itemprop="datePublished">Aug 30 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/weblogic/">weblogic</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/">Review of Weblogic scripting languages wlst (Jython based) vs wlsh ( WLS shell)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Both are tools to programmatically and easily configure <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> domains and   servers. Why these tools?</p>
+<ul>
+<li>to automate <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> servers and domain creation for large scale production     environment. Configuring a <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> domain through the administration console     is tedious and slow in a multiserver environment.</li>
+<li>Repeat a complex configuration from server to server.</li>
+</ul>
+<p>Well, you could use Java and JMX or do some reverse engineeringon some <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> class (like domain creation) but it would reallybe a waste of time, when tools exist to make domain administration easier.</p>
+<h1 id="wlst">wlst</h1>
+<h2 id="Pros:">Pros:</h2>
+<ul>
+<li>Jython (Python Implementation in Java) based powerful Object Oriented scripting language. You can create your own classes like creating a Security classes to add a user,a group return all the users of a domain… </li>
+<li>Offline capabilites to create and configure domains.</li>
+<li>Has functions for <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> Workshop.<h2 id="Cons:">Cons:</h2>
+</li>
+<li>Learning curve of Jython/Python for more advanced coding logic.( But I have to admit that Python     is easy to learn).</li>
+<li>type conversion between Java and python which can be annoying. Example:</li>
+</ul>
+<p><figure class="highlight python"><pre><div class="line">objs  = jarray.array([appname,<span class="keyword">None</span>,<span class="keyword">None</span>],java.lang.Object)</div></pre></figure></p>
+<ul>
+<li>Some MBeans are hidden. Example: can not invoke methods on the DeployerRuntime MBean  like the invoke method.  Maybe authors want users to use the dedicated deployment functions like deploy()   undeploy() instead. </li>
+<li>Can only use a property file to pass parameters to the script (but you could import the wlst jython module and process jython command line arguments the traditionnal way)</li>
+</ul>
+<h1 id="wlsh">wlsh</h1>
+<h2 id="Pros">Pros</h2>
+<ul>
+<li>Easy to learn very much like Unix SHELL.</li>
+<li>Aditionnal tools: provide a graphical MBean (and cli) explorer + a graphical     monitoring tool. </li>
+<li>Can pass any kind of parameter to the script from the command line.<h2 id="Cons:-1">Cons:</h2>
+</li>
+<li>Not officially supported  by BEA. Some bugs exist “it returns null when trying to get some MBean”. But   the author said a new version will be released for <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> server 9.</li>
+<li>Limited scripting capabilities. Language is limited (with limited control structures) </li>
+</ul>
+<p>To conclude, both are not really mature tools and have some light bugs but   they greatly help in <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> configuration tasks. I don’t know if Websphere or Oracle9iAS have this kind of tool but they represent a great advantage for <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>. Especially for ISVs who want to help clients to configure a <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> server to run their application.</p>
+<p>Both tools can also convert an existing domain configuration (config.xml) to a script which is a very helpful feature. I think that for advanced <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> administration scripting wlst looks better (I chose to use it now). On the other  side some features of wlsh like the MBean explorer, the graphical MBean attributes monitoring are really great. Porting wlst to Groovy scripting language ( Java based scripting language with a JSR) would also have been a great idea since it would avoid to learn another language (i.e python) but just the syntax of Groovy.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/" data-id="b76ojw4h8b3a7ilh" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/review-of-weblogic-scripting-languages-wlst-jython-based-vs-wlsh-wls-shell/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-weblogic-ant-tasks-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/weblogic-ant-tasks-2/" class="article-date">
+  <time datetime="2004-08-18T22:00:00.000Z" itemprop="datePublished">Aug 19 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/weblogic/">weblogic</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/weblogic-ant-tasks-2/">Weblogic ant tasks</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>For having worked with many of the <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> ant tasks,it&#39;s really a pain to make them work with a standard ant(i.e: not the one bundled with <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>).</p>
+<p>I work under Eclipse 3 with ant 1.6 and do some integration work of J2EE applications. Some of the <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> ant tasks like source2wsdd or wlappc just don&#39;t work without <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>&#39;s ant. wlappc was supposed to be fixed with sp3 but it still doesn&#39;t work properly. The workarounds to make these tasks work are:</p>
+<ul>
+<li>find the matching administration class and load the class with the “java” task<br></li>
+<li>create dynamically a command/shell script that will invoke the task with<a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a>&#39;s ant !<br>Also, I tried the WLST scripting tool based on Jython. Of course calling itfrom the <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> &#39;s ant works fine but with a standard one it doesn&#39;t(even with Classpath set properly :-) ).</li>
+</ul>
+<p>That&#39;s why I decided to stick to wlsh( <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> shell: <a href="http://www.wlshell.com)which" target="_blank" rel="external">http://www.wlshell.com)which</a> worked pretty well for me but is not officially supported by BEA (and have limited scripting capabilites compared to Jython).</p>
+<p><span style="color:red">Update: actually wlst can be invoked from ant when the fork option of the “java” task is set to true. But my complaints about the <a href="http://edocs.bea.com/wls/docs81/notes/issues.html" title="Known issues" target="_blank" rel="external">Weblogic</a> ant tasks just remain.</span></p>
+<p>I think BEA guys should really test these ant tasks and administration tools with a vanilla ant. And generally, they should improve the quality of them, some have very limited features compared to the CLI tools and even some of the implementedfeatures are broken !</p>
+<p>P.S: Next time I&#39;ll try to post technical stuff instead of complaining …</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/weblogic-ant-tasks-2/" data-id="i9z4nckqdeck5xx8" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/weblogic-ant-tasks-2/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/weblogic/">weblogic</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-boost-eclipse-performance-under-windows" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/blog/boost-eclipse-performance-under-windows/" class="article-date">
+  <time datetime="2004-08-18T22:00:00.000Z" itemprop="datePublished">Aug 19 2004</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/blog/boost-eclipse-performance-under-windows/">Boost Eclipse performance under Windows</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>There’s an excellent Eclipse plug-in to prevent Windows from swapping to disk the memoryallocated to the Eclipse’s JVM.</p>
+<p>The <a href="http://suif.stanford.edu/pub/keepresident/" target="_blank" rel="external">keepresident plug-in</a> really improved Eclipse overall performance.</p>
+<p>Sometimes Eclipse3 used to freeze for 10-20 seconds.Even after tweaking the JVM options (-XX:+UseParallelGC -Xms512m -Xmx512m -XX:MaxPermSize=96M on a 1Gbytes machine), it was still freezing randomly. I thought it was the GC on my mono-processor machine which was causing a “stop the world “ for all other threads (i didn’t trace it with the -verbose:gc). But actually, it seems that Windows was involved and deeply deteriorated the performance of Garbage Collection by swapping to disk even when there was still free physical memory ( like when the Eclipse Window is minimized). Now Eclipse is really fast !</p>
+<p>Congratulations to the plug-in’s author</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://www.dewavrin.info//blog/boost-eclipse-performance-under-windows/" data-id="xzws6mu5v4r4yju7" class="article-share-link">Share</a>
+      
+        <a href="http://www.dewavrin.info//blog/boost-eclipse-performance-under-windows/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/eclipse/">eclipse</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/archives/page/6/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/5/">5</a><a class="page-number" href="/archives/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/archives/page/8/">8</a><a class="extend next" rel="next" href="/archives/page/8/">Next &raquo;</a>
+    </nav>
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+<div class="widget-wrap">
+   <h3 class="widget-title">tweets</h3>
+   <div class="widget">
+               <a class="twitter-timeline"  
+                   href="https://twitter.com/lucdew" 
+                   data-chrome="noheader nofooter noborders transparent"
+                   data-tweet-limit="5"
+                   data-widget-id="518280804359610368">Tweets by @lucdew</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+   </div>
+</div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/ant/" style="font-size: 12.00px;">ant</a><a href="/tags/aop/" style="font-size: 12.00px;">aop</a><a href="/tags/aspectj/" style="font-size: 12.00px;">aspectj</a><a href="/tags/asterisk/" style="font-size: 10.00px;">asterisk</a><a href="/tags/axis/" style="font-size: 10.00px;">axis</a><a href="/tags/blog/" style="font-size: 10.00px;">blog</a><a href="/tags/eclipse/" style="font-size: 12.00px;">eclipse</a><a href="/tags/ejb/" style="font-size: 10.00px;">ejb</a><a href="/tags/firewall/" style="font-size: 16.00px;">firewall</a><a href="/tags/freebsd/" style="font-size: 10.00px;">freebsd</a><a href="/tags/grails/" style="font-size: 10.00px;">grails</a><a href="/tags/groovy/" style="font-size: 12.00px;">groovy</a><a href="/tags/gwt/" style="font-size: 10.00px;">gwt</a><a href="/tags/htmlunit/" style="font-size: 10.00px;">htmlunit</a><a href="/tags/jBPM/" style="font-size: 12.00px;">jBPM</a><a href="/tags/java/" style="font-size: 16.00px;">java</a><a href="/tags/jaxb/" style="font-size: 10.00px;">jaxb</a><a href="/tags/jdbc/" style="font-size: 12.00px;">jdbc</a><a href="/tags/jibx/" style="font-size: 10.00px;">jibx</a><a href="/tags/jms/" style="font-size: 10.00px;">jms</a><a href="/tags/jmx/" style="font-size: 10.00px;">jmx</a><a href="/tags/jpa/" style="font-size: 10.00px;">jpa</a><a href="/tags/jrockit/" style="font-size: 10.00px;">jrockit</a><a href="/tags/jsf/" style="font-size: 10.00px;">jsf</a><a href="/tags/jta/" style="font-size: 10.00px;">jta</a><a href="/tags/ldap/" style="font-size: 10.00px;">ldap</a><a href="/tags/lingo/" style="font-size: 10.00px;">lingo</a><a href="/tags/maven/" style="font-size: 18.00px;">maven</a><a href="/tags/misc/" style="font-size: 18.00px;">misc</a><a href="/tags/osgi/" style="font-size: 10.00px;">osgi</a><a href="/tags/quartz/" style="font-size: 10.00px;">quartz</a><a href="/tags/rails/" style="font-size: 10.00px;">rails</a><a href="/tags/ruby/" style="font-size: 10.00px;">ruby</a><a href="/tags/seam/" style="font-size: 14.00px;">seam</a><a href="/tags/security/" style="font-size: 14.00px;">security</a><a href="/tags/snmp/" style="font-size: 10.00px;">snmp</a><a href="/tags/spring/" style="font-size: 20.00px;">spring</a><a href="/tags/subversion/" style="font-size: 10.00px;">subversion</a><a href="/tags/svn/" style="font-size: 10.00px;">svn</a><a href="/tags/swing/" style="font-size: 10.00px;">swing</a>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+   <h3 class="widget-title">Visitors</h3>
+   <div class="widget">
+         <a href="http://www2.clustrmaps.com/counter/maps.php?url=http://www.dewavrin.info" id="clustrMapsLink"><img src="http://www2.clustrmaps.com/counter/index2.php?url=http://www.dewavrin.info" style="text-decoration: none; margin-bottom: 1em; border:1px solid;" onmouseover="this.style.textDecoration = 'none'" alt="Locations of visitors to this page" title="Locations of visitors to this page" id="clustrMapsImg" onError="this.onError=null; this.src='http://clustrmaps.com/images/clustrmaps-back-soon.jpg'; document.getElementById('clustrMapsLink').href='http://clustrmaps.com'" /> </a>
+   </div>
+</div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">December 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09/">September 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05/">May 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/04/">April 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/03/">March 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02/">February 2009</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/10/">October 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/09/">September 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/08/">August 2008</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/06/">June 2008</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/05/">May 2008</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2008/01/">January 2008</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/12/">December 2007</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/11/">November 2007</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/08/">August 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/07/">July 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/06/">June 2007</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/02/">February 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/01/">January 2007</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/12/">December 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/11/">November 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/06/">June 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/05/">May 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/04/">April 2006</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/02/">February 2006</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2006/01/">January 2006</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/12/">December 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/10/">October 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/09/">September 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/08/">August 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/07/">July 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/06/">June 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/05/">May 2005</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/04/">April 2005</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/03/">March 2005</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2005/02/">February 2005</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/12/">December 2004</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/10/">October 2004</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/09/">September 2004</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/08/">August 2004</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/07/">July 2004</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2004/04/">April 2004</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 Luc Dewavrin<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'lucdewavrinsblog';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+
+  </div>
+</body>
+</html>
