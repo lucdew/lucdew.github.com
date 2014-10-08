@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://www.dewavrin.info/"/>
-  <updated>2014-10-04T08:38:32.633Z</updated>
+  <updated>2014-10-08T21:25:05.065Z</updated>
   <id>http://www.dewavrin.info/</id>
   
   <author>
@@ -16,8 +16,8 @@
   
   <entry>
     <title><![CDATA[svnsync to existing repository]]></title>
-    <link href="http://www.dewavrin.info//blog/svnsync-to-existing-repository/"/>
-    <id>http://www.dewavrin.info//blog/svnsync-to-existing-repository/</id>
+    <link href="http://www.dewavrin.info/blog/svnsync-to-existing-repository/"/>
+    <id>http://www.dewavrin.info/blog/svnsync-to-existing-repository/</id>
     <published>2012-12-07T23:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>Basically I will explain how to synchronize with svnsync on an existing repository. I had trouble to find the info on the Internet so I am sharing it. I am by no mean a subversion administrator therefore if the info is not correct please be kind to let me know.</p>
@@ -45,8 +45,8 @@
   
   <entry>
     <title><![CDATA[Last post]]></title>
-    <link href="http://www.dewavrin.info//blog/last-post/"/>
-    <id>http://www.dewavrin.info//blog/last-post/</id>
+    <link href="http://www.dewavrin.info/blog/last-post/"/>
+    <id>http://www.dewavrin.info/blog/last-post/</id>
     <published>2009-09-15T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>I decided to no longer post on my blog due to a serious lack of motivation, time and inspiring topics ;-). Of course, comments will now be closed. As a side note here are the titles of drafts that never turned into posts:</p>
@@ -73,8 +73,8 @@
   
   <entry>
     <title><![CDATA[OSGI survey]]></title>
-    <link href="http://www.dewavrin.info//blog/osgi-survey/"/>
-    <id>http://www.dewavrin.info//blog/osgi-survey/</id>
+    <link href="http://www.dewavrin.info/blog/osgi-survey/"/>
+    <id>http://www.dewavrin.info/blog/osgi-survey/</id>
     <published>2009-05-04T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<iframe src="https://docs.google.com/spreadsheet/embeddedform?formkey=ckhzRjlyekdjYWtGZnlKYlZUYU0zM0E6MA.." width="760" height="344" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
@@ -96,8 +96,8 @@
   
   <entry>
     <title><![CDATA[Mimic facelet layouts in grails]]></title>
-    <link href="http://www.dewavrin.info//blog/mimic-facelet-layouts-in-grails/"/>
-    <id>http://www.dewavrin.info//blog/mimic-facelet-layouts-in-grails/</id>
+    <link href="http://www.dewavrin.info/blog/mimic-facelet-layouts-in-grails/"/>
+    <id>http://www.dewavrin.info/blog/mimic-facelet-layouts-in-grails/</id>
     <published>2009-04-26T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>I wanted to mimic facelets &lt;ui:insert /&gt; and &lt;ui:define /&gt; tags in grails.I find facelets to be quite powerful because it allows to define a fragment in your template that can be redefined by the view, otherwise a default fragment is displayed.It can be useful for instance for a menu where you want all views to use a default menu and some use another menu. </p>
@@ -124,8 +124,8 @@
   
   <entry>
     <title><![CDATA[Acquisition de Sun par Oracle]]></title>
-    <link href="http://www.dewavrin.info//blog/acquisition-de-sun-par-oracle/"/>
-    <id>http://www.dewavrin.info//blog/acquisition-de-sun-par-oracle/</id>
+    <link href="http://www.dewavrin.info/blog/acquisition-de-sun-par-oracle/"/>
+    <id>http://www.dewavrin.info/blog/acquisition-de-sun-par-oracle/</id>
     <published>2009-04-19T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>Pas sûr que Java soit gagnant dans l’histoire. Les incertitudes sur le devenir des produits Java n’est pas fait pour inciter les décideurs à opter pour cette technologie. Quelles sont les futures cibles : SpringSource, Redhat ? Sachant que SpringSource a été largement financé par des VC, à mon avis c’est un bon candidat. Bref, je me mets à la place d’un DSI aujourd’hui; si je ne veux pas prendre de risques j’opte pour .Net et les produits Microsoft : ligne de produits complète, cohérente et intégrée qui ne va pas disparaître d’ici 6 mois (j’exagère un peu…).</p>
@@ -144,8 +144,8 @@
   
   <entry>
     <title><![CDATA[Seam usage in production]]></title>
-    <link href="http://www.dewavrin.info//blog/seam-usage-in-production/"/>
-    <id>http://www.dewavrin.info//blog/seam-usage-in-production/</id>
+    <link href="http://www.dewavrin.info/blog/seam-usage-in-production/"/>
+    <id>http://www.dewavrin.info/blog/seam-usage-in-production/</id>
     <published>2009-03-29T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>There ‘s an interesting <a href="http://www.seamframework.org/Community/SeamInProfessionalUse" target="_blank" rel="external">thread</a> on the Seam forum about Seam in “profesional use”. Performance and steep learning curve are often mentioned as drawbacks. </p>
@@ -168,8 +168,8 @@
   
   <entry>
     <title><![CDATA[Economic downturn and impact on javabloggers]]></title>
-    <link href="http://www.dewavrin.info//blog/economic-downturn-and-impact-on-javabloggers/"/>
-    <id>http://www.dewavrin.info//blog/economic-downturn-and-impact-on-javabloggers/</id>
+    <link href="http://www.dewavrin.info/blog/economic-downturn-and-impact-on-javabloggers/"/>
+    <id>http://www.dewavrin.info/blog/economic-downturn-and-impact-on-javabloggers/</id>
     <published>2009-02-16T23:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>I wanted to know if the economic crisis had an impact on blogging. I was curious because it seemed for me that the blogs that i usually follow had less activity  . With the help of a groovy script and gchart, here’s the last 2 years monthly blog posts count (don’t know why there’s a high peak for July 07). It seems that, so far, java bloggers still post.</p>
@@ -194,8 +194,8 @@
   
   <entry>
     <title><![CDATA[JBoss resources]]></title>
-    <link href="http://www.dewavrin.info//blog/jboss-resources/"/>
-    <id>http://www.dewavrin.info//blog/jboss-resources/</id>
+    <link href="http://www.dewavrin.info/blog/jboss-resources/"/>
+    <id>http://www.dewavrin.info/blog/jboss-resources/</id>
     <published>2009-02-11T23:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>I recently discovered 2 good web sites that provide good JBoss knowledge :</p>
@@ -216,8 +216,8 @@
   
   <entry>
     <title><![CDATA[Some Maven tips]]></title>
-    <link href="http://www.dewavrin.info//blog/some-maven-tips/"/>
-    <id>http://www.dewavrin.info//blog/some-maven-tips/</id>
+    <link href="http://www.dewavrin.info/blog/some-maven-tips/"/>
+    <id>http://www.dewavrin.info/blog/some-maven-tips/</id>
     <published>2009-02-06T23:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>First post of the year, here are some Maven tips you might find useful (or obvious for experienced users):</p>
@@ -261,8 +261,8 @@
   
   <entry>
     <title><![CDATA[Jaxb bug 527]]></title>
-    <link href="http://www.dewavrin.info//blog/jaxb-bug-527/"/>
-    <id>http://www.dewavrin.info//blog/jaxb-bug-527/</id>
+    <link href="http://www.dewavrin.info/blog/jaxb-bug-527/"/>
+    <id>http://www.dewavrin.info/blog/jaxb-bug-527/</id>
     <published>2008-10-21T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>Please,  if you think you are concerned  vote for the <a href="https://jaxb.dev.java.net/issues/show_bug.cgi?id=527" target="_blank" rel="external">bug</a> i submitted</p>
@@ -279,8 +279,8 @@
   
   <entry>
     <title><![CDATA[SpringSource assouplit sa politique de maintenance]]></title>
-    <link href="http://www.dewavrin.info//blog/springsource-assouplit-sa-politique-de-maintenance/"/>
-    <id>http://www.dewavrin.info//blog/springsource-assouplit-sa-politique-de-maintenance/</id>
+    <link href="http://www.dewavrin.info/blog/springsource-assouplit-sa-politique-de-maintenance/"/>
+    <id>http://www.dewavrin.info/blog/springsource-assouplit-sa-politique-de-maintenance/</id>
     <published>2008-10-07T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>Bon SpringSource a décidé de changer de nouveau la politique de maintenance  de Spring après le tollé suscité parmi ses utilisateurs par la <a href="/?p=248">récente annonce</a>. Plus de limite de 3 mois pour les versions communautaires. Une version majeure sera maintenue pour la communauté jusqu’à la sortie en Release Candidate de la version suivante. +d’infos sur le blog <a href="http://blog.springsource.com/2008/10/07/a-question-of-balance-tuning-the-maintenance-policy/" target="_blank" rel="external">SpringSource</a>.</p>
@@ -297,8 +297,8 @@
   
   <entry>
     <title><![CDATA[Spring maintenant payant]]></title>
-    <link href="http://www.dewavrin.info//blog/changement-de-licence-spring/"/>
-    <id>http://www.dewavrin.info//blog/changement-de-licence-spring/</id>
+    <link href="http://www.dewavrin.info/blog/changement-de-licence-spring/"/>
+    <id>http://www.dewavrin.info/blog/changement-de-licence-spring/</id>
     <published>2008-09-20T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>Oui la nouvelle du week-end ou plutot de fin de semaine sur le <a href="http://newblog.springsource.com/2008/05/27/open-source-open-strategy-the-springsource-manifesto/" target="_blank" rel="external">changement de licence de Spring</a> <strong>me reste en travers de la gorge</strong>, même si j’en comprends les raisons.</p>
@@ -338,8 +338,8 @@
   
   <entry>
     <title><![CDATA[Some common JSF pitfalls]]></title>
-    <link href="http://www.dewavrin.info//blog/some-common-jsf-pitfalls/"/>
-    <id>http://www.dewavrin.info//blog/some-common-jsf-pitfalls/</id>
+    <link href="http://www.dewavrin.info/blog/some-common-jsf-pitfalls/"/>
+    <id>http://www.dewavrin.info/blog/some-common-jsf-pitfalls/</id>
     <published>2008-08-31T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>Well at least here’ s a non exhaustive list of common jsf pitfalls, i felt into (some are variants of others) :</p>
@@ -370,8 +370,8 @@
   
   <entry>
     <title><![CDATA[Switched to french canadian keyboard]]></title>
-    <link href="http://www.dewavrin.info//blog/switched-to-french-canadian-keyboard/"/>
-    <id>http://www.dewavrin.info//blog/switched-to-french-canadian-keyboard/</id>
+    <link href="http://www.dewavrin.info/blog/switched-to-french-canadian-keyboard/"/>
+    <id>http://www.dewavrin.info/blog/switched-to-french-canadian-keyboard/</id>
     <published>2008-08-26T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>Very interesting news,after a trip to Canada i switched my keyboard layout from french azerty based layout to french canadian. Since it’s a qwerty based layout it might be useful, if one day i have to work abroad. Also it’s more efficient for programming and english writings.</p>
@@ -386,8 +386,8 @@
   
   <entry>
     <title><![CDATA[Spring entityManagerFactory in jta and non-jta modes]]></title>
-    <link href="http://www.dewavrin.info//blog/spring-entitymanagerfactory-jta-and-non-jta-modes/"/>
-    <id>http://www.dewavrin.info//blog/spring-entitymanagerfactory-jta-and-non-jta-modes/</id>
+    <link href="http://www.dewavrin.info/blog/spring-entitymanagerfactory-jta-and-non-jta-modes/"/>
+    <id>http://www.dewavrin.info/blog/spring-entitymanagerfactory-jta-and-non-jta-modes/</id>
     <published>2008-06-22T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>This blog post is about using JPA with Spring in 2 contexts :</p>
@@ -423,8 +423,8 @@
   
   <entry>
     <title><![CDATA[Stat your commits]]></title>
-    <link href="http://www.dewavrin.info//blog/stat-your-commits/"/>
-    <id>http://www.dewavrin.info//blog/stat-your-commits/</id>
+    <link href="http://www.dewavrin.info/blog/stat-your-commits/"/>
+    <id>http://www.dewavrin.info/blog/stat-your-commits/</id>
     <published>2008-06-01T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>I recently discover the <a href="http://stat-scm.sourceforge.net/" target="_blank" rel="external">StatSCM</a> maven plugin and it made our team day . It gives useful information about your Subversion activity (it supports other SCM systems) giving precise developers activity information or file statistics. It also generates some nice charts. I found it very useful to monitor what the team members commit: for instance we discovered that a trainee was the developer of the month (ranked by LOC commited) because he commited some very large csv test files.First to enable it, configure the dependency and declare the report in the reports section of your maven parent pom file:</p>
@@ -446,8 +446,8 @@
   
   <entry>
     <title><![CDATA[HP about to buy EDS]]></title>
-    <link href="http://www.dewavrin.info//blog/hp-about-to-buy-eds/"/>
-    <id>http://www.dewavrin.info//blog/hp-about-to-buy-eds/</id>
+    <link href="http://www.dewavrin.info/blog/hp-about-to-buy-eds/"/>
+    <id>http://www.dewavrin.info/blog/hp-about-to-buy-eds/</id>
     <published>2008-05-11T22:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>Concentration in IT goes on ( is it an effect of a “SAAS strategy” ?):<a href="http://news.yahoo.com/s/nm/20080512/bs_nm/eds_hewlettpackard_dc_1" target="_blank" rel="external">http://news.yahoo.com/s/nm/20080512/bs_nm/eds_hewlettpackard_dc_1</a></p>
@@ -464,8 +464,8 @@
   
   <entry>
     <title><![CDATA[Opensource Java BPM compared]]></title>
-    <link href="http://www.dewavrin.info//blog/opensource-java-bpm-compared/"/>
-    <id>http://www.dewavrin.info//blog/opensource-java-bpm-compared/</id>
+    <link href="http://www.dewavrin.info/blog/opensource-java-bpm-compared/"/>
+    <id>http://www.dewavrin.info/blog/opensource-java-bpm-compared/</id>
     <published>2008-01-16T23:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>(Seen on jBPM mailing-list): a quite interesting study between the non-exhaustive Java BPM engines (jBPM, enhydra shark, openwfe) has been published. Follow this <a href="http://www.workflowpatterns.com/documentation/documents/BPM-07-12.pdf" target="_blank" rel="external">link</a>.Updated 2008/08 : The report has been updated (see <a href="http://www.infoq.com/news/2008/08/oswf" target="_blank" rel="external">http://www.infoq.com/news/2008/08/oswf</a>)</p>
@@ -484,8 +484,8 @@
   
   <entry>
     <title><![CDATA[IT consolidation]]></title>
-    <link href="http://www.dewavrin.info//blog/it-consolidation/"/>
-    <id>http://www.dewavrin.info//blog/it-consolidation/</id>
+    <link href="http://www.dewavrin.info/blog/it-consolidation/"/>
+    <id>http://www.dewavrin.info/blog/it-consolidation/</id>
     <published>2008-01-15T23:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>Todays news:<strong>Oracle buys BEA.**</strong>Mysql AB acquired by Sun.**Well what’s next? Redhat acquired by Sun (or even Microsoft), Adobe acquired by Oracle, etc ?Industralization of the IT sector seems to get some steam, surely a sign of maturity. I am not sure if it will have an impact on innovation or this trend is the result of a loss of innovation. Big actors want to provide a complete enterprise stack from hardware to software package solutions. Will we only have to deal with SAP, Oracle, IBM, Sun and Microsoft tomorrow ?Google strategy seems to differentiate and focus on online services.</p>
@@ -500,8 +500,8 @@
   
   <entry>
     <title><![CDATA[A picture is worth a thousand words (my 2008 no interest techs list)]]></title>
-    <link href="http://www.dewavrin.info//blog/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list/"/>
-    <id>http://www.dewavrin.info//blog/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list/</id>
+    <link href="http://www.dewavrin.info/blog/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list/"/>
+    <id>http://www.dewavrin.info/blog/a-picture-is-worth-a-thousand-words-my-2008-no-interest-techs-list/</id>
     <published>2008-01-02T23:00:00.000Z</published>
     <updated>2014-10-04T08:04:12.000Z</updated>
     <content type="html"><![CDATA[<p>This comic sums up my opinion on Scala pretty well (very funny):<a href="http://stuffthathappens.com/blog/2008/01/02/scala-will-do/" target="_blank" rel="external">http://stuffthathappens.com/blog/2008/01/02/scala-will-do/</a>I jumped on Ruby and Rails bandwagon spending some man-days (;-)) on it but at least Rails has been a reference in term of web productivity and introduced or leveraged nice concepts (naming conventions over configuration, DSL, REST, TDD etc.) . Recently, many Java web frameworks compared themselves to Rails and how they were much better (Seam,Grails &amp; Co). Rails influenced the IT community (Java, .Net and Python included).=&gt; All in all, i have excuses to have followed the crowd…  But not this time, Scala (pretty unreadable), JavaFx (not until i see <a href="http://weblogs.java.net/blog/chet/archive/2007/05/consumer_jre_le.html" target="_blank" rel="external">the consumer jre</a> in action and applets as fast-loaded as flash apps without dumb dialog boxes) are definitely on my 2008 technos of no-interest !I’ll hopefully focus this year on the new Cobol ;-) core (or even .Net/C#) .</p>
